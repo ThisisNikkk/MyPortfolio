@@ -1,30 +1,46 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Monitor, Bot, Cpu, MoveRight, Layers, Sparkles, Smartphone } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Custom high-fidelity brand SVGs for timeline with screen reader titles
-const AmazonLogo = () => (
-    <svg className="w-5 h-5 text-zinc-950 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <title>Amazon Logo</title>
-        <path d="M18.57 15.32c-.82.63-2.14 1.05-3.32 1.05-1.82 0-3.41-.86-3.41-3.23 0-2.68 2.05-3.23 4.86-3.23.45 0 .91.05 1.36.09v-.36c0-1.09-.59-1.68-1.95-1.68-1.18 0-2.45.41-3.27.91l-.55-1.32c1.09-.68 2.86-1.14 4.41-1.14 2.5 0 3.73 1.23 3.73 3.59v4.27c0 1.09.41 1.64.82 2.14h-1.86c-.23-.32-.36-.95-.41-1.14zm-1.36-4.05c-.41-.05-.86-.09-1.27-.09-1.55 0-2.5.32-2.5 1.64 0 .91.68 1.41 1.73 1.41 1.23 0 1.95-.64 2.05-1.73v-1.23zm3.14 7.32c-3.14 2.18-8.23 2.91-12.05 2.18-2.82-.55-5.32-1.91-7.14-3.95l1.18-1.09c1.55 1.73 3.68 2.91 6.09 3.36 3.23.59 7.55 0 10.36-1.77l1.56 1.27zm-11.82-3c.18-.32.41-.64.59-.91l.82 1.09c-.32.32-.68.64-1.05.91l-.36-1.09z" />
-    </svg>
+// Company logo badges for timeline
+const SolarioTechLogo = () => (
+    <div className="relative w-6 h-6 shrink-0 overflow-hidden rounded bg-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm" aria-hidden="true">
+        <Image
+            src="/solarioLogo.png"
+            alt="SolarioTech Logo"
+            width={24}
+            height={24}
+            className="object-contain p-0.5"
+        />
+    </div>
 );
 
-const DesignboatLogo = () => (
-    <svg className="w-5 h-5 text-zinc-950 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <title>Designboat Logo</title>
-        <path d="M12 2L4 7v10l8 5 8-5V7l-8-5zm6 14.3l-6 3.7-6-3.7V8.7l6-3.7 6 3.7v8.6z" />
-        <path d="M12 7l4 2.5v5L12 17l-4-2.5v-5L12 7z" />
-    </svg>
+const BluestockLogo = () => (
+    <div className="relative w-6 h-6 shrink-0 overflow-hidden rounded bg-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm" aria-hidden="true">
+        <Image
+            src="/BluestockLogo.webp"
+            alt="Bluestock Fintech Logo"
+            width={24}
+            height={24}
+            className="object-contain p-0.5"
+        />
+    </div>
 );
 
-const CommerceIQLogo = () => (
-    <span className="font-sans font-black text-[11px] tracking-tighter text-zinc-950 select-none bg-zinc-100 px-1 py-0.5 rounded leading-none shrink-0 border border-zinc-200" aria-hidden="true">
-        IQ
-    </span>
+const QSpidersLogo = () => (
+    <div className="relative w-6 h-6 shrink-0 overflow-hidden rounded bg-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm" aria-hidden="true">
+        <Image
+            src="/qSpiderLogo.png"
+            alt="QSpiders Logo"
+            width={24}
+            height={24}
+            className="object-contain p-0.5"
+        />
+    </div>
 );
 
 interface TimelineItem {
@@ -37,32 +53,32 @@ interface TimelineItem {
 
 const timelineData: TimelineItem[] = [
     {
-        period: "2015 - 2018",
-        company: "Amazon",
-        role: "Team Lead",
-        logo: <AmazonLogo />,
-        description: "Led development of core front-end customer experiences. Managed high-performance UI optimization frameworks.",
+        period: "Jun 2024 – Jul 2024",
+        company: "QSpiders",
+        role: "Summer Intern",
+        logo: <QSpidersLogo />,
+        description: "Created responsive web applications using HTML, CSS, and JavaScript, increasing development efficiency by 20% through reusable components and mobile-first design patterns.",
     },
     {
-        period: "2019",
-        company: "Designboat",
-        role: "Design Trainee",
-        logo: <DesignboatLogo />,
-        description: "Immersed in design systems, vector grids, interface heuristics, and rapid digital prototyping methodologies.",
+        period: "Aug 2024 – Sep 2024",
+        company: "Bluestock Fintech",
+        role: "SDE Intern",
+        logo: <BluestockLogo />,
+        description: "Collaborated in a 5-person Agile team to build a fully responsive IPO website using Figma designs, HTML, CSS, JavaScript, and Bootstrap. Delivered remotely from Pune.",
     },
     {
-        period: "2019 - 2022",
-        company: "CommerceIQ",
-        role: "Product Designer",
-        logo: <CommerceIQLogo />,
-        description: "Owned design end-to-end for core supply chain SaaS platforms. Translated dense data tables into elegant dashboard UI.",
+        period: "Jun 2025 – Nov 2025",
+        company: "SolarioTech",
+        role: "Intern",
+        logo: <SolarioTechLogo />,
+        description: "Completed a 6-month internship focused on mobile application development, mastering React Native and building production-ready cross-platform applications.",
     },
     {
-        period: "2022 - 2025",
-        company: "CommerceIQ",
-        role: "Sr. Product Designer",
-        logo: <CommerceIQLogo />,
-        description: "Spearheaded advanced interactive flows, mobile strategy, and design systems for enterprise SaaS solutions.",
+        period: "Nov 2025 – Present",
+        company: "SolarioTech",
+        role: "React Native Developer",
+        logo: <SolarioTechLogo />,
+        description: "Promoted to full-time React Native Developer. Currently building scalable cross-platform mobile applications and contributing to company's digital product roadmap.",
     },
 ];
 
@@ -228,7 +244,7 @@ export default function AboutComponent() {
                 whileInView={{ scaleY: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-[1.5px] h-6 bg-zinc-800 -mt-[1px] shrink-0 origin-top"
+                className="w-[1.5px] h-6 bg-zinc-800 dark:bg-zinc-200 -mt-[1px] shrink-0 origin-top"
             />
         );
 
@@ -242,7 +258,7 @@ export default function AboutComponent() {
                     whileInView={{ scaleY: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: i * 0.015, ease: "easeOut" }}
-                    className="w-[1px] h-3 bg-zinc-200/80 shrink-0 origin-top"
+                    className="w-[1px] h-3 bg-zinc-200/80 dark:bg-zinc-700/80 shrink-0 origin-top"
                 />
             );
         }
@@ -255,7 +271,7 @@ export default function AboutComponent() {
                     whileInView={{ scaleY: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: minorTicks * 0.015, ease: "easeOut" }}
-                    className="w-[1.5px] h-6 bg-zinc-800 -mt-[1px] shrink-0 origin-top"
+                    className="w-[1.5px] h-6 bg-zinc-800 dark:bg-zinc-200 -mt-[1px] shrink-0 origin-top"
                 />
             );
         }
@@ -266,7 +282,7 @@ export default function AboutComponent() {
         <section
             id="about"
             aria-labelledby="about-title"
-            className="w-full text-zinc-950 py-16 md:py-24 relative overflow-hidden"
+            className="w-full text-zinc-950 dark:text-white py-16 md:py-24 relative overflow-hidden"
         >
             <div className="max-w-6xl w-full mx-auto px-6 relative z-10">
 
@@ -299,10 +315,10 @@ export default function AboutComponent() {
                         className="lg:col-span-2 bg-white border border-zinc-200/80 p-6 sm:p-8 md:p-10 rounded-3xl shadow-sm flex flex-col justify-between hover:border-zinc-300 hover:shadow-md transition-all duration-300 group"
                     >
                         <div>
-                            <h3 className="text-2xl sm:text-3xl lg:text-[48px] font-black tracking-tight leading-[1.15] text-zinc-950 mb-8">
-                                I bridge the gap between creative visual architecture and advanced engineering to build tools that{" "}
+                            <h3 className="text-2xl sm:text-3xl lg:text-[48px] font-black tracking-tight leading-[1.15] text-zinc-950 dark:text-white mb-8">
+                                I transform bold ideas into meticulously crafted digital experiences that are{" "}
                                 <span className="relative inline-block px-2.5 py-1 text-zinc-950 font-black rounded-[4px] transform rotate-1 inline-flex leading-none align-middle mx-1">
-                                    <span className="relative z-10">feel alive.</span>
+                                    <span className="relative z-10">built to last.</span>
                                     <motion.span
                                         className="absolute inset-0 bg-[#c6f023] shadow-sm origin-left"
                                         initial={{ scaleX: 0 }}
@@ -315,14 +331,14 @@ export default function AboutComponent() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-zinc-500 font-medium text-sm sm:text-base leading-relaxed">
                                 <p>
-                                    As an engineer and interactive designer, I specialize in building highly responsive digital systems.
-                                    Whether shaping fast web apps, native mobile platforms, or orchestrating autonomous AI agent chains,
-                                    my focus is on rendering perfect, low-latency interfaces that prioritize usability.
+                                    I&apos;m a software developer who specialises in engineering future-ready digital products.
+                                    From autonomous AI agent systems and high-performance mobile apps to scalable web platforms,
+                                    I obsess over shipping clean, fast, and reliable software that solves real problems.
                                 </p>
                                 <p>
-                                    My philosophy balances typographic clarity, dynamic motion, and minimal decoration.
-                                    Every component is optimized for performance and crafted with consistent design tokens,
-                                    proving that code structure and visual design are deeply interconnected.
+                                    I believe great software starts with a deep understanding of the user and ends with
+                                    pixel-perfect execution. Every line of code is a design decision — and I treat both
+                                    with equal intent, proving that engineering excellence and beautiful experience are never at odds.
                                 </p>
                             </div>
                         </div>
@@ -338,8 +354,8 @@ export default function AboutComponent() {
                             <h3 className="font-extrabold text-xl lg:text-2xl tracking-tight text-zinc-900 flex items-center gap-1.5">
                                 Capability Matrix <Sparkles className="w-4 h-4 lg:w-6 lg:h-6 text-[#c6f023] fill-[#c6f023]" aria-hidden="true" />
                             </h3>
-                            <p className="text-zinc-500 text-sm leading-relaxed font-medium">
-                                Hover over the satellite nodes to visualize connections and active processing channels.
+                            <p className="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed font-medium">
+                                Hover over the nodes to explore the core engineering domains I build across — from AI to mobile.
                             </p>
                         </div>
                         <div className="flex-1 flex items-center justify-center">
@@ -358,7 +374,7 @@ export default function AboutComponent() {
                         className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-10"
                     >
                         <div className="flex items-center gap-2">
-                            <h2 className="text-zinc-900 font-extrabold text-xl sm:text-2xl tracking-tight uppercase">Timeline</h2>
+                            <h2 className="text-zinc-900 dark:text-white font-extrabold text-xl sm:text-2xl tracking-tight uppercase">Timeline</h2>
                         </div>
                         <div className="flex items-center gap-2 text-xs font-semibold text-zinc-400 select-none">
                             <span>Swipe Or Drag To Scroll</span>
@@ -368,9 +384,6 @@ export default function AboutComponent() {
 
                     {/* DRAGGABLE RULER TIMELINE */}
                     <div className="relative w-full overflow-hidden select-none">
-                        {/* Fades for scroll boundaries */}
-                        <div className="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none" />
-                        <div className="absolute top-0 bottom-0 right-0 w-8 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />
 
                         <div
                             ref={scrollRef}
@@ -400,19 +413,19 @@ export default function AboutComponent() {
                                             className="w-[280px] sm:w-[320px] shrink-0 flex flex-col"
                                         >
                                             {/* Ruler ticks top block */}
-                                            <div className="flex justify-between items-start h-8 w-full border-t border-zinc-200/80 pt-0 pr-[3px] select-none pointer-events-none">
+                                            <div className="flex justify-between items-start h-8 w-full border-t border-zinc-200/80 dark:border-zinc-800/80 pt-0 pr-[3px] select-none pointer-events-none">
                                                 {renderRulerTicks(isLast)}
                                             </div>
 
                                             {/* Content details block */}
                                             <div className="mt-6 flex flex-col items-start pr-8 select-none">
-                                                <span className="text-xs font-bold text-zinc-500 tracking-wider mb-2">
+                                                <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400 tracking-wider mb-2">
                                                     {item.period}
                                                 </span>
 
                                                 <div className="flex items-center gap-1.5 mb-3">
                                                     {item.logo}
-                                                    <span className="font-extrabold text-base text-zinc-900 tracking-tight">
+                                                    <span className="font-extrabold text-base text-zinc-900 dark:text-white tracking-tight">
                                                         {item.company}
                                                     </span>
                                                 </div>
@@ -426,7 +439,7 @@ export default function AboutComponent() {
                                                     {item.role}
                                                 </motion.div>
 
-                                                <p className="text-zinc-600 text-xs sm:text-sm font-medium leading-relaxed text-left pointer-events-none">
+                                                <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm font-medium leading-relaxed text-left pointer-events-none">
                                                     {item.description}
                                                 </p>
                                             </div>

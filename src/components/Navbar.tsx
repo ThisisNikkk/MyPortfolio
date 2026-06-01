@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./ThemeToggle";
 
 export default function Navbar() {
     const [activeLink, setActiveLink] = useState("Home");
@@ -47,6 +48,9 @@ export default function Navbar() {
                             </Link>
                         );
                     })}
+                    <div className="ml-2 pl-2 border-l border-zinc-200 flex items-center">
+                        <ThemeToggle />
+                    </div>
                 </NavItems>
             </NavBody>
 
@@ -72,6 +76,9 @@ export default function Navbar() {
                         </Link>
                     );
                 })}
+                <div className="mt-4 pt-4 border-t border-zinc-200 flex justify-center items-center w-full">
+                    <ThemeToggle />
+                </div>
             </MobileNav>
         </ResizableNavbar>
     );

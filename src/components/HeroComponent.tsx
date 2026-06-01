@@ -103,7 +103,7 @@ export default function HeroComponent() {
           className="flex flex-col items-start text-left gap-6 w-full"
         >
           {/* Subtitle */}
-          <motion.div variants={itemVariants} className="text-xl md:text-xl font-medium tracking-tight text-zinc-900">
+          <motion.div variants={itemVariants} className="text-xl md:text-xl font-medium tracking-tight text-zinc-900 dark:text-white">
             Hello, my name&apos;s{" "}
             <motion.span
               whileHover={{ scale: 1.08, rotate: -2, y: -2 }}
@@ -118,7 +118,7 @@ export default function HeroComponent() {
           {/* Heading */}
           <motion.h1
             variants={itemVariants}
-            className="text-[44px] sm:text-[68px] md:text-[86px] lg:text-[90px] font-black tracking-tight leading-[1.05] text-zinc-950 text-left w-full"
+            className="text-[44px] sm:text-[68px] md:text-[86px] lg:text-[90px] font-black tracking-tight leading-[1.05] text-zinc-950 text-left w-full dark:text-white"
           >
             I build{" "}
             <motion.span
@@ -227,7 +227,7 @@ export default function HeroComponent() {
               {/* Rating Detail */}
               <div className="flex flex-col items-start gap-1">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-zinc-900 font-bold text-sm">5 / 5</span>
+                  <span className="text-zinc-900 dark:text-white font-bold text-sm">5 / 5</span>
                   <motion.div variants={starContainerVariants} className="flex text-yellow-500 fill-yellow-500">
                     {[0, 1, 2, 3, 4].map((i) => (
                       <motion.div key={i} variants={starVariants} whileHover={{ scale: 1.3, rotate: 15 }} className="cursor-pointer">
