@@ -25,7 +25,7 @@ export default function Navbar() {
         <ResizableNavbar>
             <NavBody>
                 <Logo>
-                    <Image src="/logo.png" alt="Nikhil Siwan" width={42} height={42} className="object-contain" />
+                    <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="object-contain" />
                 </Logo>
 
                 <NavItems>
@@ -52,7 +52,7 @@ export default function Navbar() {
 
             <MobileNav>
                 <Logo>
-                    <Image src="/logo.png" alt="Nikhil Siwan" width={40} height={40} className="object-contain" />
+                    <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={40} height={40} sizes="40px" className="object-contain" />
                 </Logo>
                 {links.map((link, idx) => {
                     const isActive = activeLink === link.name;
