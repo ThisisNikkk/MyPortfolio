@@ -48,7 +48,7 @@ export const NavBody = ({ children, className, visible = true }: NavBodyProps) =
   return (
     <div
       className={cn(
-        "hidden sm:flex w-full bg-white border border-neutral-200/80 rounded-lg flex-row items-center justify-between px-4 py-2",
+        "hidden sm:flex w-full bg-white dark:bg-black border border-neutral-200/80 dark:border-neutral-800 rounded-lg flex-row items-center justify-between px-4 py-2",
         className
       )}
     >
@@ -61,7 +61,7 @@ export const NavItems = ({ children, className }: NavItemsProps) => {
   return (
     <div
       className={cn(
-        "hidden sm:flex flex-row items-center gap-1 text-sm text-neutral-800",
+        "hidden sm:flex flex-row items-center gap-1 text-sm text-neutral-800 dark:text-neutral-200",
         className
       )}
     >
@@ -73,7 +73,7 @@ export const NavItems = ({ children, className }: NavItemsProps) => {
 export const MobileNav = ({ children, className }: MobileNavProps) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className={cn("sm:hidden flex flex-col w-full bg-white border border-neutral-200/80 rounded-lg px-4 py-3", className)}>
+    <div className={cn("sm:hidden flex flex-col w-full bg-white dark:bg-black border border-neutral-200/80 dark:border-neutral-800 rounded-lg px-4 py-3", className)}>
       <div className="flex flex-row justify-between items-center w-full">
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child) && child.type === Logo) {
@@ -82,7 +82,7 @@ export const MobileNav = ({ children, className }: MobileNavProps) => {
           return null;
         })}
         <button onClick={() => setOpen(!open)} className="p-2">
-          {open ? <X className="w-5 h-5 text-neutral-800" /> : <Menu className="w-5 h-5 text-neutral-800" />}
+          {open ? <X className="w-5 h-5 text-neutral-800 dark:text-neutral-200" /> : <Menu className="w-5 h-5 text-neutral-800 dark:text-neutral-200" />}
         </button>
       </div>
 
