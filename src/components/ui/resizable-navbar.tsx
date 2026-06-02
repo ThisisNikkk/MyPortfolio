@@ -4,6 +4,8 @@ import { Menu, X } from "lucide-react";
 import {
   motion,
   AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
 } from "framer-motion";
 
 import React, { useState } from "react";
@@ -30,15 +32,34 @@ interface MobileNavProps {
 }
 
 export const Navbar = ({ children, className }: NavbarProps) => {
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    // Hide navbar if scrolling down and scrolled more than 150px
+    if (latest > previous && latest > 40) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+  });
+
   return (
-    <div
+    <motion.div
+      variants={{
+        visible: { y: 0, opacity: 1 },
+        hidden: { y: -100, opacity: 0 },
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
         "fixed w-full max-w-6xl mx-auto top-4 inset-x-0 z-50 px-6",
         className
       )}
     >
       {children}
-    </div>
+    </motion.div>
   );
 };
 
@@ -48,7 +69,7 @@ export const NavBody = ({ children, className, visible = true }: NavBodyProps) =
   return (
     <div
       className={cn(
-        "hidden sm:flex w-full bg-white dark:bg-black border border-neutral-200/80 dark:border-neutral-800 rounded-lg flex-row items-center justify-between px-4 py-2",
+        "hidden sm:flex w-full bg-white dark:bg-zinc-950 border border-neutral-200/80 dark:border-neutral-800 rounded-lg flex-row items-center justify-between px-4 py-2",
         className
       )}
     >
@@ -73,7 +94,7 @@ export const NavItems = ({ children, className }: NavItemsProps) => {
 export const MobileNav = ({ children, className }: MobileNavProps) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className={cn("sm:hidden flex flex-col w-full bg-white dark:bg-black border border-neutral-200/80 dark:border-neutral-800 rounded-lg px-4 py-3", className)}>
+    <div className={cn("sm:hidden flex flex-col w-full bg-white dark:bg-zinc-950 border border-neutral-200/80 dark:border-neutral-800 rounded-lg px-4 py-3", className)}>
       <div className="flex flex-row justify-between items-center w-full">
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child) && child.type === Logo) {

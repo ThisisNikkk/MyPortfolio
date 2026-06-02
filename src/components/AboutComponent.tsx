@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Monitor, Bot, Cpu, MoveRight, Layers, Sparkles, Smartphone } from "lucide-react";
@@ -218,7 +218,7 @@ export default function AboutComponent() {
         if (!isDragging || !scrollRef.current) return;
         e.preventDefault();
         const x = e.pageX - scrollRef.current.offsetLeft;
-        const walk = (x - startX) * 1.5; // Drag speed modifier
+        const walk = (x - startX); // 1:1 Drag speed for smooth, connected tracking
         scrollRef.current.scrollLeft = scrollLeft - walk;
     };
 
@@ -234,6 +234,32 @@ export default function AboutComponent() {
         }
     };
 
+    // Add native vertical wheel to horizontal scroll mapping
+    useEffect(() => {
+        const handleWheel = (e: WheelEvent) => {
+            if (!scrollRef.current) return;
+            // Stop event from bubbling up to Lenis or window so the page doesn't scroll
+            e.stopPropagation();
+            // Prevent native vertical scroll
+            e.preventDefault();
+
+            // Only translate vertical scroll to horizontal if it's primarily a vertical scroll
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                scrollRef.current.scrollLeft += e.deltaY;
+            }
+        };
+
+        const currentRef = scrollRef.current;
+        if (currentRef) {
+            currentRef.addEventListener("wheel", handleWheel, { passive: false });
+        }
+        return () => {
+            if (currentRef) {
+                currentRef.removeEventListener("wheel", handleWheel);
+            }
+        };
+    }, []);
+
     const renderRulerTicks = (isLast: boolean) => {
         const ticks = [];
         // Major tick (longer and darker) - originates from top
@@ -241,8 +267,7 @@ export default function AboutComponent() {
             <motion.div
                 key="major"
                 initial={{ scaleY: 0 }}
-                whileInView={{ scaleY: 1 }}
-                viewport={{ once: true }}
+                animate={{ scaleY: 1 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className="w-[1.5px] h-6 bg-zinc-800 dark:bg-zinc-200 -mt-[1px] shrink-0 origin-top"
             />
@@ -255,8 +280,7 @@ export default function AboutComponent() {
                 <motion.div
                     key={`minor-${i}`}
                     initial={{ scaleY: 0 }}
-                    whileInView={{ scaleY: 1 }}
-                    viewport={{ once: true }}
+                    animate={{ scaleY: 1 }}
                     transition={{ duration: 0.4, delay: i * 0.015, ease: "easeOut" }}
                     className="w-[1px] h-3 bg-zinc-200/80 dark:bg-zinc-700/80 shrink-0 origin-top"
                 />
@@ -268,8 +292,7 @@ export default function AboutComponent() {
                 <motion.div
                     key="major-end"
                     initial={{ scaleY: 0 }}
-                    whileInView={{ scaleY: 1 }}
-                    viewport={{ once: true }}
+                    animate={{ scaleY: 1 }}
                     transition={{ duration: 0.5, delay: minorTicks * 0.015, ease: "easeOut" }}
                     className="w-[1.5px] h-6 bg-zinc-800 dark:bg-zinc-200 -mt-[1px] shrink-0 origin-top"
                 />
@@ -279,178 +302,206 @@ export default function AboutComponent() {
     };
 
     return (
-        <section
-            id="about"
-            aria-labelledby="about-title"
-            className="w-full text-zinc-950 dark:text-white py-16 md:py-24 relative overflow-hidden"
-        >
-            <div className="max-w-6xl w-full mx-auto px-6 relative z-10">
+        <>
+            <div id="about" className="w-full h-0 pointer-events-none" aria-hidden="true" />
+            <section
+                aria-labelledby="about-title"
+                className="w-full text-zinc-950 dark:text-white py-16 md:py-24 lg:py-10 relative overflow-hidden lg:sticky lg:top-0 lg:min-h-screen lg:flex lg:flex-col lg:justify-center z-10"
+            >
+                {/* Background elements */}
+                <div className="absolute inset-0 bg-white dark:bg-[#09090b] -z-10" />
+                <div className="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.15)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.15)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none -z-10" />
 
-                {/* SECTION HEADER */}
-                <motion.div
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6 }}
-                    className="flex items-center gap-2 mb-10 md:mb-10"
-                >
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#c6f023] ring-4 ring-[#c6f023]/20" aria-hidden="true" />
-                    <h2 id="about-title" className="text-md font-bold uppercase tracking-widest text-zinc-400">
-                        01 / ABOUT ME
-                    </h2>
-                </motion.div>
+                <div className="max-w-6xl w-full mx-auto px-6 relative z-10">
 
-                {/* BENTO GRID LAYOUT */}
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-100px" }}
-                    className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full"
-                >
 
-                    {/* CARD 1: MY STORY (Spans 2 columns on desktop) */}
-                    <motion.div
-                        variants={itemVariants}
-                        className="lg:col-span-2 bg-white border border-zinc-200/80 p-6 sm:p-8 md:p-10 rounded-3xl shadow-sm flex flex-col justify-between hover:border-zinc-300 hover:shadow-md transition-all duration-300 group"
-                    >
-                        <div>
-                            <h3 className="text-2xl sm:text-3xl lg:text-[48px] font-black tracking-tight leading-[1.15] text-zinc-950 dark:text-white mb-8">
-                                I transform bold ideas into meticulously crafted digital experiences that are{" "}
-                                <span className="relative inline-block px-2.5 py-1 text-zinc-950 font-black rounded-[4px] transform rotate-1 inline-flex leading-none align-middle mx-1">
-                                    <span className="relative z-10">built to last.</span>
-                                    <motion.span
-                                        className="absolute inset-0 bg-[#c6f023] shadow-sm origin-left"
-                                        initial={{ scaleX: 0 }}
-                                        whileInView={{ scaleX: 1 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                    />
-                                </span>
-                            </h3>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-zinc-500 font-medium text-sm sm:text-base leading-relaxed">
-                                <p>
-                                    I&apos;m a software developer who specialises in engineering future-ready digital products.
-                                    From autonomous AI agent systems and high-performance mobile apps to scalable web platforms,
-                                    I obsess over shipping clean, fast, and reliable software that solves real problems.
-                                </p>
-                                <p>
-                                    I believe great software starts with a deep understanding of the user and ends with
-                                    pixel-perfect execution. Every line of code is a design decision — and I treat both
-                                    with equal intent, proving that engineering excellence and beautiful experience are never at odds.
-                                </p>
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    {/* CARD 2: INTERACTIVE CAPABILITY VISUALIZER */}
-                    <motion.div
-                        variants={itemVariants}
-                        className="bg-white border border-zinc-200/80 p-6 rounded-3xl shadow-sm flex flex-col justify-between hover:border-zinc-300 hover:shadow-md transition-all duration-300"
-                    >
-                        <div className="flex flex-col gap-2 mb-6">
-                            <span className="text-xs font-bold uppercase tracking-wider text-zinc-600">Interactive Map</span>
-                            <h3 className="font-extrabold text-xl lg:text-2xl tracking-tight text-zinc-900 flex items-center gap-1.5">
-                                Capability Matrix <Sparkles className="w-4 h-4 lg:w-6 lg:h-6 text-[#c6f023] fill-[#c6f023]" aria-hidden="true" />
-                            </h3>
-                            <p className="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed font-medium">
-                                Hover over the nodes to explore the core engineering domains I build across — from AI to mobile.
-                            </p>
-                        </div>
-                        <div className="flex-1 flex items-center justify-center">
-                            <ConnectionVisualizer />
-                        </div>
-                    </motion.div>
-
-                </motion.div>
-
-                {/* TIMELINE SECTION (rendered cleanly outside bento cards) */}
-                <div className="w-full mt-24 lg:mt-20" role="region" aria-label="Professional timeline journey">
+                    {/* SECTION HEADER */}
                     <motion.div
                         initial={{ opacity: 0, y: 15 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
-                        className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-10"
+                        transition={{ duration: 0.6 }}
+                        className="flex items-center gap-2 mb-6 lg:mb-8"
                     >
-                        <div className="flex items-center gap-2">
-                            <h2 className="text-zinc-900 dark:text-white font-extrabold text-xl sm:text-2xl tracking-tight uppercase">Timeline</h2>
-                        </div>
-                        <div className="flex items-center gap-2 text-xs font-semibold text-zinc-400 select-none">
-                            <span>Swipe Or Drag To Scroll</span>
-                            <MoveRight className="w-3.5 h-3.5 animate-pulse" aria-hidden="true" />
-                        </div>
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#c6f023] ring-4 ring-[#c6f023]/20" aria-hidden="true" />
+                        <h2 id="about-title" className="text-md font-bold uppercase tracking-widest text-zinc-400">
+                            01 / ABOUT ME
+                        </h2>
                     </motion.div>
 
-                    {/* DRAGGABLE RULER TIMELINE */}
-                    <div className="relative w-full overflow-hidden select-none">
+                    {/* BENTO GRID LAYOUT */}
+                    <motion.div
+                        variants={containerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-100px" }}
+                        className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full"
+                    >
 
-                        <div
-                            ref={scrollRef}
-                            onMouseDown={handleMouseDown}
-                            onMouseLeave={handleMouseLeave}
-                            onMouseUp={handleMouseUp}
-                            onMouseMove={handleMouseMove}
-                            onKeyDown={handleKeyDown}
-                            tabIndex={0}
-                            aria-label="Horizontal scrollable timeline track. Focus and use left and right arrow keys to scroll."
-                            className={cn(
-                                "w-full overflow-x-auto py-4 cursor-grab active:cursor-grabbing flex select-none no-scrollbar rounded-xl focus-visible:ring-2 focus-visible:ring-[#c6f023]/60 focus:outline-none",
-                                isDragging && "cursor-grabbing"
-                            )}
-                            style={{
-                                scrollbarWidth: "none",
-                                msOverflowStyle: "none",
-                                WebkitOverflowScrolling: "touch",
-                            }}
+                        {/* CARD 1: MY STORY (Spans 2 columns on desktop) */}
+                        <motion.div
+                            variants={itemVariants}
+                            className="lg:col-span-2 bg-white border border-zinc-200/80 p-6 sm:p-8 md:p-8 rounded-3xl shadow-sm flex flex-col justify-between hover:border-zinc-300 hover:shadow-md transition-all duration-300 group"
                         >
-                            <div className="flex flex-row pr-24 pl-8 min-w-full">
-                                {timelineData.map((item, idx) => {
-                                    const isLast = idx === timelineData.length - 1;
-                                    return (
-                                        <div
-                                            key={idx}
-                                            className="w-[280px] sm:w-[320px] shrink-0 flex flex-col"
-                                        >
-                                            {/* Ruler ticks top block */}
-                                            <div className="flex justify-between items-start h-8 w-full border-t border-zinc-200/80 dark:border-zinc-800/80 pt-0 pr-[3px] select-none pointer-events-none">
-                                                {renderRulerTicks(isLast)}
-                                            </div>
+                            <div>
+                                <h3 className="text-2xl sm:text-3xl lg:text-[38px] md:text-[42px] font-black tracking-tight leading-[1.15] text-zinc-950 mb-4">
+                                    I transform bold ideas into meticulously crafted digital experiences that are{" "}
+                                    <span className="relative inline-block px-2.5 py-1 text-zinc-950 font-black rounded-[4px] transform rotate-1 inline-flex leading-none align-middle mx-1">
+                                        <span className="relative z-10">built to last.</span>
+                                        <motion.span
+                                            className="absolute inset-0 bg-[#c6f023] shadow-sm origin-left"
+                                            initial={{ scaleX: 0 }}
+                                            whileInView={{ scaleX: 1 }}
+                                            viewport={{ once: true }}
+                                            transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                                        />
+                                    </span>
+                                </h3>
 
-                                            {/* Content details block */}
-                                            <div className="mt-6 flex flex-col items-start pr-8 select-none">
-                                                <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400 tracking-wider mb-2">
-                                                    {item.period}
-                                                </span>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-zinc-500 font-medium text-sm sm:text-base leading-relaxed">
+                                    <p>
+                                        I&apos;m a software developer who specialises in engineering future-ready digital products.
+                                        From autonomous AI agent systems and high-performance mobile apps to scalable web platforms,
+                                        I obsess over shipping clean, fast, and reliable software that solves real problems.
+                                    </p>
+                                    <p>
+                                        I believe great software starts with a deep understanding of the user and ends with
+                                        pixel-perfect execution. Every line of code is a design decision — and I treat both
+                                        with equal intent, proving that engineering excellence and beautiful experience are never at odds.
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
 
-                                                <div className="flex items-center gap-1.5 mb-3">
-                                                    {item.logo}
-                                                    <span className="font-extrabold text-base text-zinc-900 dark:text-white tracking-tight">
-                                                        {item.company}
-                                                    </span>
+                        {/* CARD 2: INTERACTIVE CAPABILITY VISUALIZER */}
+                        <motion.div
+                            variants={itemVariants}
+                            className="bg-white border border-zinc-200/80 p-6 rounded-3xl shadow-sm flex flex-col justify-between hover:border-zinc-300 hover:shadow-md transition-all duration-300"
+                        >
+                            <div className="flex flex-col gap-2 mb-4">
+                                <span className="text-xs font-bold uppercase tracking-wider text-zinc-600">Interactive Map</span>
+                                <h3 className="font-extrabold text-xl lg:text-2xl tracking-tight text-zinc-900 flex items-center gap-1.5">
+                                    Capability Matrix <Sparkles className="w-4 h-4 lg:w-6 lg:h-6 text-[#c6f023] fill-[#c6f023]" aria-hidden="true" />
+                                </h3>
+                                <p className="text-zinc-500 text-sm leading-relaxed font-medium">
+                                    Hover over the nodes to explore the core engineering domains I build across — from AI to mobile.
+                                </p>
+                            </div>
+                            <div className="flex-1 flex items-center justify-center">
+                                <ConnectionVisualizer />
+                            </div>
+                        </motion.div>
+
+                    </motion.div>
+
+                    {/* TIMELINE SECTION (rendered cleanly outside bento cards) */}
+                    <div className="w-full mt-10 lg:mt-8" role="region" aria-label="Professional timeline journey">
+                        <motion.div
+                            initial={{ opacity: 0, y: 15 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-5"
+                        >
+                            <div className="flex items-center gap-2">
+                                <h2 className="text-zinc-900 dark:text-white font-extrabold text-xl sm:text-2xl tracking-tight uppercase">Timeline</h2>
+                            </div>
+                            <div className="flex items-center gap-2 text-xs font-semibold text-zinc-400 select-none">
+                                <span>Swipe Or Drag To Scroll</span>
+                                <MoveRight className="w-3.5 h-3.5 animate-pulse" aria-hidden="true" />
+                            </div>
+                        </motion.div>
+
+                        {/* DRAGGABLE RULER TIMELINE */}
+                        <div className="relative w-full overflow-hidden select-none">
+
+                            <div
+                                ref={scrollRef}
+                                data-lenis-prevent="true"
+                                onMouseDown={handleMouseDown}
+                                onMouseLeave={handleMouseLeave}
+                                onMouseUp={handleMouseUp}
+                                onMouseMove={handleMouseMove}
+                                onKeyDown={handleKeyDown}
+                                tabIndex={0}
+                                aria-label="Horizontal scrollable timeline track. Focus and use left and right arrow keys to scroll."
+                                className={cn(
+                                    "w-full overflow-x-auto py-4 cursor-grab active:cursor-grabbing flex select-none no-scrollbar rounded-xl focus-visible:ring-2 focus-visible:ring-[#c6f023]/60 focus:outline-none",
+                                    isDragging && "cursor-grabbing"
+                                )}
+                                style={{
+                                    scrollbarWidth: "none",
+                                    msOverflowStyle: "none",
+                                    WebkitOverflowScrolling: "touch",
+                                }}
+                            >
+                                <div className="flex flex-row pr-24 pl-8 min-w-full">
+                                    {timelineData.map((item, idx) => {
+                                        const isLast = idx === timelineData.length - 1;
+                                        return (
+                                            <div
+                                                key={idx}
+                                                className="w-[280px] sm:w-[320px] shrink-0 flex flex-col"
+                                            >
+                                                {/* Ruler ticks top block */}
+                                                <div className="flex justify-between items-start h-8 w-full border-t border-zinc-200/80 dark:border-zinc-800/80 pt-0 pr-[3px] select-none pointer-events-none">
+                                                    {renderRulerTicks(isLast)}
                                                 </div>
 
+                                                {/* Content details block */}
                                                 <motion.div
-                                                    whileHover={{ scale: 1.08, rotate: 1, y: -2 }}
-                                                    whileTap={{ scale: 0.98 }}
-                                                    transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                                                    className="px-3 py-1.5 bg-[#c6f023] text-zinc-950 text-xs font-black tracking-wide border border-zinc-900 rounded-[3px] shadow-sm transform -rotate-1 select-none cursor-pointer mb-4 inline-block origin-left leading-none"
+                                                    initial={{ opacity: 0, y: 20 }}
+                                                    whileInView={{ opacity: 1, y: 0 }}
+                                                    viewport={{ once: true, margin: "-50px" }}
+                                                    transition={{
+                                                        duration: 0.6,
+                                                        delay: idx * 0.12,
+                                                        ease: [0.16, 1, 0.3, 1]
+                                                    }}
+                                                    className="mt-4 flex flex-col items-start pr-8 select-none"
                                                 >
-                                                    {item.role}
-                                                </motion.div>
+                                                    <motion.span
+                                                        whileHover={{ x: 4 }}
+                                                        transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                                                        className="text-xs font-bold text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white tracking-wider mb-1.5 cursor-pointer transition-colors duration-200 select-none origin-left inline-block"
+                                                    >
+                                                        {item.period}
+                                                    </motion.span>
 
-                                                <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm font-medium leading-relaxed text-left pointer-events-none">
-                                                    {item.description}
-                                                </p>
+                                                    <motion.div
+                                                        whileHover={{ x: 5 }}
+                                                        transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                                                        className="flex items-center gap-1.5 mb-2 cursor-pointer group/company select-none origin-left"
+                                                    >
+                                                        <div className="group-hover/company:scale-110 transition-transform duration-200">
+                                                            {item.logo}
+                                                        </div>
+                                                        <span className="font-extrabold text-base text-zinc-900 dark:text-white tracking-tight group-hover/company:text-[#c6f023] dark:group-hover/company:text-[#c6f023] transition-colors duration-200">
+                                                            {item.company}
+                                                        </span>
+                                                    </motion.div>
+
+                                                    <motion.div
+                                                        whileHover={{ scale: 1.08, rotate: 1, y: -2 }}
+                                                        whileTap={{ scale: 0.98 }}
+                                                        transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                                                        className="px-3 py-1.5 bg-[#c6f023] text-zinc-950 text-xs font-black tracking-wide border border-zinc-900 rounded-[3px] shadow-sm transform -rotate-1 select-none cursor-pointer mb-2.5 inline-block origin-left leading-none"
+                                                    >
+                                                        {item.role}
+                                                    </motion.div>
+
+                                                    <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm font-medium leading-relaxed text-left pointer-events-none">
+                                                        {item.description}
+                                                    </p>
+                                                </motion.div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    })}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </>
     );
 }
