@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Urbanist } from "next/font/google";
 import SmoothScrolling from "@/components/layout/SmoothScrolling";
 import Navbar from "@/components/Navbar";
+import FooterComponent from "@/components/FooterComponent";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
@@ -108,6 +109,7 @@ export default function RootLayout({
           <SmoothScrolling>
             <Navbar />
             {children}
+            <FooterComponent />
           </SmoothScrolling>
         </ThemeProvider>
       </body>

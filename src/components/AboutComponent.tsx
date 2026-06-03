@@ -306,7 +306,7 @@ export default function AboutComponent() {
             <div id="about" className="w-full h-0 pointer-events-none" aria-hidden="true" />
             <section
                 aria-labelledby="about-title"
-                className="w-full text-zinc-950 dark:text-white py-16 md:py-24 lg:py-10 relative overflow-hidden lg:sticky lg:top-0 lg:min-h-screen lg:flex lg:flex-col lg:justify-center z-10"
+                className="w-full text-zinc-950 dark:text-white py-16 md:py-24 lg:py-10 relative overflow-clip lg:sticky lg:top-0 lg:min-h-screen lg:flex lg:flex-col lg:justify-center z-10"
             >
                 {/* Background elements */}
                 <div className="absolute inset-0 bg-white dark:bg-[#09090b] -z-10" />
