@@ -265,15 +265,20 @@ export default function ProcessComponent() {
                     transition={{ duration: 0.6, ease: "easeOut" }}
                     className="w-full mb-16 text-left"
                 >
-                    <div className="flex items-center gap-2 mb-4">
-                        <span className="w-2 h-2 rounded-full bg-[#c6f023] ring-4 ring-[#c6f023]/25" aria-hidden="true" />
-                        <span className="text-xs font-black tracking-[0.2em] uppercase text-zinc-400">
-                            02 / MY PROCESS
-                        </span>
-                    </div>
 
                     <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-zinc-900 dark:text-white leading-[1.1] max-w-2xl">
-                        From the first call to production-ready code
+                        From the{" "}
+                        <span className="relative inline-block px-2 py-0.5 text-zinc-950 font-black rounded-[4px] transform rotate-1 inline-flex leading-none align-middle mx-1">
+                            <span className="relative z-10">first call</span>
+                            <motion.span
+                                className="absolute inset-0 bg-[#c6f023] shadow-sm origin-left -z-10"
+                                initial={{ scaleX: 0 }}
+                                whileInView={{ scaleX: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                            />
+                        </span>{" "}
+                        to production-ready code
                     </h2>
                 </motion.div>
 

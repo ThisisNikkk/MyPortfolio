@@ -19,15 +19,22 @@ export default function Navbar() {
         { name: "Home", link: "/" },
         { name: "About", link: "/#about" },
         { name: "Work", link: "/#work" },
-        { name: "Contact", link: "/#contact" },
+        { name: "Contact", link: "/contact" },
     ];
+
+    const handleLogoClick = () => {
+        setActiveLink("Home");
+        window.location.href = "/";
+    };
 
     return (
         <ResizableNavbar>
             <NavBody>
                 <Logo>
-                    <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="dark:hidden object-contain" />
-                    <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="hidden dark:block object-contain" />
+                    <div onClick={handleLogoClick} className="cursor-pointer flex items-center">
+                        <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="dark:hidden object-contain" />
+                        <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="hidden dark:block object-contain" />
+                    </div>
                 </Logo>
 
                 <NavItems>
@@ -57,8 +64,10 @@ export default function Navbar() {
 
             <MobileNav>
                 <Logo>
-                    <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={40} height={40} sizes="40px" className="dark:hidden object-contain" />
-                    <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={40} height={40} sizes="40px" className="hidden dark:block object-contain" />
+                    <div onClick={handleLogoClick} className="cursor-pointer flex items-center">
+                        <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={40} height={40} sizes="40px" className="dark:hidden object-contain" />
+                        <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={40} height={40} sizes="40px" className="hidden dark:block object-contain" />
+                    </div>
                 </Logo>
                 {links.map((link, idx) => {
                     const isActive = activeLink === link.name;

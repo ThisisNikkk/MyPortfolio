@@ -317,15 +317,25 @@ export default function AboutComponent() {
 
                     {/* SECTION HEADER */}
                     <motion.div
-                        initial={{ opacity: 0, y: 15 }}
+                        initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.6 }}
-                        className="flex items-center gap-2 mb-6 lg:mb-8"
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="w-full mb-8 text-left"
                     >
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#c6f023] ring-4 ring-[#c6f023]/20" aria-hidden="true" />
-                        <h2 id="about-title" className="text-md font-bold uppercase tracking-widest text-zinc-400">
-                            01 / ABOUT ME
+                        <h2 id="about-title" className="text-4xl sm:text-5xl font-black tracking-tight text-zinc-900 dark:text-white leading-[1.1] max-w-2xl">
+                            The{" "}
+                            <span className="relative inline-block px-2 py-0.5 text-zinc-950 font-black rounded-[4px] transform rotate-1 inline-flex leading-none align-middle mx-1">
+                                <span className="relative z-10">Person</span>
+                                <motion.span
+                                    className="absolute inset-0 bg-[#c6f023] shadow-sm origin-left -z-10"
+                                    initial={{ scaleX: 0 }}
+                                    whileInView={{ scaleX: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                                />
+                            </span>{" "}
+                            Behind The Work
                         </h2>
                     </motion.div>
 
@@ -395,7 +405,7 @@ export default function AboutComponent() {
                     </motion.div>
 
                     {/* TIMELINE SECTION (rendered cleanly outside bento cards) */}
-                    <div className="w-full mt-10 lg:mt-8" role="region" aria-label="Professional timeline journey">
+                    <div className="w-full mt-10 lg:mt-4" role="region" aria-label="Professional timeline journey">
                         <motion.div
                             initial={{ opacity: 0, y: 15 }}
                             whileInView={{ opacity: 1, y: 0 }}
