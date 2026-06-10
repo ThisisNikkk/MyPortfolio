@@ -1,86 +1,10 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
-import Image from "next/image";
+import React, { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Monitor, Bot, Cpu, MoveRight, Layers, Sparkles, Smartphone } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-// Company logo badges for timeline
-const SolarioTechLogo = () => (
-    <div className="relative w-6 h-6 shrink-0 overflow-hidden rounded bg-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm" aria-hidden="true">
-        <Image
-            src="/solarioLogo.png"
-            alt="SolarioTech Logo"
-            width={24}
-            height={24}
-            className="object-contain p-0.5"
-        />
-    </div>
-);
-
-const BluestockLogo = () => (
-    <div className="relative w-6 h-6 shrink-0 overflow-hidden rounded bg-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm" aria-hidden="true">
-        <Image
-            src="/BluestockLogo.webp"
-            alt="Bluestock Fintech Logo"
-            width={24}
-            height={24}
-            className="object-contain p-0.5"
-        />
-    </div>
-);
-
-const QSpidersLogo = () => (
-    <div className="relative w-6 h-6 shrink-0 overflow-hidden rounded bg-white flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shadow-sm" aria-hidden="true">
-        <Image
-            src="/qSpiderLogo.png"
-            alt="QSpiders Logo"
-            width={24}
-            height={24}
-            className="object-contain p-0.5"
-        />
-    </div>
-);
-
-interface TimelineItem {
-    period: string;
-    company: string;
-    role: string;
-    logo: React.ReactNode;
-    description: string;
-}
-
-const timelineData: TimelineItem[] = [
-    {
-        period: "Jun 2024 – Jul 2024",
-        company: "QSpiders",
-        role: "Summer Intern",
-        logo: <QSpidersLogo />,
-        description: "Created responsive web applications using HTML, CSS, and JavaScript, increasing development efficiency by 20% through reusable components and mobile-first design patterns.",
-    },
-    {
-        period: "Aug 2024 – Sep 2024",
-        company: "Bluestock Fintech",
-        role: "SDE Intern",
-        logo: <BluestockLogo />,
-        description: "Collaborated in a 5-person Agile team to build a fully responsive IPO website using Figma designs, HTML, CSS, JavaScript, and Bootstrap. Delivered remotely from Pune.",
-    },
-    {
-        period: "Jun 2025 – Nov 2025",
-        company: "SolarioTech",
-        role: "Intern",
-        logo: <SolarioTechLogo />,
-        description: "Completed a 6-month internship focused on mobile application development, mastering React Native and building production-ready cross-platform applications.",
-    },
-    {
-        period: "Nov 2025 – Present",
-        company: "SolarioTech",
-        role: "React Native Developer",
-        logo: <SolarioTechLogo />,
-        description: "Promoted to full-time React Native Developer. Currently building scalable cross-platform mobile applications and contributing to company's digital product roadmap.",
-    },
-];
 
 // Connection Visualizer Sub-Component
 function ConnectionVisualizer() {
@@ -194,113 +118,6 @@ const itemVariants = {
 };
 
 export default function AboutComponent() {
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const [isDragging, setIsDragging] = useState(false);
-    const [startX, setStartX] = useState(0);
-    const [scrollLeft, setScrollLeft] = useState(0);
-
-    const handleMouseDown = (e: React.MouseEvent) => {
-        if (!scrollRef.current) return;
-        setIsDragging(true);
-        setStartX(e.pageX - scrollRef.current.offsetLeft);
-        setScrollLeft(scrollRef.current.scrollLeft);
-    };
-
-    const handleMouseLeave = () => {
-        setIsDragging(false);
-    };
-
-    const handleMouseUp = () => {
-        setIsDragging(false);
-    };
-
-    const handleMouseMove = (e: React.MouseEvent) => {
-        if (!isDragging || !scrollRef.current) return;
-        e.preventDefault();
-        const x = e.pageX - scrollRef.current.offsetLeft;
-        const walk = (x - startX); // 1:1 Drag speed for smooth, connected tracking
-        scrollRef.current.scrollLeft = scrollLeft - walk;
-    };
-
-    // Keyboard Navigation for Timeline Scroll (Accessibility Feature)
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (!scrollRef.current) return;
-        if (e.key === "ArrowRight") {
-            e.preventDefault();
-            scrollRef.current.scrollBy({ left: 150, behavior: "smooth" });
-        } else if (e.key === "ArrowLeft") {
-            e.preventDefault();
-            scrollRef.current.scrollBy({ left: -150, behavior: "smooth" });
-        }
-    };
-
-    // Add native vertical wheel to horizontal scroll mapping
-    useEffect(() => {
-        const handleWheel = (e: WheelEvent) => {
-            if (!scrollRef.current) return;
-            // Stop event from bubbling up to Lenis or window so the page doesn't scroll
-            e.stopPropagation();
-            // Prevent native vertical scroll
-            e.preventDefault();
-
-            // Only translate vertical scroll to horizontal if it's primarily a vertical scroll
-            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-                scrollRef.current.scrollLeft += e.deltaY;
-            }
-        };
-
-        const currentRef = scrollRef.current;
-        if (currentRef) {
-            currentRef.addEventListener("wheel", handleWheel, { passive: false });
-        }
-        return () => {
-            if (currentRef) {
-                currentRef.removeEventListener("wheel", handleWheel);
-            }
-        };
-    }, []);
-
-    const renderRulerTicks = (isLast: boolean) => {
-        const ticks = [];
-        // Major tick (longer and darker) - originates from top
-        ticks.push(
-            <motion.div
-                key="major"
-                initial={{ scaleY: 0 }}
-                animate={{ scaleY: 1 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-[1.5px] h-6 bg-zinc-800 dark:bg-zinc-200 -mt-[1px] shrink-0 origin-top"
-            />
-        );
-
-        // Minor ticks spanning the column - cascading waterfall entrance
-        const minorTicks = 16;
-        for (let i = 0; i < minorTicks; i++) {
-            ticks.push(
-                <motion.div
-                    key={`minor-${i}`}
-                    initial={{ scaleY: 0 }}
-                    animate={{ scaleY: 1 }}
-                    transition={{ duration: 0.4, delay: i * 0.015, ease: "easeOut" }}
-                    className="w-[1px] h-3 bg-zinc-200/80 dark:bg-zinc-700/80 shrink-0 origin-top"
-                />
-            );
-        }
-
-        if (isLast) {
-            ticks.push(
-                <motion.div
-                    key="major-end"
-                    initial={{ scaleY: 0 }}
-                    animate={{ scaleY: 1 }}
-                    transition={{ duration: 0.5, delay: minorTicks * 0.015, ease: "easeOut" }}
-                    className="w-[1.5px] h-6 bg-zinc-800 dark:bg-zinc-200 -mt-[1px] shrink-0 origin-top"
-                />
-            );
-        }
-        return ticks;
-    };
-
     return (
         <>
             <div id="about" className="w-full h-0 pointer-events-none" aria-hidden="true" />
@@ -380,6 +197,16 @@ export default function AboutComponent() {
                                         with equal intent, proving that engineering excellence and beautiful experience are never at odds.
                                     </p>
                                 </div>
+
+                                <div className="mt-8 flex justify-start">
+                                    <Link
+                                        href="/about"
+                                        className="inline-flex items-center gap-2 text-zinc-950 dark:text-white hover:text-[#c6f023] dark:hover:text-[#c6f023] font-bold text-sm uppercase tracking-wider bg-zinc-100 hover:bg-zinc-900 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-5 py-3 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md group"
+                                    >
+                                        <span>View Full Journey & Timeline</span>
+                                        <MoveRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+                                    </Link>
+                                </div>
                             </div>
                         </motion.div>
 
@@ -403,113 +230,6 @@ export default function AboutComponent() {
                         </motion.div>
 
                     </motion.div>
-
-                    {/* TIMELINE SECTION (rendered cleanly outside bento cards) */}
-                    <div className="w-full mt-10 lg:mt-4" role="region" aria-label="Professional timeline journey">
-                        <motion.div
-                            initial={{ opacity: 0, y: 15 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-5"
-                        >
-                            <div className="flex items-center gap-2">
-                                <h2 className="text-zinc-900 dark:text-white font-extrabold text-xl sm:text-2xl tracking-tight uppercase">Timeline</h2>
-                            </div>
-                            <div className="flex items-center gap-2 text-xs font-semibold text-zinc-400 select-none">
-                                <span>Swipe Or Drag To Scroll</span>
-                                <MoveRight className="w-3.5 h-3.5 animate-pulse" aria-hidden="true" />
-                            </div>
-                        </motion.div>
-
-                        {/* DRAGGABLE RULER TIMELINE */}
-                        <div className="relative w-full overflow-hidden select-none">
-
-                            <div
-                                ref={scrollRef}
-                                data-lenis-prevent="true"
-                                onMouseDown={handleMouseDown}
-                                onMouseLeave={handleMouseLeave}
-                                onMouseUp={handleMouseUp}
-                                onMouseMove={handleMouseMove}
-                                onKeyDown={handleKeyDown}
-                                tabIndex={0}
-                                aria-label="Horizontal scrollable timeline track. Focus and use left and right arrow keys to scroll."
-                                className={cn(
-                                    "w-full overflow-x-auto py-4 cursor-grab active:cursor-grabbing flex select-none no-scrollbar rounded-xl focus-visible:ring-2 focus-visible:ring-[#c6f023]/60 focus:outline-none",
-                                    isDragging && "cursor-grabbing"
-                                )}
-                                style={{
-                                    scrollbarWidth: "none",
-                                    msOverflowStyle: "none",
-                                    WebkitOverflowScrolling: "touch",
-                                }}
-                            >
-                                <div className="flex flex-row pr-24 pl-8 min-w-full">
-                                    {timelineData.map((item, idx) => {
-                                        const isLast = idx === timelineData.length - 1;
-                                        return (
-                                            <div
-                                                key={idx}
-                                                className="w-[280px] sm:w-[320px] shrink-0 flex flex-col"
-                                            >
-                                                {/* Ruler ticks top block */}
-                                                <div className="flex justify-between items-start h-8 w-full border-t border-zinc-200/80 dark:border-zinc-800/80 pt-0 pr-[3px] select-none pointer-events-none">
-                                                    {renderRulerTicks(isLast)}
-                                                </div>
-
-                                                {/* Content details block */}
-                                                <motion.div
-                                                    initial={{ opacity: 0, y: 20 }}
-                                                    whileInView={{ opacity: 1, y: 0 }}
-                                                    viewport={{ once: true, margin: "-50px" }}
-                                                    transition={{
-                                                        duration: 0.6,
-                                                        delay: idx * 0.12,
-                                                        ease: [0.16, 1, 0.3, 1]
-                                                    }}
-                                                    className="mt-4 flex flex-col items-start pr-8 select-none"
-                                                >
-                                                    <motion.span
-                                                        whileHover={{ x: 4 }}
-                                                        transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                                                        className="text-xs font-bold text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white tracking-wider mb-1.5 cursor-pointer transition-colors duration-200 select-none origin-left inline-block"
-                                                    >
-                                                        {item.period}
-                                                    </motion.span>
-
-                                                    <motion.div
-                                                        whileHover={{ x: 5 }}
-                                                        transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                                                        className="flex items-center gap-1.5 mb-2 cursor-pointer group/company select-none origin-left"
-                                                    >
-                                                        <div className="group-hover/company:scale-110 transition-transform duration-200">
-                                                            {item.logo}
-                                                        </div>
-                                                        <span className="font-extrabold text-base text-zinc-900 dark:text-white tracking-tight group-hover/company:text-[#c6f023] dark:group-hover/company:text-[#c6f023] transition-colors duration-200">
-                                                            {item.company}
-                                                        </span>
-                                                    </motion.div>
-
-                                                    <motion.div
-                                                        whileHover={{ scale: 1.08, rotate: 1, y: -2 }}
-                                                        whileTap={{ scale: 0.98 }}
-                                                        transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                                                        className="px-3 py-1.5 bg-[#c6f023] text-zinc-950 text-xs font-black tracking-wide border border-zinc-900 rounded-[3px] shadow-sm transform -rotate-1 select-none cursor-pointer mb-2.5 inline-block origin-left leading-none"
-                                                    >
-                                                        {item.role}
-                                                    </motion.div>
-
-                                                    <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm font-medium leading-relaxed text-left pointer-events-none">
-                                                        {item.description}
-                                                    </p>
-                                                </motion.div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
         </>
