@@ -8,7 +8,6 @@ export default function Home() {
   return (
     <>
       <HeroComponent />
-      <AboutComponent />
       <WorkComponent />
       <ProcessComponent />
       <TestimonialsComponent />

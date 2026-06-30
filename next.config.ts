@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["192.168.0.33"],
+  allowedDevOrigins: ["192.168.0.22"],
 
   // Reduce network payload — serve AVIF first, WebP as fallback
   images: {
