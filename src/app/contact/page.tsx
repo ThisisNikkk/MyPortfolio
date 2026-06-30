@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Mail, MapPin, Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -8,7 +8,13 @@ import { useTheme } from "next-themes";
 
 export default function ContactPage() {
     const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
     const [iframeLoaded, setIframeLoaded] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const calTheme = resolvedTheme === "dark" ? "dark" : "light";
     const calLink = `https://cal.com/thisisnikk/30min?embed=true&theme=${calTheme}`;
 
@@ -81,13 +87,15 @@ export default function ContactPage() {
                                 <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400 animate-pulse">Loading calendar...</p>
                             </div>
                         )}
-                        <iframe
-                            src={calLink}
-                            style={{ width: "100%", height: "100%", border: "none" }}
-                            title="Cal.com Booking Calendar"
-                            className={`rounded-[24px] transition-opacity duration-500 w-full h-full ${iframeLoaded ? 'opacity-100' : 'opacity-0'}`}
-                            onLoad={() => setIframeLoaded(true)}
-                        />
+                        {mounted && (
+                            <iframe
+                                src={calLink}
+                                style={{ width: "100%", height: "100%", border: "none" }}
+                                title="Cal.com Booking Calendar"
+                                className={`rounded-[24px] transition-opacity duration-500 w-full h-full ${iframeLoaded ? 'opacity-100' : 'opacity-0'}`}
+                                onLoad={() => setIframeLoaded(true)}
+                            />
+                        )}
                     </div>
                 </motion.div>
 

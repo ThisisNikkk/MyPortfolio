@@ -11,63 +11,101 @@ const offerings = [
 ];
 
 const containerVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
-    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
   },
 };
 
-const secondContainerVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { staggerChildren: 0.12, delayChildren: 0.45 },
-  },
-};
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
+const subtitleVariants = {
+  hidden: { y: 25, opacity: 0 },
   visible: {
     y: 0,
     opacity: 1,
-    transition: { type: "spring" as const, stiffness: 100, damping: 20 },
+    transition: { type: "spring" as const, stiffness: 120, damping: 20 },
   },
 };
 
-const avatarContainerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
-
-const avatarVariants = {
-  hidden: { scale: 0, y: 10, opacity: 0 },
+const nameBadgeVariants = {
+  hidden: { scale: 0, rotate: -10, opacity: 0 },
   visible: {
     scale: 1,
-    y: 0,
+    rotate: 1,
     opacity: 1,
-    transition: { type: "spring" as const, stiffness: 300, damping: 15 },
+    transition: { type: "spring" as const, stiffness: 220, damping: 12, delay: 0.15 },
   },
 };
 
-const starContainerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.06 } },
+const headlineVariants = {
+  hidden: { y: 40, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: "spring" as const, stiffness: 100, damping: 22, delay: 0.25 },
+  },
 };
 
-const starVariants = {
-  hidden: { scale: 0, rotate: -25, opacity: 0 },
+const zapCircleVariants = {
+  hidden: { scale: 0, rotate: -45, opacity: 0 },
   visible: {
     scale: 1,
     rotate: 0,
     opacity: 1,
-    transition: { type: "spring" as const, stiffness: 200, damping: 12 },
+    transition: { type: "spring" as const, stiffness: 240, damping: 14, delay: 0.4 },
   },
 };
 
-// GPU-composited text cycling — no filter:blur() (causes texture uploads & forced reflow)
+const powerfulBadgeVariants = {
+  hidden: { scale: 0, rotate: -10, opacity: 0 },
+  visible: {
+    scale: 1,
+    rotate: 1,
+    opacity: 1,
+    transition: { type: "spring" as const, stiffness: 220, damping: 12, delay: 0.5 },
+  },
+};
+
+const cycleContainerVariants = {
+  hidden: { y: 30, opacity: 0, scale: 0.95 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 140, damping: 20, delay: 0.6 },
+  },
+};
+
+const descriptionVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: "spring" as const, stiffness: 100, damping: 20, delay: 0.75 },
+  },
+};
+
+const cta1Variants = {
+  hidden: { y: 15, opacity: 0, scale: 0.95 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 140, damping: 18, delay: 0.9 },
+  },
+};
+
+const cta2Variants = {
+  hidden: { y: 15, opacity: 0, scale: 0.95 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 140, damping: 18, delay: 1.0 },
+  },
+};
+
+// GPU-composited text cycling
 const textCycleVariants = {
   initial: { y: 20, opacity: 0, scale: 0.96 },
   animate: { y: 0, opacity: 1, scale: 1 },
@@ -90,25 +128,30 @@ export default function HeroComponent() {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full antialiased overflow-hidden flex items-center pt-32 pb-16 md:pt-36 md:pb-24 lg:pt-10 lg:pb-0">
+    <div className="relative min-h-screen w-full antialiased overflow-hidden flex items-center justify-center pt-32 pb-16 md:pt-36 md:pb-24 lg:pt-10 lg:pb-0 lg:sticky lg:top-0 z-10">
+
+      {/* Subtle Ambient Glow - Hidden on mobile to prevent GPU lag */}
+      <div
+        className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vw] max-w-[600px] max-h-[600px] bg-[#c6f023]/5 blur-[120px] rounded-full pointer-events-none -z-10"
+      />
 
       {/* Main Container */}
-      <main className="max-w-6xl w-full mx-auto px-6 flex flex-col gap-12 md:gap-16 items-start">
+      <main className="max-w-6xl w-full mx-auto px-6 flex flex-col gap-12 md:gap-16 items-center text-center">
 
         {/* HERO TITLE BLOCK */}
         <motion.section
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="flex flex-col items-start text-left gap-6 w-full"
+          className="flex flex-col items-center gap-6 w-full"
         >
           {/* Subtitle */}
-          <motion.div variants={itemVariants} className="text-xl md:text-xl font-medium tracking-tight text-zinc-900 dark:text-white">
-            Hello, my name&apos;s{" "}
+          <motion.div variants={subtitleVariants} className="text-lg sm:text-xl lg:text-2xl font-medium tracking-tight text-zinc-900 dark:text-white">
+            Hello, my name's{" "}
             <motion.span
               whileHover={{ scale: 1.08, rotate: -2, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 15 }}
+              variants={nameBadgeVariants}
               className="relative inline-block cursor-pointer px-3 py-1 bg-[#c6f023] text-zinc-950 rounded-[4px] md:rounded-[6px] transform rotate-1 shadow-sm leading-none align-middle font-black mx-1"
             >
               Nikhil Siwan.
@@ -117,30 +160,31 @@ export default function HeroComponent() {
 
           {/* Heading */}
           <motion.h1
-            variants={itemVariants}
-            className="text-[44px] sm:text-[68px] md:text-[86px] lg:text-[90px] font-black tracking-tight leading-[1.05] text-zinc-950 text-left w-full dark:text-white"
+            variants={headlineVariants}
+            className="text-[48px] sm:text-[76px] md:text-[84px] lg:text-[90px] xl:text-[112px] font-black tracking-tight leading-[1.05] text-zinc-950 w-full dark:text-white"
           >
             I build{" "}
             <motion.span
               whileHover={{ scale: 1.15, rotate: 12 }}
               whileTap={{ scale: 0.9 }}
-              className="inline-flex items-center justify-center align-middle w-12 h-12 md:w-20 md:h-20 rounded-full bg-[#c6f023] mx-1 md:mx-2 shadow-sm cursor-pointer"
+              variants={zapCircleVariants}
+              className="inline-flex items-center justify-center align-middle w-10 h-10 sm:w-16 sm:h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 rounded-full bg-[#c6f023] mx-1 md:mx-2 shadow-sm cursor-pointer"
             >
-              {/* Infinite rAF animation removed — was blocking main thread constantly */}
-              <Zap className="w-6 h-6 md:w-10 md:h-10 text-zinc-950 fill-zinc-950" />
+              <Zap className="w-5 h-5 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 text-zinc-950 fill-zinc-950" />
             </motion.span>{" "}
             <motion.span
               whileHover={{ scale: 1.08, rotate: -2, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 15 }}
+              variants={powerfulBadgeVariants}
               className="relative inline-block cursor-pointer px-4 py-1 bg-[#c6f023] text-zinc-950 rounded-[4px] md:rounded-[8px] transform rotate-1 shadow-sm leading-none align-middle font-black"
             >
               powerful
             </motion.span>
             <br />
             {/* will-change:transform pre-promotes this to a GPU compositing layer */}
-            <span
-              className="relative inline-flex px-4 py-2 md:py-3 bg-zinc-100 border border-zinc-200/50 text-zinc-950 rounded-[6px] md:rounded-[12px] transform -rotate-1 shadow-sm leading-none align-middle font-black mt-2 w-fit overflow-hidden"
+            <motion.span
+              variants={cycleContainerVariants}
+              className="relative inline-flex px-4 py-2 md:py-3 bg-zinc-100 border border-zinc-200/50 text-zinc-950 rounded-[6px] md:rounded-[12px] transform -rotate-1 shadow-sm leading-none align-middle font-black mt-4 lg:mt-6 w-fit mx-auto overflow-hidden"
               style={{ willChange: "transform" }}
             >
               <AnimatePresence mode="wait">
@@ -158,96 +202,45 @@ export default function HeroComponent() {
                     initial="initial"
                     animate="animate"
                     transition={{ type: "spring", stiffness: 260, damping: 15, delay: 0.05 }}
-                    className="inline-flex items-center justify-center align-middle w-12 h-12 md:w-20 md:h-20 rounded-full bg-white mx-1 md:mx-2 shadow-sm border border-zinc-200 shrink-0"
+                    className="inline-flex items-center justify-center align-middle w-10 h-10 sm:w-16 sm:h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 rounded-full bg-white mx-1 md:mx-2 shadow-sm border border-zinc-200 shrink-0"
                   >
-                    {index === 0 && <Bot className="w-6 h-6 md:w-10 md:h-10 text-zinc-800" />}
-                    {index === 1 && <Smartphone className="w-6 h-6 md:w-10 md:h-10 text-zinc-800" />}
-                    {index === 2 && <Globe className="w-6 h-6 md:w-10 md:h-10 text-zinc-800" />}
+                    {index === 0 && <Bot className="w-5 h-5 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 text-zinc-800" />}
+                    {index === 1 && <Smartphone className="w-5 h-5 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 text-zinc-800" />}
+                    {index === 2 && <Globe className="w-5 h-5 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 text-zinc-800" />}
                   </motion.span>{" "}
                   {offerings[index].text}
                 </motion.span>
               </AnimatePresence>
-            </span>
+            </motion.span>
           </motion.h1>
         </motion.section>
 
         {/* HERO DETAILS & CTA BUTTONS */}
         <motion.section
-          variants={secondContainerVariants}
+          variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="flex flex-col items-start gap-10 w-full"
+          className="flex flex-col items-center gap-10 w-full"
         >
           {/* Row layout: Description & Social Proof */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 lg:gap-16 w-full">
+          <div className="flex flex-col items-center justify-center gap-8 w-full">
             <motion.p
-              variants={itemVariants}
-              className="text-lg md:text-lg text-zinc-500 font-medium leading-relaxed max-w-2xl text-left"
+              variants={descriptionVariants}
+              className="text-base sm:text-lg lg:text-xl text-zinc-500/90 dark:text-zinc-400/90 font-medium leading-relaxed max-w-2xl text-center"
             >
-              Transforming bold ideas into meticulously crafted digital experiences. I specialize in engineering future-ready AI agents, high-performance mobile apps, and scalable websites. Let&apos;s build something powerful together.
+              Crafting digital experiences with pixel-perfect execution. I specialize at the intersection of design, engineering, and artificial intelligence.
             </motion.p>
 
-            {/* Social Proof (Avatars and Rating) */}
-            <motion.div
-              variants={itemVariants}
-              className="flex flex-row items-center gap-6 justify-start shrink-0"
-            >
-              {/* Overlay Avatars */}
-              <motion.div variants={avatarContainerVariants} className="flex -space-x-3">
-                <motion.div
-                  variants={avatarVariants}
-                  whileHover={{ y: -8, scale: 1.15, zIndex: 10 }}
-                  className="flex h-12 w-12 sm:h-8 sm:w-8 lg:h-12 lg:w-12 shrink-0 rounded-full ring-4 ring-[#f9f9fb] bg-zinc-800 items-center justify-center border border-zinc-700 shadow-sm text-white font-bold text-xs cursor-pointer select-none"
-                >
-                  AP
-                </motion.div>
-                <motion.div
-                  variants={avatarVariants}
-                  whileHover={{ y: -8, scale: 1.15, zIndex: 10 }}
-                  className="flex h-12 w-12 sm:h-8 sm:w-8 lg:h-12 lg:w-12 shrink-0 rounded-full ring-4 ring-[#f9f9fb] bg-[#c6f023] items-center justify-center border border-zinc-400 shadow-sm text-zinc-950 font-bold text-xs cursor-pointer select-none"
-                >
-                  GK
-                </motion.div>
-                <motion.div
-                  variants={avatarVariants}
-                  whileHover={{ y: -8, scale: 1.15, zIndex: 10 }}
-                  className="flex h-12 w-12 sm:h-8 sm:w-8 lg:h-12 lg:w-12 shrink-0 rounded-full ring-4 ring-[#f9f9fb] bg-zinc-200 items-center justify-center border border-zinc-300 shadow-sm text-zinc-800 font-bold text-xs cursor-pointer select-none"
-                >
-                  NS
-                </motion.div>
-                <motion.div
-                  variants={avatarVariants}
-                  whileHover={{ y: -8, scale: 1.15, zIndex: 10 }}
-                  className="flex h-12 w-12 sm:h-8 sm:w-8 lg:h-12 lg:w-12 shrink-0 rounded-full ring-4 ring-[#f9f9fb] bg-zinc-950 items-center justify-center border border-zinc-800 shadow-sm text-white font-bold text-xs cursor-pointer select-none"
-                >
-                  US
-                </motion.div>
-              </motion.div>
-
-              {/* Rating Detail */}
-              <div className="flex flex-col items-start gap-1">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-zinc-900 dark:text-white font-bold text-sm">5 / 5</span>
-                  <motion.div variants={starContainerVariants} className="flex text-yellow-500 fill-yellow-500">
-                    {[0, 1, 2, 3, 4].map((i) => (
-                      <motion.div key={i} variants={starVariants} whileHover={{ scale: 1.3, rotate: 15 }} className="cursor-pointer">
-                        <Star className="w-5 h-5 fill-[#c6f023] text-[#c6f023]" />
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </div>
-                <span className="text-zinc-400 text-xs font-semibold">Recommended by clients &amp; founders</span>
-              </div>
-            </motion.div>
           </div>
 
           {/* CTA Buttons */}
-          <motion.div variants={itemVariants} className="flex gap-3 sm:gap-4 lg:gap-8 justify-start w-full">
+          <div className="flex gap-3 sm:gap-4 lg:gap-6 justify-center w-full">
             {/* Button 1: Get in Touch */}
             <motion.a
               href="mailto:developer.nikk@gmail.com"
               whileHover="hover"
               whileTap={{ scale: 0.98 }}
+              variants={cta1Variants}
               className="flex-1 sm:flex-none justify-center bg-zinc-900 text-white font-bold text-sm sm:text-md lg:text-lg px-4 py-3.5 sm:px-6 sm:py-4 lg:px-8 lg:py-5 rounded-xl inline-flex items-center gap-2 sm:gap-3 lg:gap-4 shadow-md transition-shadow duration-200 group"
             >
               <motion.div
@@ -267,6 +260,7 @@ export default function HeroComponent() {
               rel="noopener noreferrer"
               whileHover="hover"
               whileTap={{ scale: 0.98 }}
+              variants={cta2Variants}
               className="flex-1 sm:flex-none justify-center bg-white text-zinc-900 border border-zinc-200/80 font-bold text-sm sm:text-md lg:text-lg px-4 py-3.5 sm:px-6 sm:py-4 lg:px-6 lg:py-4 rounded-xl inline-flex items-center gap-2 sm:gap-3 lg:gap-4 shadow-sm transition-shadow duration-200 group"
             >
               <motion.div
@@ -277,7 +271,7 @@ export default function HeroComponent() {
               </motion.div>
               See My Portfolio
             </motion.a>
-          </motion.div>
+          </div>
         </motion.section>
 
       </main>
