@@ -69,7 +69,7 @@ export const NavBody = ({ children, className, visible = true }: NavBodyProps) =
   return (
     <div
       className={cn(
-        "hidden sm:flex w-full bg-white dark:bg-zinc-950 border border-neutral-200/80 dark:border-neutral-800 rounded-lg flex-row items-center justify-between px-4 py-2",
+        "hidden sm:flex w-full bg-white dark:bg-zinc-950 border border-neutral-200/80 dark:border-neutral-800 rounded-lg flex-row items-center justify-between px-4 py-1.5",
         className
       )}
     >
