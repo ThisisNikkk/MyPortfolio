@@ -101,10 +101,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${urbanist.variable} h-full antialiased`}
+      // No h-full: Lenis needs <html> to grow with its content, and a
+      // percentage min-height on <body> would then resolve against auto.
+      className={`${urbanist.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-screen flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <SmoothScrolling>
             <Navbar />

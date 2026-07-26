@@ -1,5 +1,9 @@
 "use client";
 
+// Required by Lenis — without it `html.lenis, html.lenis body { height: auto }`
+// never lands, and a height-constrained <html> gives Lenis a scroll limit far
+// shorter than the page, which stalls scrolling on long pages.
+import "lenis/dist/lenis.css";
 import { ReactLenis, useLenis } from "lenis/react";
 import { ReactNode, useEffect } from "react";
 import { usePathname } from "next/navigation";

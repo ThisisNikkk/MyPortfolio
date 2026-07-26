@@ -19,7 +19,9 @@ export default function ContactPage() {
     const calLink = `https://cal.com/thisisnikk/30min?embed=true&theme=${calTheme}`;
 
     return (
-        <main className="min-h-screen relative flex flex-col items-center justify-start overflow-x-hidden">
+        // overflow-x-clip, not -hidden: `hidden` would compute overflow-y to
+        // auto and make this a nested scroll container competing with Lenis.
+        <main className="min-h-screen relative flex flex-col items-center justify-start overflow-x-clip">
             {/* Background elements */}
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#c6f023]/20 blur-[120px] rounded-full pointer-events-none -z-10" />
             <div className="max-w-6xl w-full mx-auto px-6 pt-32 pb-16 z-10 flex flex-col gap-12">
