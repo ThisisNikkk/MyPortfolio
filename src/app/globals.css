@@ -45,3 +45,19 @@ body,
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+/* About-page photo strip: the track holds the list twice, so shifting it by
+   half its width lands the second copy exactly where the first began. */
+@keyframes about-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.about-marquee-track {
+  animation: about-marquee 45s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-marquee-track {
+    animation: none;
+  }
+}

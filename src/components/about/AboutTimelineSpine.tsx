@@ -2,10 +2,13 @@
 
 import React, { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft, MoveRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { timelineData, stack, values } from "./data";
+import { timelineData, values } from "./data";
+import PhotoMarquee from "./PhotoMarquee";
+import StackMarquee from "./StackMarquee";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -15,7 +18,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * a muted grey. Font family stays Urbanist; accent stays the site lime.
  * ------------------------------------------------------------------ */
 
-const ACCENT = "text-[#8aa617] dark:text-[#c6f023]";
+const ACCENT = "text-[#c6f023]";
 
 function SectionHeading({
     kicker,
@@ -24,7 +27,8 @@ function SectionHeading({
     accent = false,
 }: {
     kicker: string;
-    title: string;
+    /** Plain string, or a mix of nodes for a partially-accented heading. */
+    title: React.ReactNode;
     subtitle: string;
     accent?: boolean;
 }) {
@@ -47,47 +51,101 @@ function SectionHeading({
             >
                 {title}
             </h2>
-            <p className="mt-5 text-base font-normal leading-[1.5] tracking-[-0.16px] text-[#707070] dark:text-zinc-400">
+            <p className="mt-5 text-base font-normal leading-[1.5] tracking-[-0.16px] text-zinc-500 dark:text-zinc-400">
                 {subtitle}
             </p>
         </motion.div>
     );
 }
 
-interface MilestoneProps {
-    side: "left" | "right";
+// Left-column visual for a story row. Falls back to a labelled placeholder
+// frame until a real image is supplied via the item's `visual` field.
+function StoryVisual({ visual }: { visual?: { src: string; alt: string } }) {
+    if (visual?.src) {
+        return (
+            <div className="relative w-full aspect-[4/5] overflow-hidden rounded-[30px] bg-zinc-100 dark:bg-zinc-900 shadow-[0_10px_20px_rgba(0,0,0,0.10)]">
+                <Image src={visual.src} alt={visual.alt} fill className="object-cover" />
+            </div>
+        );
+    }
+    return (
+        <div className="w-full aspect-[4/5] rounded-[30px] border-2 border-dashed border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900/40 flex items-center justify-center">
+            <span className="text-xs font-black uppercase tracking-wider text-zinc-400 dark:text-zinc-600">
+                Add photo
+            </span>
+        </div>
+    );
+}
+
+interface StoryRowProps {
     kicker: string;
+    visual?: { src: string; alt: string };
     children: React.ReactNode;
     index: number;
 }
 
-// A card that hangs off the central spine, alternating sides on desktop.
-// Geometry mirrors the reference: 30px radius, ~50px padding, 26px inner
+// One story beat: a visual and a card flanking the central spine. The visual
+// alternates sides down the list (left, right, left…) so the timeline zigzags.
+// Card geometry mirrors the reference — 30px radius, ~50px padding, 26px inner
 // rhythm, no border, soft drop shadow.
-function Milestone({ side, kicker, children, index }: MilestoneProps) {
-    const isLeft = side === "left";
+//
+// Reveal is scroll-scrubbed rather than a one-shot: opacity and slide are
+// driven by the row's own scroll position, so each side eases in from its edge
+// as the row travels up the viewport.
+function StoryRow({ kicker, visual, children, index }: StoryRowProps) {
+    // Even rows: visual left / card right. Odd rows: the reverse.
+    const visualOnRight = index % 2 === 1;
+
+    const rowRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: rowRef,
+        // 0 when the row's top hits the bottom of the viewport, 1 once its
+        // centre reaches the middle — the reveal completes just before centre.
+        offset: ["start end", "center center"],
+    });
+    const opacity = useTransform(scrollYProgress, [0, 0.75], [0, 1]);
+    const y = useTransform(scrollYProgress, [0, 0.75], [64, 0]);
+    const visualX = useTransform(
+        scrollYProgress,
+        [0, 0.75],
+        [visualOnRight ? 64 : -64, 0]
+    );
+    const cardX = useTransform(
+        scrollYProgress,
+        [0, 0.75],
+        [visualOnRight ? -64 : 64, 0]
+    );
+    const dotScale = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
+
     return (
-        <div className="relative md:grid md:grid-cols-2 md:gap-0 pl-14 md:pl-0">
-            {/* Node dot on the spine */}
+        <div
+            ref={rowRef}
+            className="relative md:grid md:grid-cols-2 md:gap-0 md:items-center pl-14 md:pl-0"
+        >
+            {/* Node dot, centred on the spine. On mobile the 3px track sits at
+                left-[20px] (centre 21.5px); a 16px dot centres there at 13.5px. */}
             <motion.span
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.4, ease: EASE, delay: 0.1 }}
-                className="absolute left-[18px] md:left-1/2 md:-translate-x-1/2 top-10 w-4 h-4 rounded-full bg-[#c6f023] border-[3px] border-white dark:border-zinc-950 z-10"
+                style={{ scale: dotScale }}
+                className="absolute left-[13.5px] md:left-1/2 md:-translate-x-1/2 top-8 md:top-1/2 md:-translate-y-1/2 w-4 h-4 rounded-full bg-[#c6f023] border-[3px] border-white dark:border-zinc-950 z-10"
             />
+
+            {/* Visual */}
+            <motion.div
+                style={{ opacity, x: visualX, y }}
+                className={cn(
+                    "mb-6 md:mb-0",
+                    visualOnRight ? "md:col-start-2 md:ml-12" : "md:col-start-1 md:mr-12"
+                )}
+            >
+                <StoryVisual visual={visual} />
+            </motion.div>
 
             {/* Card */}
             <motion.div
-                initial={{ opacity: 0, x: isLeft ? -40 : 40, y: 20 }}
-                whileInView={{ opacity: 1, x: 0, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6, ease: EASE, delay: index * 0.04 }}
+                style={{ opacity, x: cardX, y }}
                 className={cn(
-                    "flex flex-col gap-[26px] bg-white dark:bg-zinc-900/50 rounded-[30px] p-8 sm:p-12 shadow-[0_10px_20px_rgba(0,0,0,0.10)] dark:shadow-[0_10px_20px_rgba(0,0,0,0.35)] hover:-translate-y-1 hover:shadow-[0_16px_30px_rgba(0,0,0,0.13)] transition-all duration-300",
-                    isLeft
-                        ? "md:col-start-1 md:mr-10 md:text-right"
-                        : "md:col-start-2 md:ml-10"
+                    "md:row-start-1 flex flex-col gap-[26px] bg-white dark:bg-zinc-900/50 rounded-[30px] p-8 sm:p-12 shadow-[0_10px_20px_rgba(0,0,0,0.10)] dark:shadow-[0_10px_20px_rgba(0,0,0,0.35)] hover:shadow-[0_16px_30px_rgba(0,0,0,0.13)] transition-shadow duration-300",
+                    visualOnRight ? "md:col-start-1 md:mr-12" : "md:col-start-2 md:ml-12"
                 )}
             >
                 <span className="text-xs font-black uppercase tracking-[0.15em] text-zinc-500 dark:text-zinc-400">
@@ -109,9 +167,6 @@ export default function AboutTimelineSpine() {
 
     return (
         <main className="min-h-screen relative overflow-x-hidden">
-            {/* Background wash */}
-            <div className="absolute top-[8%] left-1/4 w-96 h-96 bg-[#c6f023]/10 blur-[120px] rounded-full pointer-events-none -z-10" />
-            <div className="absolute bottom-[15%] right-1/4 w-96 h-96 bg-[#c6f023]/5 blur-[120px] rounded-full pointer-events-none -z-10" />
 
             <div className="max-w-5xl w-full mx-auto px-6 pt-28 pb-24">
                 {/* Back */}
@@ -135,15 +190,30 @@ export default function AboutTimelineSpine() {
                     initial={{ opacity: 0, y: 24 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, ease: EASE }}
-                    className="text-3xl sm:text-4xl lg:text-5xl font-black leading-[1.08] tracking-tight text-zinc-900 dark:text-white max-w-3xl mb-28"
+                    className="text-center font-black tracking-[-0.045em] leading-[0.85] text-zinc-900 dark:text-white text-[clamp(3.5rem,15vw,11rem)]"
                 >
-                    Nikhil builds fast, considered cross-platform apps
-                    <br className="hidden sm:block" /> for the people on the other side of the screen
-                    <span className={cn("font-normal", ACCENT)}>
-                        {" "}
-                        — and sweats every detail getting there.
-                    </span>
+                    About me
                 </motion.h1>
+
+                {/* Rule + meta row */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.6, ease: EASE, delay: 0.25 }}
+                    className="mt-14 border-t border-zinc-200 dark:border-zinc-800 pt-5"
+                >
+                    <div className="flex flex-col sm:flex-row sm:justify-between gap-2 text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                        <span>I am a React Native Developer</span>
+                        <span>
+                            Currently building at{" "}
+                            <span className={ACCENT}>SolarioTech</span>
+                        </span>
+                    </div>
+                </motion.div>
+
+                <div className="mt-16 mb-28">
+                    <PhotoMarquee />
+                </div>
 
                 {/* ---------------- MY STORY ---------------- */}
                 <SectionHeading
@@ -162,15 +232,14 @@ export default function AboutTimelineSpine() {
                         className="absolute left-[20px] md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-[3px] bg-[#c6f023] origin-top"
                     />
 
-                    <div className="flex flex-col gap-12">
+                    <div className="flex flex-col gap-16 md:gap-24">
                         {timelineData.map((item, i) => {
                             const isRole = Boolean(item.company);
-                            const alignEnd = i % 2 === 0;
                             return (
-                                <Milestone
+                                <StoryRow
                                     key={i}
-                                    side={alignEnd ? "left" : "right"}
                                     kicker={item.kicker}
+                                    visual={item.visual}
                                     index={i}
                                 >
                                     {/* period + title sit as one tight group */}
@@ -178,12 +247,7 @@ export default function AboutTimelineSpine() {
                                         <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                                             {item.period}
                                         </span>
-                                        <div
-                                            className={cn(
-                                                "flex items-center gap-2.5 flex-wrap",
-                                                alignEnd && "md:justify-end"
-                                            )}
-                                        >
+                                        <div className="flex items-center gap-2.5 flex-wrap">
                                             {isRole && item.logo}
                                             <h3 className="text-xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-snug">
                                                 {isRole ? item.company : item.title}
@@ -196,7 +260,7 @@ export default function AboutTimelineSpine() {
                                         )}
                                     </div>
 
-                                    <p className="text-base font-normal leading-[1.4] tracking-[-0.16px] text-[#707070] dark:text-zinc-400">
+                                    <p className="text-base font-normal leading-[1.4] tracking-[-0.16px] text-zinc-500 dark:text-zinc-400">
                                         {item.description}
                                     </p>
 
@@ -210,7 +274,7 @@ export default function AboutTimelineSpine() {
                                             {item.highlight}
                                         </p>
                                     )}
-                                </Milestone>
+                                </StoryRow>
                             );
                         })}
                     </div>
@@ -222,25 +286,26 @@ export default function AboutTimelineSpine() {
                         kicker="What I bring"
                         title="What I'm good at"
                         subtitle="Building for clarity, speed, and the person on the other side of the screen."
+                        accent
                     />
 
-                    <div className="mt-16 grid sm:grid-cols-2 gap-x-10 gap-y-12">
+                    {/* Boxy grid: dashed dividers on a top+left frame, each cell
+                        closes its right+bottom edge so the lines form one grid. */}
+                    <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 border-t border-l border-dashed border-zinc-300 dark:border-zinc-800">
                         {values.map((v, i) => (
                             <motion.div
                                 key={v.title}
                                 initial={{ opacity: 0, y: 24 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-40px" }}
-                                transition={{ duration: 0.5, ease: EASE, delay: i * 0.06 }}
-                                className="relative pl-16"
+                                transition={{ duration: 0.5, ease: EASE, delay: (i % 3) * 0.06 }}
+                                className="border-r border-b border-dashed border-zinc-300 dark:border-zinc-800 p-8 lg:p-10"
                             >
-                                <div className="absolute left-0 top-0 w-11 h-11 rounded-xl bg-[#c6f023] flex items-center justify-center">
-                                    <v.icon className="w-5 h-5 text-zinc-950" />
-                                </div>
-                                <h4 className="text-xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-snug">
+                                <v.icon className={cn("w-7 h-7", ACCENT)} />
+                                <h4 className="mt-6 text-xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-snug">
                                     {v.title}
                                 </h4>
-                                <p className="mt-3 text-base font-normal leading-[1.5] tracking-[-0.16px] text-[#707070] dark:text-zinc-400">
+                                <p className="mt-3 text-base font-normal leading-[1.5] tracking-[-0.16px] text-zinc-500 dark:text-zinc-400">
                                     {v.text}
                                 </p>
                             </motion.div>
@@ -257,30 +322,9 @@ export default function AboutTimelineSpine() {
                         accent
                     />
 
-                    <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
-                        {stack.map((tool, i) => (
-                            <motion.div
-                                key={`${tool.category}-${tool.name}`}
-                                initial={{ opacity: 0, y: 16 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-30px" }}
-                                transition={{ duration: 0.4, ease: EASE, delay: i * 0.03 }}
-                                className="flex items-center gap-3 rounded-lg p-2.5 hover:bg-white dark:hover:bg-zinc-900/50 transition-colors duration-200"
-                            >
-                                <div className="w-12 h-12 shrink-0 rounded-xl bg-white dark:bg-zinc-900/60 shadow-[0_10px_20px_rgba(0,0,0,0.08)] flex items-center justify-center">
-                                    <tool.icon className="w-5 h-5 text-[#8aa617] dark:text-[#c6f023]" />
-                                </div>
-                                <div className="flex flex-col gap-[5px] min-w-0">
-                                    <span className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white leading-tight truncate">
-                                        {tool.name}
-                                    </span>
-                                    <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 leading-tight">
-                                        {tool.category}
-                                    </span>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
+                </div>
+                <div className="mt-16">
+                    <StackMarquee />
                 </div>
 
                 {/* ---------------- GET IN TOUCH ---------------- */}

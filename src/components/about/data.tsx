@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { Bot, Smartphone, Layers, Monitor, Target, Gauge, Rocket, Code2 } from "lucide-react";
+import { Bot, Smartphone, Layers, Monitor, Target, Gauge, Rocket, Code2, Flag } from "lucide-react";
 
 /* ------------------------------------------------------------------ *
  * Shared content for the About page variants.
@@ -22,6 +22,28 @@ export const SolarioTechLogo = () => <LogoBadge src="/solarioLogo.png" alt="Sola
 export const BluestockLogo = () => <LogoBadge src="/BluestockLogo.webp" alt="Bluestock Fintech Logo" />;
 export const QSpidersLogo = () => <LogoBadge src="/qSpiderLogo.png" alt="QSpiders Logo" />;
 
+export interface PhotoItem {
+    /** Path under /public, e.g. "/photos/hoi-an.jpg". */
+    src: string;
+    alt: string;
+    /** Rendered width in px. */
+    width: number;
+    /** Rendered height in px. Alternate tall and short down the list. */
+    height: number;
+}
+
+/**
+ * Marquee photos for the About hero. Drop images in `public/photos/` and list
+ * them here; the strip hides itself entirely while this is empty.
+ *
+ * Every tile sits on a shared bottom baseline, so height is what creates the
+ * rhythm — alternate roughly 280 and 200 rather than nudging tiles vertically.
+ *
+ * e.g. { src: "/photos/ha-long-bay.jpg", alt: "On a boat in Ha Long Bay",
+ *        width: 210, height: 280 }
+ */
+export const photos: PhotoItem[] = [];
+
 export interface TimelineItem {
     /** Small label above the card — "Early Years", "The Shift", "What I do now". */
     kicker: string;
@@ -35,64 +57,61 @@ export interface TimelineItem {
     description: string;
     /** Optional callout pinned to the bottom of the card. */
     highlight?: string;
+    /** Left-column visual. Omit to render the "Add photo" placeholder frame. */
+    visual?: { src: string; alt: string };
 }
 
 export const timelineData: TimelineItem[] = [
     {
         kicker: "Early Years",
-        period: "TODO — your years",
-        title: "TODO — what pulled you in",
+        period: "Class 3 onward",
+        title: "A PC, and a question I couldn't drop",
         description:
-            "TODO: replace before shipping. Malavika's equivalent covers what she was drawn to long before it was a job — art, movies, making things with her hands. Yours is the stretch before QSpiders: what first made you open a code editor, what you were studying, what you kept building for no reason.",
+            "My dad brought home our first computer when I was in class 3, and I've been taking it apart in my head ever since — how does this actually work, how is the software even made? That question never left. Topping every computer class only turned the volume up, and somewhere in there the goal quietly set itself: I was going to be an engineer.",
+        highlight:
+            "Off-screen I was chasing footballs, new places, and the odd page of writing — proof the curiosity was never only about screens.",
     },
     {
         kicker: "The Shift",
-        period: "TODO — your years",
-        title: "TODO — the turn",
+        period: "B.Tech CSE",
+        title: "College, and the AI reckoning",
         description:
-            "TODO: replace before shipping. Hers is architecture → UX: the moment curiosity about people redirected the craft she already had. Yours is whatever turned casual tinkering into a decision to build software seriously.",
+            "College made the goal official — B.Tech in Computer Science, and a clear target: become the kind of engineer who can actually solve real-world problems. Then the AI wave hit and reset the bar overnight. Skilled but with zero AI to your name? You're cooked. So I dove in headfirst, and the deeper I went, the less it felt like a survival move.",
+        highlight:
+            "What we can genuinely build with AI is unimaginable — that's the moment engineering went from a plan to an obsession.",
     },
     {
-        kicker: "First Contact",
-        period: "Jun 2024 – Jul 2024",
-        title: "Summer Intern",
-        company: "QSpiders",
-        role: "Summer Intern",
-        logo: <QSpidersLogo />,
-        description:
-            "My first real taste of building for people who'd actually use it. That summer I turned HTML, CSS, and JavaScript into responsive interfaces — and found that thoughtful, reusable components could cut our build time by around 20%. That's the moment shipping stopped feeling like a class project and started feeling like something I loved.",
-    },
-    {
-        kicker: "Building With Others",
-        period: "Aug 2024 – Sep 2024",
-        title: "SDE Intern",
+        kicker: "Leading & Shipping",
+        period: "Aug 2024 – Oct 2024",
+        title: "Software Development Intern",
         company: "Bluestock Fintech",
         role: "SDE Intern",
         logo: <BluestockLogo />,
         description:
-            "My first time building alongside a team. Remote from Pune, five of us in an Agile rhythm, I turned Figma designs into a fully responsive IPO platform with HTML, CSS, JavaScript, and Bootstrap. I learned how real products actually come together — and how to write code that plays well with everyone else's.",
+            "My first time owning real product surface — and a team. Remote from Pune, I led a five-person Agile squad to turn Figma designs into a fully responsive IPO platform, then engineered a Node.js REST API to serve live IPO data and RHP/DRHP downloads. Real users, real financial data, real deadlines.",
+        highlight:
+            "Led a 5-person team to ship a best-in-class solution — my first proof that I could own the outcome, not just the code.",
     },
     {
-        kicker: "Going All In",
-        period: "Jun 2025 – Nov 2025",
-        title: "Intern",
-        company: "SolarioTech",
-        role: "Intern",
-        logo: <SolarioTechLogo />,
+        kicker: "What I Built",
+        period: "2024 – 2025",
+        title: "Turning AI into real products",
         description:
-            "This is where everything clicked. Six months, all-in on mobile. I fell for React Native — the idea that one codebase could live on countless phones — and pushed myself from following tutorials to shipping production-ready, cross-platform apps.",
+            "The AI obsession needed an outlet. PrepAI — an AI mock-interview platform (Next.js, Vapi voice AI, Firebase) that runs real-time voice interviews and hands back instant, personalized feedback. CareConnect — a patient-management system with real-time scheduling and Twilio SMS, built on Appwrite. Two products, both aimed at a real problem people actually have.",
+        highlight:
+            "Not toy demos — real products solving real problems with AI. Exactly the engineer I set out to become.",
     },
     {
         kicker: "What I Do Now",
-        period: "Nov 2025 – Present",
+        period: "Jun 2025 – Present",
         title: "React Native Developer",
         company: "SolarioTech",
         role: "React Native Developer",
         logo: <SolarioTechLogo />,
         description:
-            "Today I build scalable, cross-platform mobile apps full-time — and I finally have a real seat in shaping where our products go next. Proof, at least to me, that betting on curiosity pays off.",
+            "This is where the AI obsession met production. I ship real cross-platform apps and websites — Langofunk, MyCareerAssessment, Heal — and build the automation behind them: agentic n8n workflows and a RAG chatbot for SolidAppMaker that together act less like tools and more like an extra team member who never sleeps.",
         highlight:
-            "The internship became a full-time offer — six months in, before the term was up.",
+            "The goal now is to build automation that works like a superhuman — agents and RAG systems quietly doing the work of a whole team.",
     },
 ];
 
@@ -133,19 +152,35 @@ export const groupIcons: Record<string, React.ComponentType<{ className?: string
 
 export interface StackItem {
     name: string;
-    /** The group the tool belongs to — rendered as its subtitle. */
+    /** Subtitle under the name. */
     category: string;
-    icon: React.ComponentType<{ className?: string }>;
+    /**
+     * Logo file under /public/stacks (svg or png). Drop the brand logos there
+     * using these exact filenames. Until a file exists, its tile shows a
+     * lettered monogram, so the section works before the assets land.
+     */
+    logo: string;
 }
 
-/** Flattened one-card-per-tool view of `skillGroups`. */
-export const stack: StackItem[] = skillGroups.flatMap((group) =>
-    group.skills.map((name) => ({
-        name,
-        category: group.label,
-        icon: groupIcons[group.label] ?? Code2,
-    }))
-);
+export const stack: StackItem[] = [
+    { name: "React Native", category: "Mobile", logo: "/stacks/react-native.svg" },
+    { name: "Next.js", category: "Web", logo: "/stacks/nextjs.svg" },
+    { name: "TypeScript", category: "Language", logo: "/stacks/typescript.svg" },
+    { name: "Tailwind CSS", category: "Styling", logo: "/stacks/tailwind.svg" },
+    { name: "Node.js", category: "Backend", logo: "/stacks/nodejs.svg" },
+    { name: "Firebase", category: "Backend", logo: "/stacks/firebase.svg" },
+    { name: "Appwrite", category: "Backend", logo: "/stacks/appwrite.svg" },
+    { name: "Claude", category: "AI", logo: "/stacks/claude.svg" },
+    { name: "OpenAI", category: "AI", logo: "/stacks/openai.svg" },
+    { name: "Cursor", category: "AI", logo: "/stacks/cursor.svg" },
+    { name: "GitHub Copilot", category: "AI", logo: "/stacks/githubcopilot.svg" },
+    { name: "LangChain", category: "AI", logo: "/stacks/langchain.svg" },
+    { name: "Ollama", category: "AI", logo: "/stacks/ollama.svg" },
+    { name: "Hugging Face", category: "AI", logo: "/stacks/huggingface.svg" },
+    { name: "n8n", category: "Automation", logo: "/stacks/n8n.svg" },
+    { name: "Figma", category: "Design", logo: "/stacks/figma.svg" },
+    { name: "Git", category: "Tooling", logo: "/stacks/git.svg" },
+];
 
 export interface ValueItem {
     title: string;
@@ -160,14 +195,24 @@ export const values: ValueItem[] = [
         icon: Target,
     },
     {
-        title: "User-First Thinking",
-        text: "Great software starts with a deep understanding of the person using it, and ends with pixel-perfect execution.",
-        icon: Layers,
+        title: "Turning AI Into Products",
+        text: "Not demos — shipped tools. I take agents, RAG, and automation from a cool idea to something people actually use.",
+        icon: Bot,
     },
     {
         title: "Performance Is a Feature",
         text: "Fast, reliable, and clean. Speed isn't an afterthought — it's the baseline every product deserves.",
         icon: Gauge,
+    },
+    {
+        title: "User-First Thinking",
+        text: "Great software starts with a deep understanding of the person using it, and ends with pixel-perfect execution.",
+        icon: Layers,
+    },
+    {
+        title: "Ownership End-to-End",
+        text: "From idea to shipped, and the outcome after. I take responsibility for the result, not just my slice of it.",
+        icon: Flag,
     },
     {
         title: "Ship, Then Refine",
