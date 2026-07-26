@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { timelineData, values } from "./data";
 import PhotoMarquee from "./PhotoMarquee";
 import StackMarquee from "./StackMarquee";
+import FaqAccordion from "./FaqAccordion";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -20,17 +21,29 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 
 const ACCENT = "text-[#c6f023]";
 
+/**
+ * Lime highlight box for one phrase inside a heading — the same treatment the
+ * homepage hero gives "powerful", scaled down for section headings. The heading
+ * itself stays zinc/white and only the highlighted phrase carries the accent,
+ * rather than tinting the whole line.
+ */
+function Highlight({ children }: { children: React.ReactNode }) {
+    return (
+        <span className="relative inline-block px-3 py-1 mx-0.5 bg-[#c6f023] text-zinc-950 rounded-[6px] md:rounded-[10px] rotate-1 shadow-sm leading-none align-middle">
+            {children}
+        </span>
+    );
+}
+
 function SectionHeading({
     kicker,
     title,
     subtitle,
-    accent = false,
 }: {
     kicker: string;
-    /** Plain string, or a mix of nodes for a partially-accented heading. */
+    /** Wrap the phrase to accent in <Highlight> rather than tinting the lot. */
     title: React.ReactNode;
     subtitle: string;
-    accent?: boolean;
 }) {
     return (
         <motion.div
@@ -43,12 +56,9 @@ function SectionHeading({
             <p className="text-xs font-black uppercase tracking-[0.25em] text-zinc-500 dark:text-zinc-400">
                 {kicker}
             </p>
-            <h2
-                className={cn(
-                    "mt-4 text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.05] tracking-tight",
-                    accent ? ACCENT : "text-zinc-900 dark:text-white"
-                )}
-            >
+            {/* leading-[1.15], not tighter: the highlight box needs the extra
+                room so it can't collide with the line above on wrapped titles. */}
+            <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.15] tracking-tight text-zinc-900 dark:text-white">
                 {title}
             </h2>
             <p className="mt-5 text-base font-normal leading-[1.5] tracking-[-0.16px] text-zinc-500 dark:text-zinc-400">
@@ -60,16 +70,33 @@ function SectionHeading({
 
 // Left-column visual for a story row. Falls back to a labelled placeholder
 // frame until a real image is supplied via the item's `visual` field.
+//
+// Stacked (below md) the frame holds a 4:5 portrait. Side by side it drops the
+// ratio and fills the row instead, so the visual ends up exactly as tall as the
+// card beside it — the card is what sets the row height. `object-cover` absorbs
+// whatever crop that implies.
+const VISUAL_FRAME = "w-full aspect-[4/5] md:aspect-auto md:h-full rounded-[30px]";
+
 function StoryVisual({ visual }: { visual?: { src: string; alt: string } }) {
     if (visual?.src) {
         return (
-            <div className="relative w-full aspect-[4/5] overflow-hidden rounded-[30px] bg-zinc-100 dark:bg-zinc-900 shadow-[0_10px_20px_rgba(0,0,0,0.10)]">
+            <div
+                className={cn(
+                    VISUAL_FRAME,
+                    "relative overflow-hidden bg-zinc-100 dark:bg-zinc-900 shadow-[0_10px_20px_rgba(0,0,0,0.10)]"
+                )}
+            >
                 <Image src={visual.src} alt={visual.alt} fill className="object-cover" />
             </div>
         );
     }
     return (
-        <div className="w-full aspect-[4/5] rounded-[30px] border-2 border-dashed border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900/40 flex items-center justify-center">
+        <div
+            className={cn(
+                VISUAL_FRAME,
+                "border-2 border-dashed border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900/40 flex items-center justify-center"
+            )}
+        >
             <span className="text-xs font-black uppercase tracking-wider text-zinc-400 dark:text-zinc-600">
                 Add photo
             </span>
@@ -120,7 +147,9 @@ function StoryRow({ kicker, visual, children, index }: StoryRowProps) {
     return (
         <div
             ref={rowRef}
-            className="relative md:grid md:grid-cols-2 md:gap-0 md:items-center pl-14 md:pl-0"
+            // No items-center: the columns stretch instead, so the visual takes
+            // its height from the row and matches the card exactly.
+            className="relative md:grid md:grid-cols-2 md:gap-0 md:items-stretch pl-14 md:pl-0"
         >
             {/* Node dot, centred on the spine. On mobile the 3px track sits at
                 left-[20px] (centre 21.5px); a 16px dot centres there at 13.5px. */}
@@ -166,7 +195,11 @@ export default function AboutTimelineSpine() {
     const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
     return (
-        <main className="min-h-screen relative overflow-x-hidden">
+        // overflow-x-clip, not -hidden: `overflow-x: hidden` forces the
+        // computed `overflow-y` to auto, turning this into a nested scroll
+        // container that competes with Lenis. `clip` contains the full-bleed
+        // marquees without creating one.
+        <main className="min-h-screen relative overflow-x-clip">
 
             <div className="max-w-5xl w-full mx-auto px-6 pt-28 pb-24">
                 {/* Back */}
@@ -218,9 +251,8 @@ export default function AboutTimelineSpine() {
                 {/* ---------------- MY STORY ---------------- */}
                 <SectionHeading
                     kicker="Past few years"
-                    title="My Story."
+                    title={<>My <Highlight>Story.</Highlight></>}
                     subtitle="From first curiosity to building cross-platform apps full-time."
-                    accent
                 />
 
                 <div ref={spineRef} className="relative mt-20">
@@ -284,9 +316,8 @@ export default function AboutTimelineSpine() {
                 <div className="mt-32">
                     <SectionHeading
                         kicker="What I bring"
-                        title="What I'm good at"
+                        title={<>What I&apos;m <Highlight>good at</Highlight></>}
                         subtitle="Building for clarity, speed, and the person on the other side of the screen."
-                        accent
                     />
 
                     {/* Boxy grid: dashed dividers on a top+left frame, each cell
@@ -317,9 +348,8 @@ export default function AboutTimelineSpine() {
                 <div className="mt-32">
                     <SectionHeading
                         kicker="How I work"
-                        title="My Stacks."
+                        title={<>My <Highlight>Stacks.</Highlight></>}
                         subtitle="A lightweight stack that carries me from idea to shipped."
-                        accent
                     />
 
                 </div>
@@ -327,11 +357,21 @@ export default function AboutTimelineSpine() {
                     <StackMarquee />
                 </div>
 
+                {/* ---------------- FAQS ---------------- */}
+                <div className="mt-32">
+                    <SectionHeading
+                        kicker="FAQs"
+                        title={<>Got questions? I&apos;ve <Highlight>got answers.</Highlight></>}
+                        subtitle="Everything you need to know — quick answers to the questions I get most."
+                    />
+                    <FaqAccordion />
+                </div>
+
                 {/* ---------------- GET IN TOUCH ---------------- */}
                 <div className="mt-32 text-center">
                     <SectionHeading
                         kicker="Crafted with care"
-                        title="Get in touch"
+                        title={<>Get in <Highlight>touch</Highlight></>}
                         subtitle="Every good story needs a next chapter. If you've got something worth building, let's write it together."
                     />
                     <motion.div

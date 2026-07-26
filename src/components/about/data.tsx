@@ -231,6 +231,44 @@ export const beyondCode: string[] = [
     "Coffee",
 ];
 
+export interface FaqItem {
+    question: string;
+    answer: string;
+}
+
+export const faqs: FaqItem[] = [
+    {
+        question: "What do you actually build?",
+        answer:
+            "Cross-platform mobile apps in React Native and Expo, web products in Next.js, and the AI automation that sits behind them — agentic workflows, RAG chatbots, LLM integrations. Most projects end up being some mix of all three.",
+    },
+    {
+        question: "What kind of work are you best suited to?",
+        answer:
+            "Products that need to ship, not prototypes that need a demo. I'm strongest when I own a surface end to end — design handoff through release — and when there's a real user on the other side of it.",
+    },
+    {
+        question: "How do you actually use AI in a project?",
+        answer:
+            "As infrastructure, not decoration. That means agents that take real work off a team's plate, retrieval over your own data so answers are grounded, and automation wired into the tools you already use. If AI doesn't make the product measurably better, it doesn't go in.",
+    },
+    {
+        question: "How long does a typical project take?",
+        answer:
+            "A focused MVP is usually four to eight weeks. A full product with a real backend, auth, and polish runs longer. I'd rather scope honestly up front than quote fast and renegotiate later.",
+    },
+    {
+        question: "What does working together look like?",
+        answer:
+            "Short cycles and visible progress. We agree on the problem and the shape of the solution, then I ship in slices you can actually click through, so feedback lands while it's still cheap to act on.",
+    },
+    {
+        question: "Are you available for new work?",
+        answer:
+            "I'm building at SolarioTech full-time and take on select freelance projects alongside it. If the problem is interesting and the timeline is realistic, tell me about it.",
+    },
+];
+
 export interface CapabilityNode {
     id: string;
     label: string;
