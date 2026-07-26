@@ -32,8 +32,8 @@ export default function Navbar() {
             <NavBody>
                 <Logo>
                     <div onClick={handleLogoClick} className="cursor-pointer flex items-center">
-                        <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={48} height={48} sizes="48px" className="dark:hidden object-contain" style={{ height: "auto" }} />
-                        <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={48} height={48} sizes="48px" className="hidden dark:block object-contain" style={{ height: "auto" }} />
+                        <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={36} height={36} sizes="36px" className="dark:hidden object-contain" style={{ height: "auto" }} />
+                        <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={36} height={36} sizes="36px" className="hidden dark:block object-contain" style={{ height: "auto" }} />
                     </div>
                 </Logo>
 
@@ -46,7 +46,7 @@ export default function Navbar() {
                                 href={link.link}
                                 onClick={() => setActiveLink(link.name)}
                                 className={cn(
-                                    "px-5 py-2 text-md font-bold uppercase tracking-widest rounded-md transition-all duration-200",
+                                    "px-5 py-1.5 text-md font-bold uppercase tracking-widest rounded-md transition-all duration-200",
                                     isActive
                                         ? "bg-zinc-950 text-white shadow-sm dark:bg-white dark:text-black"
                                         : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/50 dark:text-zinc-400 dark:hover:text-zinc-50 dark:hover:bg-zinc-800/50"

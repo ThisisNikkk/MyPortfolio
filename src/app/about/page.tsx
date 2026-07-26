@@ -1,4 +1,4 @@
-import AboutPageClient from "@/components/AboutPageClient";
+import AboutTimelineSpine from "@/components/about/AboutTimelineSpine";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return <AboutPageClient />;
+  return <AboutTimelineSpine />;
 }
