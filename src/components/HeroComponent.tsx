@@ -130,11 +130,6 @@ export default function HeroComponent() {
   return (
     <div className="relative min-h-screen w-full antialiased overflow-hidden flex items-center justify-center pt-32 pb-16 md:pt-36 md:pb-24 lg:pt-10 lg:pb-0 lg:sticky lg:top-0 z-10">
 
-      {/* Subtle Ambient Glow - Hidden on mobile to prevent GPU lag */}
-      <div
-        className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40vw] h-[40vw] max-w-[600px] max-h-[600px] bg-[#c6f023]/5 blur-[120px] rounded-full pointer-events-none -z-10"
-      />
-
       {/* Main Container */}
       <main className="max-w-6xl w-full mx-auto px-6 flex flex-col gap-12 md:gap-16 items-center text-center">
 
