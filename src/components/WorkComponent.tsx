@@ -51,14 +51,14 @@ const ProjectCard = ({ project }: { project: any }) => {
                 >
                     {/* Placeholder for actual image - replace this div with next/image */}
                     <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:24px_24px]" />
-
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-zinc-950/20 backdrop-blur-sm z-10">
-                        <div className="bg-white text-zinc-950 px-6 py-3 rounded-full font-bold text-sm flex items-center gap-2 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 ease-out shadow-xl">
-                            View Project <ArrowUpRight className="w-4 h-4" />
-                        </div>
-                    </div>
                 </motion.div>
+
+                {/* Hover Overlay - kept outside the parallax layer so it stays centred while scrolling */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-zinc-950/20 backdrop-blur-sm z-10">
+                    <div className="bg-white text-zinc-950 px-6 py-3 rounded-full font-bold text-sm flex items-center gap-2 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500 ease-out shadow-xl">
+                        View Project <ArrowUpRight className="w-4 h-4" />
+                    </div>
+                </div>
             </Link>
         </motion.div>
     );
