@@ -17,7 +17,7 @@ export default function ProjectMockup({ projectId }: ProjectMockupProps) {
   const imageSrc = project.mockupImage || `/projects/project-${project.id}.png`;
 
   return (
-    <div className="w-full aspect-[16/10] rounded-[32px] overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl relative group">
+    <div className="w-full aspect-[16/10] rounded-[30px] overflow-hidden bg-zinc-100 dark:bg-zinc-900 shadow-[0_10px_20px_rgba(0,0,0,0.10)] dark:shadow-[0_10px_20px_rgba(0,0,0,0.35)] relative group">
       {/* Background gradient style */}
       <div className={cn("absolute inset-0 bg-gradient-to-br opacity-50 z-0", project.color)} />
 
