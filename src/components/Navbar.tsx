@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Navbar as ResizableNavbar,
     MobileNav,
@@ -9,32 +9,55 @@ import {
 } from "./ui/resizable-navbar";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./ThemeToggle";
 
+const links = [
+    { name: "Home", link: "/" },
+    { name: "About", link: "/about" },
+    { name: "Work", link: "/#work" },
+    { name: "Contact", link: "/contact" },
+];
+
+const hashOf = (href: string) => {
+    const i = href.indexOf("#");
+    return i === -1 ? "" : href.slice(i);
+};
+
 export default function Navbar() {
-    const [activeLink, setActiveLink] = useState("Home");
+    const pathname = usePathname();
+    // usePathname drops the fragment, so "Work" (/#work) needs the hash tracked separately
+    const [hash, setHash] = useState("");
 
-    const links = [
-        { name: "Home", link: "/" },
-        { name: "About", link: "/about" },
-        { name: "Work", link: "/#work" },
-        { name: "Contact", link: "/contact" },
-    ];
+    useEffect(() => {
+        const syncHash = () => setHash(window.location.hash);
+        // covers direct loads and browser back/forward; in-app clicks set it eagerly below
+        syncHash();
+        window.addEventListener("hashchange", syncHash);
+        window.addEventListener("popstate", syncHash);
+        return () => {
+            window.removeEventListener("hashchange", syncHash);
+            window.removeEventListener("popstate", syncHash);
+        };
+    }, [pathname]);
 
-    const handleLogoClick = () => {
-        setActiveLink("Home");
-        window.location.href = "/";
-    };
+    const activeLink = (() => {
+        if (pathname.startsWith("/about")) return "About";
+        if (pathname.startsWith("/contact")) return "Contact";
+        if (pathname.startsWith("/projects")) return "Work";
+        if (pathname === "/") return hash === "#work" ? "Work" : "Home";
+        return null;
+    })();
 
     return (
         <ResizableNavbar>
             <NavBody>
                 <Logo>
-                    <div onClick={handleLogoClick} className="cursor-pointer flex items-center">
+                    <Link href="/" onClick={() => setHash("")} className="cursor-pointer flex items-center">
                         <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={36} height={36} sizes="36px" className="dark:hidden object-contain" style={{ height: "auto" }} />
                         <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={36} height={36} sizes="36px" className="hidden dark:block object-contain" style={{ height: "auto" }} />
-                    </div>
+                    </Link>
                 </Logo>
 
                 <NavItems>
@@ -44,7 +67,7 @@ export default function Navbar() {
                             <Link
                                 key={idx}
                                 href={link.link}
-                                onClick={() => setActiveLink(link.name)}
+                                onClick={() => setHash(hashOf(link.link))}
                                 className={cn(
                                     "px-5 py-1.5 text-md font-bold uppercase tracking-widest rounded-md transition-all duration-200",
                                     isActive
@@ -64,10 +87,10 @@ export default function Navbar() {
 
             <MobileNav>
                 <Logo>
-                    <div onClick={handleLogoClick} className="cursor-pointer flex items-center">
+                    <Link href="/" onClick={() => setHash("")} className="cursor-pointer flex items-center">
                         <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="dark:hidden object-contain" style={{ height: "auto" }} />
                         <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="hidden dark:block object-contain" style={{ height: "auto" }} />
-                    </div>
+                    </Link>
                 </Logo>
                 {links.map((link, idx) => {
                     const isActive = activeLink === link.name;
@@ -75,7 +98,7 @@ export default function Navbar() {
                         <Link
                             key={idx}
                             href={link.link}
-                            onClick={() => setActiveLink(link.name)}
+                            onClick={() => setHash(hashOf(link.link))}
                             className={cn(
                                 "w-full px-5 py-2.5 text-xs font-bold uppercase tracking-widest rounded-md transition-all duration-200 text-center",
                                 isActive
