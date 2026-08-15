@@ -14,6 +14,8 @@ export interface Project {
   category: string;
   color: string;
   mockupImage?: string;
+  mockupImages?: string[];
+  mockupImagesFramed?: boolean;
   caseStudy?: {
     overview: string;
     sections: CaseStudySection[];
@@ -21,74 +23,51 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  // Web Design
   {
     id: 1,
-    title: "GlobalPay",
-    description: "A complete overhaul of the merchant payment experience and transaction gateway architecture",
-    category: "Product Designs",
+    title: "Heal",
+    description: "A mental wellness platform guiding users through a five-step healing journey — Discover, Reflect, Act, Track, Grow — with daily check-ins, an AI companion, and a calm, low-noise interface.",
+    category: "Web Design",
     color: "from-zinc-800 to-zinc-900",
+    mockupImage: "/projects/project-1-hand.png",
+    mockupImages: ["/projects/project-1-inside.png"],
     caseStudy: {
-      overview: "GlobalPay is a merchant payment experience and transaction gateway architecture designed to simplify high-volume transactions for global businesses.",
+      overview: "Heal is a mental wellness platform built around a five-step healing journey. Guided daily check-ins, a private journal with mood tagging, an AI companion, curated quotes, and challenge-based modules give users a structured, low-friction way to build emotional awareness over time — tracked through a calendar-based progress path.",
       sections: [
         {
           title: "Problem",
-          description: "Merchants faced high transaction failure rates, slow onboarding processing times, and complex settlement reconciliations, leading to significant churn.",
+          description: "Most wellness apps present users with an open-ended blank slate — a journal with no prompts, a mood tracker with no context — which asks for more emotional labor than someone in a low moment can give.",
           points: [
             {
-              title: "High Churn Rates",
-              text: "Confusing payment workflows led to cart abandonment and merchant frustration."
+              title: "No Clear Starting Point",
+              text: "Generic journaling and mood-tracking tools drop users into an empty screen with no guidance on where to begin."
             },
             {
-              title: "Integration Latency",
-              text: "Onboarding a new merchant took up to 14 business days due to legacy KYC document processing."
-            }
-          ]
-        },
-        {
-          title: "Research",
-          description: "I combined qualitative and quantitative methods to understand the gap between the existing system and merchant needs.",
-          points: [
-            {
-              title: "Online Merchant Surveys",
-              text: "I gathered direct feedback from business owners to identify specific pain points in their daily payment processing workflows."
-            },
-            {
-              title: "Stakeholder Documentation Analysis",
-              text: "I analyzed internal performance reports to pinpoint technical bottlenecks and architectural failures in the previous application."
-            },
-            {
-              title: "Competitive Benchmarking",
-              text: "I conducted a UX and visual design analysis of competing payment apps to identify industry strengths and opportunities for differentiation."
-            },
-            {
-              title: "User Consensus",
-              text: "Research confirmed that while automation was necessary for scale, merchants would only adopt it if the experience felt natural and aligned with their specific brand voice."
+              title: "Cluttered, Clinical Interfaces",
+              text: "Existing apps lean heavily on charts and dense navigation, which reads as clinical rather than calming for someone seeking emotional support."
             }
           ]
         },
         {
           title: "Solution",
-          description: "I designed a scalable payment gateway that prioritizes technical reliability and user autonomy through a high-performance, modular interface.",
+          description: "I designed the product around a five-step journey — Discover, Reflect, Act, Track, Grow — so every screen has a clear next action instead of an open-ended blank state.",
           points: [
             {
-              title: "Progressive Disclosure Activation",
-              text: "I implemented a step-by-step activation flow to prevent cognitive overload, ensuring a fast and intuitive onboarding process for new merchants."
+              title: "Guided Onboarding",
+              text: "A short, conversational intake (What brings you here? How have you been feeling? What would you like to feel more of?) personalizes the experience before the user ever sees an empty journal."
             },
             {
-              title: "Error Visibility and Navigation",
-              text: "The interface provides clear feedback on user errors and simplified navigation, allowing merchants to troubleshoot and manage transactions with minimal friction."
+              title: "Structured Daily Check-Ins",
+              text: "Simple, prompted questions replace the blank page, helping users name what they feel and why, one day at a time."
             },
             {
-              title: "Data-Driven Revenue Insights",
-              text: "I integrated clear, understandable revenue graphs that provide businesses with immediate visibility into their financial performance and global reach."
+              title: "AI Companion & Modules",
+              text: "A conversational AI companion (\"Talk\") and topic-based challenge modules give users something to act on between reflection sessions."
             },
             {
-              title: "Minimal Interaction Cost",
-              text: "The redesign reduces the number of clicks required to achieve key goals, streamlining the daily operations for high-volume teams."
-            },
-            {
-              title: "Scalable Design System",
-              text: "I built the product using a modular design system in Figma, ensuring that new features can be plugged in seamlessly without requiring a complete redesign."
+              title: "Quiet Mode",
+              text: "A softer interface variant strips back visual noise for nightly reflection, keeping the calm-first design promise even in low-energy moments."
             }
           ]
         }
@@ -97,52 +76,48 @@ export const projects: Project[] = [
   },
   {
     id: 2,
-    title: "Nova Dashboard",
-    description: "Modern SaaS admin panel with comprehensive data visualization and user management.",
-    category: "Product Designs",
+    title: "LangoFunk",
+    description: "A language-learning app that turns streamed songs into interactive lessons — tap a lyric for an instant translation and build vocabulary one track at a time.",
+    category: "Web Design",
     color: "from-zinc-900 to-zinc-800",
+    mockupImage: "/projects/project-2-hand.png",
+    mockupImages: ["/projects/project-2-inside.png"],
     caseStudy: {
-      overview: "Nova Dashboard provides clean, real-time metrics and analytics tracking for modern SaaS operations, optimizing data density without sacrificing readability.",
+      overview: "LangoFunk teaches vocabulary through music people already listen to. Songs pull in from Spotify or a global catalog with synced lyrics; tapping any word gives an instant, in-context translation, and an AI coach (\"Papa Funk\") adds practice and slang lessons on top.",
       sections: [
         {
           title: "Problem",
-          description: "SaaS administrators were overwhelmed by cluttered charts and poorly categorized alert metrics, leading to critical server events being missed.",
+          description: "Traditional language apps ask users to sit down and drill flashcards in a dedicated study session — a habit that's easy to start and hard to keep up.",
           points: [
             {
-              title: "Cognitive Overhead",
-              text: "Too many dashboard widgets displayed at once without clear semantic grouping."
+              title: "Study Feels Like a Chore",
+              text: "Flashcard and drill-based apps compete for a separate block of a user's time instead of living inside something they already do daily."
             },
             {
-              title: "Slow Alerting Response",
-              text: "Crucial system threshold alerts were buried under routine monitoring events."
-            }
-          ]
-        },
-        {
-          title: "Research",
-          description: "Analyzing user behavior on dashboards revealed that cognitive overload was the main barrier to effective data monitoring.",
-          points: [
-            {
-              title: "Heatmap Analytics",
-              text: "Using usage heatmaps, I tracked where administrators spent most of their time and identified visual clutter that delayed decision-making."
-            },
-            {
-              title: "User Interviews",
-              text: "Conducted interviews with SaaS administrators to understand their daily monitoring routines and critical alert priorities."
+              title: "Vocabulary Without Context",
+              text: "Word lists learned in isolation rarely stick, since there's no emotional or situational hook tying the word to a memory."
             }
           ]
         },
         {
           title: "Solution",
-          description: "An elegant, grid-based dashboard layout focusing on clean charts, consistent spacing, and progressive disclosure.",
+          description: "I designed the experience around tapping into an existing habit — listening to music — so learning happens passively, one lyric at a time.",
           points: [
             {
-              title: "Bento Grid Layout",
-              text: "Structured information hierarchy using a modern bento-style card design to segment different metrics cleanly."
+              title: "Tap-to-Translate Lyrics",
+              text: "Synced lyrics let users tap any unfamiliar word mid-song for an instant, in-context translation rather than an isolated flashcard."
             },
             {
-              title: "Accessible Data Visualization",
-              text: "Designed customized charts using a restricted color palette to meet contrast criteria while keeping visual noise low."
+              title: "Spotify-Connected Catalog",
+              text: "Pulling in a user's own playlists (or a global chart) means the learning material is music they already chose to listen to."
+            },
+            {
+              title: "New → Known Word Tracking",
+              text: "Words visually progress from 'New' to 'Known' as users re-encounter them, giving a lightweight sense of mastery without a formal quiz."
+            },
+            {
+              title: "Papa Funk AI Coach",
+              text: "An AI language coach layers in slang, practice prompts, and personalized recommendations on top of the songs a user streams."
             }
           ]
         }
@@ -151,164 +126,188 @@ export const projects: Project[] = [
   },
   {
     id: 3,
-    title: "Webflow Portfolio",
-    description: "High-performance creative portfolio with smooth WebGL scroll interactions.",
-    category: "Web Designs",
+    title: "MyCareerAssessment",
+    description: "A 25-question career readiness quiz that scores users across five dimensions and hands back a personalized action plan instead of a generic report.",
+    category: "Web Design",
     color: "from-zinc-800 to-zinc-950",
+    mockupImage: "/projects/project-3-hand.png",
+    mockupImages: ["/projects/project-3-inside.png"],
     caseStudy: {
-      overview: "A premium, creative portfolio focusing on fluid performance and seamless transition effects built for modern web design agencies.",
+      overview: "MyCareerAssessment is a quiz-driven career readiness tool. Users answer 25 questions, get scored across five dimensions — Clarity, Ownership, Curiosity, Confidence, and Network & Visibility — and land on a personalized action plan instead of a generic \"here's your result\" page.",
       sections: [
         {
           title: "Problem",
-          description: "Creative websites often compromise on initial page loads and performance metrics when incorporating complex scrolling animation designs.",
+          description: "Most online career quizzes end at a single score or label, leaving the user with a data point but no idea what to actually do next.",
           points: [
             {
-              title: "High Bounce Rates",
-              text: "Slow loading states due to unoptimized 3D visual assets and uncompressed textures."
+              title: "Score Without a Next Step",
+              text: "Generic assessments hand back a number or label and stop there, offering no concrete plan for what to do with the result."
             },
             {
-              title: "Jittery Transitions",
-              text: "Animations felt choppy on medium-spec and mobile screen displays."
-            }
-          ]
-        },
-        {
-          title: "Research",
-          description: "Creative websites often suffer from poor performance due to unoptimized animations and heavy assets.",
-          points: [
-            {
-              title: "Performance Auditing",
-              text: "Audited existing creative sites to understand layout shifts and paint times on low-end mobile devices."
-            },
-            {
-              title: "Interaction Studies",
-              text: "Researched scroll behaviors to balance visual excitement (WebGL/Parallax) with usability and layout stability."
+              title: "One-Dimensional Scoring",
+              text: "Career readiness collapses into a single axis in most tools, hiding whether the real gap is confidence, direction, or visibility."
             }
           ]
         },
         {
           title: "Solution",
-          description: "A highly optimized frontend experience combining smooth scroll libraries and hardware-accelerated transforms.",
+          description: "I designed the flow around five distinct dimensions and a results page built to feel like a personalized action plan rather than a static report.",
           points: [
             {
-              title: "Lenis Integration",
-              text: "Implemented a smooth-scrolling wrapper that aligns with native scroll behaviors while providing customized acceleration."
+              title: "Five-Dimension Framework",
+              text: "Clarity, Ownership, Curiosity, Confidence, and Network & Visibility are scored separately, so the result points to a specific gap rather than a single vague number."
             },
             {
-              title: "Asset Optimization",
-              text: "Leveraged modern video formats and WebP imagery combined with lazy loading to achieve a near-perfect Lighthouse score."
+              title: "25-Question Flow",
+              text: "A short, focused question set keeps completion friction low while still covering all five dimensions in enough depth to score meaningfully."
+            },
+            {
+              title: "Personalized Action Plan",
+              text: "The results page translates each dimension score into a concrete next step, so the takeaway is a plan rather than just a label."
             }
           ]
         }
       ]
     }
   },
-  {
-    id: 4,
-    title: "Aura Mood Tracker",
-    description: "Vibrant, interaction-heavy iOS app for tracking daily sentiment and energy levels.",
-    category: "Vibe-Coded Projects",
-    color: "from-zinc-950 to-zinc-800",
-    caseStudy: {
-      overview: "Aura is a vibrant mobile mood-tracking experience that uses generative colors and micro-interactions to make journal entry engaging.",
-      sections: [
-        {
-          title: "Problem",
-          description: "Existing mood trackers are dry, text-heavy, and feel like homework, resulting in very low user retention after the first week.",
-          points: [
-            {
-              title: "Friction in Logging",
-              text: "Requiring multiple form fields and text notes just to track a mood."
-            },
-            {
-              title: "Sterile Interfaces",
-              text: "Lacked visual interest or empathetic response styles."
-            }
-          ]
-        },
-        {
-          title: "Research",
-          description: "Investigated habit formation and emotional tracking app retention patterns.",
-          points: [
-            {
-              title: "Retention Modeling",
-              text: "Found that friction during journal onboarding is the primary reason why users abandon tracking apps within 3 days."
-            },
-            {
-              title: "Vibe / Sentiment Testing",
-              text: "Discovered that users respond better to warm, fluid color gradients that shift dynamically with their selected moods."
-            }
-          ]
-        },
-        {
-          title: "Solution",
-          description: "An interactive diary featuring fluid liquid-mesh designs, haptic responses, and swipe-based navigation.",
-          points: [
-            {
-              title: "Generative Colors",
-              text: "Built a dynamic shader overlay that morphs gradients according to the balance of daily journal entries."
-            },
-            {
-              title: "Zero-Keyboard Input",
-              text: "Replaced heavy typing tasks with interactive wheels and sliders, making mood logging take less than 5 seconds."
-            }
-          ]
-        }
-      ]
-    }
-  },
+  // Mobile Applications
   {
     id: 5,
-    title: "AI Search Analytics",
-    description: "Real-time React dashboard for AI agent query tracing and performance monitoring.",
-    category: "React-Coded Projects",
+    title: "LittleBirdi",
+    description: "A map-first local discovery app that scores cafes, bars, restaurants, and boutiques, and layers in a social feed of what friends have actually been to.",
+    category: "Mobile Applications",
     color: "from-zinc-800 to-zinc-900",
+    mockupImage: "/projects/project-5-hand.png",
+    mockupImages: [
+      "/projects/project-5-0.png",
+      "/projects/project-5-1.png",
+      "/projects/project-5-2.png",
+    ],
+    mockupImagesFramed: true,
     caseStudy: {
-      overview: "AI Search Analytics tracks agent decision trees, latency metrics, and API call logs to help engineers optimize model performance.",
+      overview: "LittleBirdi is a local discovery app built around a map: search a city, filter by category (cafe, bar, restaurant, boutique), and browse curated spots ranked by a proprietary Little Birdi Score. A social layer — followers, following, and a 'Social Buzz' photo feed — pulls in what people you follow have actually been eating and drinking.",
       sections: [
         {
           title: "Problem",
-          description: "ML developers lacked trace visibility into multi-step agent decisions, making query execution errors extremely difficult to diagnose.",
+          description: "Most discovery apps force a choice: a map for finding what's nearby, or a feed for trusting what's actually good — rarely both in the same flow.",
           points: [
             {
-              title: "Opaque Agent Loops",
-              text: "LLM routing decisions occurred in black-box environments with no temporal inspection."
+              title: "Star Ratings Don't Differentiate",
+              text: "A generic 4.2-star average doesn't tell you whether a spot is trending right now or just accumulating old reviews."
             },
             {
-              title: "Cluttered Raw Logs",
-              text: "Flat text dumps was the only logging mechanism, forcing devs to read thousands of lines of output."
-            }
-          ]
-        },
-        {
-          title: "Research",
-          description: "Studied technical debugging practices in agentic systems.",
-          points: [
-            {
-              title: "Developer Workflows",
-              text: "Conducted contextual inquiries with ML engineers to trace how they diagnose execution loop failures."
-            },
-            {
-              title: "Visualizing Complexity",
-              text: "Noticed developers struggled to read flat JSON logs when looking at dynamic, branching LLM decision trees."
+              title: "No Social Trust Signal",
+              text: "Map-first apps show pins, not people — there's no way to see what places your own network is actually visiting."
             }
           ]
         },
         {
           title: "Solution",
-          description: "An intuitive tree visualization dashboard that shows real-time routing paths and performance bottlenecks.",
+          description: "I designed the app around a single map-based discovery flow, layering a proprietary score and a friends' activity feed on top instead of bolting on a separate social tab.",
           points: [
             {
-              title: "Dynamic Graph Renderers",
-              text: "Implemented custom canvas nodes to render complex model logic paths without blocking UI responsiveness."
+              title: "Category-Filtered Map Search",
+              text: "Location search with one-tap category filters (Cafe, Bar, Restaurant, Boutique) keeps discovery anchored to where the user actually is."
             },
             {
-              title: "Timeline Scrubber",
-              text: "Designed a temporal slider to let developers step backward and forward through LLM execution steps."
+              title: "Little Birdi Score & Trending",
+              text: "Each curated spot carries a proprietary score plus a live 'trending now' count, giving a faster trust signal than a plain star rating."
+            },
+            {
+              title: "Social Buzz Feed",
+              text: "A profile-level feed of followers, following, and friends' own photos ties recommendations back to people the user actually trusts."
             }
           ]
         }
       ]
     }
-  }
+  },
+  {
+    id: 6,
+    title: "WatchDock",
+    description: "A streaming aggregator that pulls movies and TV series into one hub, with a group quiz mode built for the age-old 'what should we watch' standoff.",
+    category: "Mobile Applications",
+    color: "from-zinc-900 to-zinc-800",
+    mockupImage: "/projects/project-6-hand.png",
+    mockupImages: [
+      "/projects/project-6-onboarding.png",
+      "/projects/project-6-hub.png",
+      "/projects/project-6-theater.png",
+    ],
+    mockupImagesFramed: true,
+    caseStudy: {
+      overview: "WatchDock centralizes movies and TV series across streaming platforms and rentals into one searchable hub, organized into Trending, Watchlist, Hub, Theater, and For You tabs. A quiz-driven 'decide together' flow sits on top, turning group indecision into a quick pick.",
+      sections: [
+        {
+          title: "Problem",
+          description: "Content is scattered across separate apps per platform, and picking something to watch as a couple or group usually means scrolling every app back and forth until someone gives up.",
+          points: [
+            {
+              title: "Content Scattered Across Apps",
+              text: "Movies and shows live in separate platform apps, so there's no single place to search or browse everything available to a user."
+            },
+            {
+              title: "Group Decisions Stall Out",
+              text: "Deciding what to watch together usually means passing a phone back and forth with no structured way to land on a pick."
+            }
+          ]
+        },
+        {
+          title: "Solution",
+          description: "I designed a single hub for browsing across platforms, plus a lightweight quiz flow that turns picking a movie together into an actual feature instead of an afterthought.",
+          points: [
+            {
+              title: "Unified Movie & Series Hub",
+              text: "All Movies and All TV Series rails aggregate content in one searchable feed, with an 'all content' toggle to include rentals and other platforms."
+            },
+            {
+              title: "Decide-Together Quiz",
+              text: "An onboarding-level quiz flow lets a couple or group answer a few prompts and land on a genre or pick instead of scrolling indefinitely."
+            },
+            {
+              title: "Theater Release Calendar",
+              text: "A dated timeline of upcoming premieres keeps users ahead of what's landing next, not just what's already out."
+            }
+          ]
+        }
+      ]
+    }
+  },
+
+  // AI Projects
+  {
+    id: 7,
+    title: "Daisy SuperHuman Chat Bot",
+    description: "",
+    category: "AI Projects",
+    color: "from-zinc-800 to-zinc-950",
+  },
+  {
+    id: 8,
+    title: "Onboarding Automation Workflow",
+    description: "",
+    category: "Agentic Workflow",
+    color: "from-zinc-950 to-zinc-800",
+  },
+  {
+    id: 9,
+    title: "Asset Management Automation Workflow",
+    description: "",
+    category: "Agentic Workflow",
+    color: "from-zinc-800 to-zinc-900",
+  },
+  {
+    id: 10,
+    title: "Project KickOff Automation Workflow",
+    description: "",
+    category: "Agentic Workflow",
+    color: "from-zinc-900 to-zinc-800",
+  },
+  {
+    id: 11,
+    title: "Thumbnail Generator Automation Workflow",
+    description: "",
+    category: "Agentic Workflow",
+    color: "from-zinc-800 to-zinc-950",
+  },
 ];

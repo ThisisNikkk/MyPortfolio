@@ -5,13 +5,14 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useLenis } from "lenis/react";
 import { projects } from "@/data/projects";
 
 const categories = [
-    "Product Designs",
-    "Web Designs",
-    "Vibe-Coded Projects",
-    "React-Coded Projects",
+    "Web Design",
+    "Mobile Applications",
+    "AI Projects",
+    "Agentic Workflow",
 ];
 
 const ProjectCard = ({ project }: { project: any }) => {
@@ -33,15 +34,13 @@ const ProjectCard = ({ project }: { project: any }) => {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col gap-4 mb-16 lg:mb-24 group"
         >
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2 mb-2">
-                <div>
-                    <h3 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white mb-2 tracking-tight">
-                        {project.title}
-                    </h3>
-                    <p className="text-zinc-500 dark:text-zinc-400 text-sm sm:text-base max-w-md leading-relaxed">
-                        {project.description}
-                    </p>
-                </div>
+            <div className="flex flex-col gap-2 mb-2">
+                <h3 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white mb-2 tracking-tight">
+                    {project.title}
+                </h3>
+                <p className="w-full text-zinc-500 dark:text-zinc-400 text-sm sm:text-base leading-relaxed">
+                    {project.description}
+                </p>
             </div>
 
             <Link href={`/projects/${project.id}`} className="block relative w-full aspect-[4/3] sm:aspect-[16/10] rounded-[32px] overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 cursor-pointer shadow-sm group-hover:shadow-md transition-shadow duration-300">
@@ -49,9 +48,17 @@ const ProjectCard = ({ project }: { project: any }) => {
                     style={{ y }}
                     className={cn("absolute -inset-[15%] bg-gradient-to-br w-[130%] h-[130%]", project.color)}
                 >
-                    {/* Placeholder for actual image - replace this div with next/image */}
+                    {/* Placeholder shown behind the image, and alone when no mockupImage exists yet */}
                     <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:24px_24px]" />
                 </motion.div>
+
+                {project.mockupImage && (
+                    <img
+                        src={project.mockupImage}
+                        alt={`${project.title} preview`}
+                        className="absolute inset-0 w-full h-full object-cover z-[5]"
+                    />
+                )}
 
                 {/* Hover Overlay - kept outside the parallax layer so it stays centred while scrolling */}
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-zinc-950/20 backdrop-blur-sm z-10">
@@ -66,8 +73,21 @@ const ProjectCard = ({ project }: { project: any }) => {
 
 export default function WorkComponent() {
     const [activeCategory, setActiveCategory] = useState(categories[0]);
+    const lenis = useLenis();
 
     const filteredProjects = projects.filter(p => p.category === activeCategory);
+
+    // Switching category swaps in a shorter/taller list than whatever the
+    // user had scrolled through, so snap back to the top of the section —
+    // otherwise a pick made near the bottom leaves the new list's cards
+    // scrolled out of view.
+    const handleCategoryClick = (cat: string) => {
+        setActiveCategory(cat);
+        const section = document.getElementById("work");
+        if (section) {
+            lenis?.scrollTo(section, { offset: -32, duration: 1 });
+        }
+    };
 
     return (
         <section
@@ -119,7 +139,7 @@ export default function WorkComponent() {
                                     return (
                                         <button
                                             key={cat}
-                                            onClick={() => setActiveCategory(cat)}
+                                            onClick={() => handleCategoryClick(cat)}
                                             className={cn(
                                                 "px-5 py-2.5 rounded-full text-sm sm:text-base font-bold transition-colors duration-300 relative whitespace-nowrap",
                                                 isActive

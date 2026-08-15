@@ -188,7 +188,12 @@ export default function ProjectCaseStudyClient({ project, children }: ClientProp
             {/* Chapter index — derived from the sections themselves, so it can
                 never fall out of step with what's actually below. */}
             {sections.length > 0 && (
-              <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 border-t border-l border-dashed border-zinc-300 dark:border-zinc-800">
+              <div
+                className={cn(
+                  "mt-16 grid border-t border-l border-dashed border-zinc-300 dark:border-zinc-800",
+                  sections.length >= 3 ? "sm:grid-cols-2 lg:grid-cols-3" : "sm:grid-cols-2"
+                )}
+              >
                 {sections.map((sec, i) => (
                   <motion.div
                     key={sec.title}

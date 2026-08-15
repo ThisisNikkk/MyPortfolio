@@ -20,7 +20,6 @@ const LogoBadge = ({ src, alt }: { src: string; alt: string }) => (
 
 export const SolarioTechLogo = () => <LogoBadge src="/solarioLogo.png" alt="SolarioTech Logo" />;
 export const BluestockLogo = () => <LogoBadge src="/BluestockLogo.webp" alt="Bluestock Fintech Logo" />;
-export const QSpidersLogo = () => <LogoBadge src="/qSpiderLogo.png" alt="QSpiders Logo" />;
 
 export interface PhotoItem {
     /** Path under /public, e.g. "/photos/hoi-an.jpg". */
