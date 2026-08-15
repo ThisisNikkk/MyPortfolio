@@ -30,8 +30,8 @@ export const projects: Project[] = [
     description: "A mental wellness platform guiding users through a five-step healing journey — Discover, Reflect, Act, Track, Grow — with daily check-ins, an AI companion, and a calm, low-noise interface.",
     category: "Web Design",
     color: "from-zinc-800 to-zinc-900",
-    mockupImage: "/projects/project-1-hand.png",
-    mockupImages: ["/projects/project-1-inside.png"],
+    mockupImage: "/projects/project-1-hand.webp",
+    mockupImages: ["/projects/project-1-inside.webp"],
     caseStudy: {
       overview: "Heal is a mental wellness platform built around a five-step healing journey. Guided daily check-ins, a private journal with mood tagging, an AI companion, curated quotes, and challenge-based modules give users a structured, low-friction way to build emotional awareness over time — tracked through a calendar-based progress path.",
       sections: [
@@ -80,8 +80,8 @@ export const projects: Project[] = [
     description: "A language-learning app that turns streamed songs into interactive lessons — tap a lyric for an instant translation and build vocabulary one track at a time.",
     category: "Web Design",
     color: "from-zinc-900 to-zinc-800",
-    mockupImage: "/projects/project-2-hand.png",
-    mockupImages: ["/projects/project-2-inside.png"],
+    mockupImage: "/projects/project-2-hand.webp",
+    mockupImages: ["/projects/project-2-inside.webp"],
     caseStudy: {
       overview: "LangoFunk teaches vocabulary through music people already listen to. Songs pull in from Spotify or a global catalog with synced lyrics; tapping any word gives an instant, in-context translation, and an AI coach (\"Papa Funk\") adds practice and slang lessons on top.",
       sections: [
@@ -130,8 +130,8 @@ export const projects: Project[] = [
     description: "A 25-question career readiness quiz that scores users across five dimensions and hands back a personalized action plan instead of a generic report.",
     category: "Web Design",
     color: "from-zinc-800 to-zinc-950",
-    mockupImage: "/projects/project-3-hand.png",
-    mockupImages: ["/projects/project-3-inside.png"],
+    mockupImage: "/projects/project-3-hand.webp",
+    mockupImages: ["/projects/project-3-inside.webp"],
     caseStudy: {
       overview: "MyCareerAssessment is a quiz-driven career readiness tool. Users answer 25 questions, get scored across five dimensions — Clarity, Ownership, Curiosity, Confidence, and Network & Visibility — and land on a personalized action plan instead of a generic \"here's your result\" page.",
       sections: [
@@ -177,11 +177,11 @@ export const projects: Project[] = [
     description: "A map-first local discovery app that scores cafes, bars, restaurants, and boutiques, and layers in a social feed of what friends have actually been to.",
     category: "Mobile Applications",
     color: "from-zinc-800 to-zinc-900",
-    mockupImage: "/projects/project-5-hand.png",
+    mockupImage: "/projects/project-5-hand.webp",
     mockupImages: [
-      "/projects/project-5-0.png",
-      "/projects/project-5-1.png",
-      "/projects/project-5-2.png",
+      "/projects/project-5-0.webp",
+      "/projects/project-5-1.webp",
+      "/projects/project-5-2.webp",
     ],
     mockupImagesFramed: true,
     caseStudy: {
@@ -228,11 +228,11 @@ export const projects: Project[] = [
     description: "A streaming aggregator that pulls movies and TV series into one hub, with a group quiz mode built for the age-old 'what should we watch' standoff.",
     category: "Mobile Applications",
     color: "from-zinc-900 to-zinc-800",
-    mockupImage: "/projects/project-6-hand.png",
+    mockupImage: "/projects/project-6-hand.webp",
     mockupImages: [
-      "/projects/project-6-onboarding.png",
-      "/projects/project-6-hub.png",
-      "/projects/project-6-theater.png",
+      "/projects/project-6-onboarding.webp",
+      "/projects/project-6-hub.webp",
+      "/projects/project-6-theater.webp",
     ],
     mockupImagesFramed: true,
     caseStudy: {
