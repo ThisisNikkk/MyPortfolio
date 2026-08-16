@@ -1,19 +1,21 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useSyncExternalStore } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Mail, MapPin, Loader2 } from "lucide-react";
-import Link from "next/link";
+import { Mail, MapPin, Loader2 } from "lucide-react";
 import { useTheme } from "next-themes";
+
+const emptySubscribe = () => () => {};
+// Hydration-safe "has this mounted on the client" check, without the
+// cascading re-render a useState+useEffect combo would cause.
+function useMounted() {
+    return useSyncExternalStore(emptySubscribe, () => true, () => false);
+}
 
 export default function ContactPage() {
     const { resolvedTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
+    const mounted = useMounted();
     const [iframeLoaded, setIframeLoaded] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
 
     const calTheme = resolvedTheme === "dark" ? "dark" : "light";
     const calLink = `https://cal.com/thisisnikk/30min?embed=true&theme=${calTheme}`;
@@ -42,7 +44,7 @@ export default function ContactPage() {
                         </div>
 
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-zinc-900 dark:text-white leading-[1.1]">
-                            Let's build something{" "}
+                            Let&apos;s build something{" "}
                             <span className="relative inline-block px-2 py-0.5 text-zinc-950 font-black rounded-[4px] transform rotate-1 inline-flex leading-none align-middle mx-1">
                                 <span className="relative z-10">extraordinary.</span>
                                 <motion.span

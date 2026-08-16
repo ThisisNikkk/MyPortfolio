@@ -6,7 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useLenis } from "lenis/react";
-import { projects } from "@/data/projects";
+import { projects, Project } from "@/data/projects";
 
 const categories = [
     "Web Design",
@@ -14,7 +14,7 @@ const categories = [
     "AI Projects",
 ];
 
-const ProjectCard = ({ project }: { project: any }) => {
+const ProjectCard = ({ project }: { project: Project }) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: cardRef,

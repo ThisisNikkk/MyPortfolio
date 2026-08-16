@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 // Pixel art character definitions (7xN grids)
@@ -126,7 +125,7 @@ export default function FooterComponent() {
     useEffect(() => {
         if (!containerRef.current) return;
         const resizeObserver = new ResizeObserver((entries) => {
-            for (let entry of entries) {
+            for (const entry of entries) {
                 const { width, height } = entry.contentRect;
                 setDimensions({ width, height });
             }

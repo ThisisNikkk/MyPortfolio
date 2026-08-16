@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Zap, Globe, Star, Mail, Bot, Smartphone, Monitor } from "lucide-react";
+import { Zap, Globe, Mail, Bot, Smartphone, Monitor } from "lucide-react";
 
 const offerings = [
   { text: "AI agents.", icon: Bot },
@@ -142,7 +142,7 @@ export default function HeroComponent() {
         >
           {/* Subtitle */}
           <motion.div variants={subtitleVariants} className="text-lg sm:text-xl lg:text-2xl font-medium tracking-tight text-zinc-900 dark:text-white">
-            Hello, my name's{" "}
+            Hello, my name&apos;s{" "}
             <motion.span
               whileHover={{ scale: 1.08, rotate: -2, y: -2 }}
               whileTap={{ scale: 0.95 }}

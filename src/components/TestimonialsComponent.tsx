@@ -93,7 +93,7 @@ export default function TestimonialsComponent() {
                             transition={{ delay: 0.1 }}
                             className="text-4xl sm:text-5xl lg:text-6xl font-black text-zinc-950 dark:text-white tracking-tight leading-[1.1] mb-6"
                         >
-                            Don't just take <br />
+                            Don&apos;t just take <br />
                             <span className="relative inline-block px-2 py-0.5 text-zinc-950 font-black rounded-[4px] transform rotate-1 inline-flex leading-none align-middle mx-1">
                                 <span className="relative z-10">my word</span>
                                 <motion.span
@@ -114,7 +114,7 @@ export default function TestimonialsComponent() {
                             transition={{ delay: 0.2 }}
                             className="text-zinc-600 dark:text-zinc-400 text-lg mb-10 max-w-md"
                         >
-                            I've had the pleasure of working with ambitious founders and companies to bring their visions to life.
+                            I&apos;ve had the pleasure of working with ambitious founders and companies to bring their visions to life.
                         </motion.p>
 
                         {/* Navigation Arrows */}
@@ -180,7 +180,7 @@ export default function TestimonialsComponent() {
                                         transition={{ duration: 0.4, ease: "easeOut" }}
                                         className="text-xl sm:text-2xl lg:text-3xl font-medium text-zinc-800 dark:text-zinc-200 leading-relaxed"
                                     >
-                                        "{testimonials[currentIndex].text}"
+                                        &quot;{testimonials[currentIndex].text}&quot;
                                     </motion.p>
                                 </AnimatePresence>
                             </div>
