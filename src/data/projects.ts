@@ -278,36 +278,115 @@ export const projects: Project[] = [
   {
     id: 7,
     title: "Daisy SuperHuman Chat Bot",
-    description: "",
+    description: "A human-like AI sales representative for SolidAppMaker — a persona engineered to chat naturally, understand a visitor's idea, and only move toward booking a call once they're genuinely ready.",
     category: "AI Projects",
     color: "from-zinc-800 to-zinc-950",
+    mockupImage: "/projects/project-7-hand.webp",
+    mockupImages: ["/projects/project-7-inside.webp"],
+    caseStudy: {
+      overview: "Daisy is an AI-driven \"SuperHuman\" representative built for SolidAppMaker's website — a persona-driven chat agent designed to feel like a real team member rather than a bot. She opens every conversation naturally, takes a genuine interest in the visitor's idea, and only moves toward scheduling once they're confident SolidAppMaker can help — then hands off to Calendly and logs the finished conversation as a lead in SolidAppMaker's CRM.",
+      sections: [
+        {
+          title: "Problem",
+          description: "Off-the-shelf AI chat widgets read as scripted, and every change to Daisy's persona or boundaries meant pulling in a developer instead of the team that actually talks to customers.",
+          points: [
+            {
+              title: "Bot Language Kills Trust",
+              text: "Default AI widgets lean on phrases like \"as an AI\" or \"virtual assistant,\" which immediately signals to a prospect that they're talking to a script instead of a person."
+            },
+            {
+              title: "Interrogation-Style Intake Forms",
+              text: "Most chat widgets open by demanding a name and email before they'll say anything useful, which reads as a form wearing a chat bubble rather than a conversation."
+            }
+          ]
+        },
+        {
+          title: "Research",
+          description: "The conversation design started from a working reference tool and the client's own internal voice guidelines, rather than a blank slate.",
+          points: [
+            {
+              title: "HubSpot Chatflows as the Starting Reference",
+              text: "Early conversation logic was sketched out inside a HubSpot chatflow as a working reference point, before the persona moved to a more natural, context-driven conversation instead of a rigid step-by-step script."
+            },
+            {
+              title: "Codifying the Client's Own Voice",
+              text: "SolidAppMaker's engagement rules, business ethics, and an MBTI/Enneagram personality profile for Daisy were folded directly into the system prompt, so the persona reflects how the company actually wants to sound."
+            }
+          ]
+        },
+        {
+          title: "Solution",
+          description: "I engineered a persona that leads with genuine conversation, and only asks for contact details once the visitor is actually ready to move forward.",
+          points: [
+            {
+              title: "Strict Engagement Rules",
+              text: "A locked-down language layer bans phrases like \"as an AI\" and \"virtual assistant\" and defines exactly how Daisy redirects off-topic or personal requests, keeping the human illusion consistent."
+            },
+            {
+              title: "Conversation Before Qualification",
+              text: "Daisy opens by taking real interest in the visitor's idea and explaining how SolidAppMaker can help, rather than leading with a name-and-email intake form."
+            },
+            {
+              title: "Calendly Handoff, Once They're Ready",
+              text: "Only after the visitor is engaged does Daisy ask for a name and email, then hands over a Calendly link so they can pick a slot on their own time instead of negotiating one in the chat."
+            },
+            {
+              title: "Automatic CRM Lead Capture",
+              text: "The finished conversation is logged straight into SolidAppMaker's CRM as a new lead, with no manual re-entry."
+            }
+          ]
+        }
+      ]
+    }
   },
   {
-    id: 8,
-    title: "Onboarding Automation Workflow",
-    description: "",
-    category: "Agentic Workflow",
-    color: "from-zinc-950 to-zinc-800",
-  },
-  {
-    id: 9,
-    title: "Asset Management Automation Workflow",
-    description: "",
-    category: "Agentic Workflow",
-    color: "from-zinc-800 to-zinc-900",
-  },
-  {
-    id: 10,
-    title: "Project KickOff Automation Workflow",
-    description: "",
-    category: "Agentic Workflow",
+    id: 12,
+    title: "PrepAI",
+    description: "An AI-powered mock interview coach — role- and company-specific practice interviews, scored instantly out of 100 with a written breakdown of what to improve.",
+    category: "AI Projects",
     color: "from-zinc-900 to-zinc-800",
-  },
-  {
-    id: 11,
-    title: "Thumbnail Generator Automation Workflow",
-    description: "",
-    category: "Agentic Workflow",
-    color: "from-zinc-800 to-zinc-950",
+    mockupImage: "/projects/project-12-hand.webp",
+    mockupImages: ["/projects/project-12-inside.webp"],
+    caseStudy: {
+      overview: "PrepAI is an AI-powered interview practice platform. Candidates run through mock interviews tied to a specific company and role, then get an instant score out of 100 with a written breakdown of what they handled well and where they fell short — with a running dashboard of past interviews to track improvement over time.",
+      sections: [
+        {
+          title: "Problem",
+          description: "Generic interview prep doesn't adapt to the role a candidate is actually walking into, and practice sessions rarely end with anything more specific than a vague sense of how it went.",
+          points: [
+            {
+              title: "Generic Practice, Real Stakes",
+              text: "Question banks and mock-interview PDFs don't adapt to the role or company a candidate is actually interviewing for, so practice rarely matches what gets asked."
+            },
+            {
+              title: "No Objective Read on Performance",
+              text: "Without a structured score or written breakdown, candidates leave a practice session with a vague sense that \"it went fine\" instead of a specific weak spot to fix."
+            }
+          ]
+        },
+        {
+          title: "Solution",
+          description: "I built the practice flow around role-specific interviews that close with a concrete, scored breakdown instead of just a transcript.",
+          points: [
+            {
+              title: "Role- and Company-Tagged Interviews",
+              text: "Each practice session is tied to a specific company and role, and tagged Mixed or Technical, so the questions reflect what that interview actually covers."
+            },
+            {
+              title: "Instant Scored Feedback",
+              text: "Every interview closes with an AI-generated score out of 100 and a written breakdown of what the candidate handled well and where they fell short."
+            },
+            {
+              title: "Tech-Stack-Aware Assessment",
+              text: "Each interview card surfaces the specific stack it covered, so feedback stays grounded in the technologies the role actually requires."
+            },
+            {
+              title: "A History to Track Improvement",
+              text: "Past interviews live in a running dashboard with their dates, scores, and tags, so a candidate can see whether they're actually improving across repeated attempts."
+            }
+          ]
+        }
+      ]
+    }
   },
 ];

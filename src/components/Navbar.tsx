@@ -54,7 +54,7 @@ export default function Navbar() {
         <ResizableNavbar>
             <NavBody>
                 <Logo>
-                    <Link href="/" onClick={() => setHash("")} className="cursor-pointer flex items-center">
+                    <Link href="/" scroll={false} onClick={() => setHash("")} className="cursor-pointer flex items-center">
                         <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={36} height={36} sizes="36px" className="dark:hidden object-contain" style={{ height: "auto" }} />
                         <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={36} height={36} sizes="36px" className="hidden dark:block object-contain" style={{ height: "auto" }} />
                     </Link>
@@ -67,6 +67,7 @@ export default function Navbar() {
                             <Link
                                 key={idx}
                                 href={link.link}
+                                scroll={false}
                                 onClick={() => setHash(hashOf(link.link))}
                                 className={cn(
                                     "px-5 py-1.5 text-md font-bold uppercase tracking-widest rounded-md transition-all duration-200",
@@ -87,7 +88,7 @@ export default function Navbar() {
 
             <MobileNav>
                 <Logo>
-                    <Link href="/" onClick={() => setHash("")} className="cursor-pointer flex items-center">
+                    <Link href="/" scroll={false} onClick={() => setHash("")} className="cursor-pointer flex items-center">
                         <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="dark:hidden object-contain" style={{ height: "auto" }} />
                         <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="hidden dark:block object-contain" style={{ height: "auto" }} />
                     </Link>
@@ -98,6 +99,7 @@ export default function Navbar() {
                         <Link
                             key={idx}
                             href={link.link}
+                            scroll={false}
                             onClick={() => setHash(hashOf(link.link))}
                             className={cn(
                                 "w-full px-5 py-2.5 text-xs font-bold uppercase tracking-widest rounded-md transition-all duration-200 text-center",

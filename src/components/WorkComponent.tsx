@@ -12,7 +12,6 @@ const categories = [
     "Web Design",
     "Mobile Applications",
     "AI Projects",
-    "Agentic Workflow",
 ];
 
 const ProjectCard = ({ project }: { project: any }) => {
