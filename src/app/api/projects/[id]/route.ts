@@ -33,7 +33,17 @@ export async function GET(
   return jsonOk({ data: toResource(project) });
 }
 
-/** Prerender the known ids; unknown ones still fall through to the 404 above. */
-export function generateStaticParams() {
-  return projects.map((p) => ({ id: String(p.id) }));
-}
+/*
+ * No `generateStaticParams` here, deliberately.
+ *
+ * Prerendering the known ids marks this route as statically optimized, and
+ * that path only expects cacheable statuses. On Vercel the 400 above then
+ * killed the function outright (FUNCTION_INVOCATION_FAILED) for every
+ * non-numeric id, while numeric ids and the 404 branch were fine — and the
+ * local Node server tolerated it, so only a run against the deployment
+ * caught it.
+ *
+ * The route loses nothing by staying dynamic: the payloads are small and
+ * `jsonOk` already sets `s-maxage=3600, stale-while-revalidate=86400`, so
+ * the CDN caches them at the edge anyway.
+ */
