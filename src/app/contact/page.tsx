@@ -103,6 +103,71 @@ export default function ContactPage() {
                     </div>
                 </motion.div>
 
+                {/* What the call covers. Also the page's only real prose —
+                    a booking iframe is invisible to a crawler, which left this
+                    page with almost no text for anyone verifying the practice
+                    is real before making contact. */}
+                <motion.section
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+                    className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12"
+                >
+                    <div className="lg:col-span-5">
+                        <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-zinc-900 dark:text-white">
+                            What the call covers
+                        </h2>
+                        <p className="mt-4 text-base leading-[1.6] text-zinc-500 dark:text-zinc-400">
+                            Thirty minutes, no pitch deck. We talk through what
+                            you are building, who it is for, and what has to be
+                            true for it to work. You leave with a clear read on
+                            scope, a rough timeline, and an honest answer about
+                            whether I am the right person for it.
+                        </p>
+                        <p className="mt-4 text-base leading-[1.6] text-zinc-500 dark:text-zinc-400">
+                            Based in {" "}
+                            <span className="font-bold text-zinc-900 dark:text-white">
+                                Chandigarh, India
+                            </span>{" "}
+                            (IST), working with teams across timezones. Emails
+                            usually get a reply within one business day.
+                        </p>
+                    </div>
+
+                    <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div>
+                            <h3 className="text-base font-bold text-zinc-900 dark:text-white">
+                                Good fits
+                            </h3>
+                            <p className="mt-2 text-sm leading-[1.6] text-zinc-500 dark:text-zinc-400">
+                                AI agents and assistants, React Native products,
+                                and design systems for SaaS teams that have
+                                outgrown ad-hoc components.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 className="text-base font-bold text-zinc-900 dark:text-white">
+                                How I work
+                            </h3>
+                            <p className="mt-2 text-sm leading-[1.6] text-zinc-500 dark:text-zinc-400">
+                                Design and engineering in the same pair of
+                                hands, so there is no handoff gap between the
+                                mockup and what actually ships.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 className="text-base font-bold text-zinc-900 dark:text-white">
+                                Bring along
+                            </h3>
+                            <p className="mt-2 text-sm leading-[1.6] text-zinc-500 dark:text-zinc-400">
+                                Whatever exists already — a rough brief, a
+                                Figma file, a live product, or just the problem
+                                written down in a paragraph.
+                            </p>
+                        </div>
+                    </div>
+                </motion.section>
+
             </div>
         </main>
     );
