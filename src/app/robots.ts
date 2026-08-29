@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL, absoluteUrl } from "@/lib/site-meta";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -8,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://nikhilsiwan.dev/sitemap.xml",
-    host: "https://nikhilsiwan.dev",
+    sitemap: absoluteUrl("/sitemap.xml"),
+    host: SITE_URL,
   };
 }

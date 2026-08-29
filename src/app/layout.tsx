@@ -4,6 +4,8 @@ import SmoothScrolling from "@/components/layout/SmoothScrolling";
 import Navbar from "@/components/Navbar";
 import FooterComponent from "@/components/FooterComponent";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import StructuredData from "@/components/StructuredData";
+import { SITE_URL, absoluteUrl, person } from "@/lib/site-meta";
 import "./globals.css";
 
 const urbanist = Urbanist({
@@ -14,6 +16,8 @@ const urbanist = Urbanist({
 });
 
 export const metadata: Metadata = {
+  // Lets Next resolve every relative metadata URL against the live origin.
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Nikhil Siwan — Software Developer",
     template: "%s | Nikhil Siwan",
@@ -34,7 +38,7 @@ export const metadata: Metadata = {
     "Portfolio",
     "Freelance Designer India",
   ],
-  authors: [{ name: "Nikhil Siwan", url: "https://nikhilsiwan.dev" }],
+  authors: [{ name: person.name, url: SITE_URL }],
   creator: "Nikhil Siwan",
   publisher: "Nikhil Siwan",
 
@@ -52,20 +56,20 @@ export const metadata: Metadata = {
   },
 
   alternates: {
-    canonical: "https://nikhilsiwan.dev",
+    canonical: SITE_URL,
   },
 
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://nikhilsiwan.dev",
+    url: SITE_URL,
     siteName: "Nikhil Siwan — Portfolio",
     title: "Nikhil Siwan — Product Designer & Frontend Engineer",
     description:
       "Crafting high-performance digital experiences — AI agents, mobile apps, and enterprise SaaS platforms. Explore my work and let's build something powerful together.",
     images: [
       {
-        url: "https://nikhilsiwan.dev/og-image.png",
+        url: absoluteUrl("/og-image.png"),
         width: 1200,
         height: 630,
         alt: "Nikhil Siwan — Product Designer & Frontend Engineer",
@@ -79,7 +83,7 @@ export const metadata: Metadata = {
     description:
       "Crafting high-performance digital experiences — AI agents, mobile apps, and enterprise SaaS platforms.",
     creator: "@ThisisNikkk",
-    images: ["https://nikhilsiwan.dev/og-image.png"],
+    images: [absoluteUrl("/og-image.png")],
   },
 
   icons: {
@@ -107,6 +111,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">
+        <StructuredData />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <SmoothScrolling>
             <Navbar />
