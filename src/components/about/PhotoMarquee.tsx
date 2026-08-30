@@ -33,6 +33,9 @@ export default function PhotoMarquee() {
 
     // Each tile carries a 24px trailing margin (mr-6).
     const GAP = 24;
+    // Tiles that start on screen at the widest common viewport. Only
+    // these are worth a preload hint.
+    const LEADING_TILES = 6;
     // Widest viewport worth covering (4K at 100% scaling); the track is built
     // to exceed it. Repeats only add DOM nodes - the browser serves every copy
     // of a given photo from cache after the first.
@@ -65,6 +68,7 @@ export default function PhotoMarquee() {
                     // The second half is a visual duplicate, so keep it out of
                     // the accessibility tree.
                     const isDuplicate = i >= half.length;
+                    const isLeading = i < LEADING_TILES;
                     return (
                         <div
                             key={`${photo.src}-${i}`}
@@ -86,8 +90,14 @@ export default function PhotoMarquee() {
                                     alt={isDuplicate ? "" : photo.alt}
                                     width={photo.width}
                                     height={photo.height}
-                                    // Above the fold, so skip lazy loading.
-                                    priority
+                                    // The strip is above the fold and scrolls itself,
+                                    // so no tile can be lazy - a deferred one slides
+                                    // into view still blank. Every tile loads eagerly;
+                                    // only those that start on screen also get a
+                                    // preload hint, so the strip does not out-compete
+                                    // the rest of the page for one.
+                                    priority={isLeading}
+                                    loading={isLeading ? undefined : "eager"}
                                     className="w-full h-full object-cover"
                                     aria-hidden={isDuplicate}
                                 />

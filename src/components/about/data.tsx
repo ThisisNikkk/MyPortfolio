@@ -41,7 +41,26 @@ export interface PhotoItem {
  * e.g. { src: "/photos/ha-long-bay.jpg", alt: "On a boat in Ha Long Bay",
  *        width: 210, height: 280 }
  */
-export const photos: PhotoItem[] = [];
+export const photos: PhotoItem[] = [
+    { src: "/photos/snow-frame.webp", alt: "Standing inside an empty picture frame in the snow", width: 215, height: 290 },
+    { src: "/photos/mountain-layers.webp", alt: "Ridges of the Himalayas fading into haze", width: 300, height: 200 },
+    { src: "/photos/office-corridor.webp", alt: "Walking an office corridor with a teammate", width: 205, height: 285 },
+    { src: "/photos/pine-forest.webp", alt: "Looking up through a stand of deodar pines", width: 295, height: 200 },
+    { src: "/photos/forest-stream.webp", alt: "Sitting on the rocks beside a forest stream", width: 210, height: 290 },
+    { src: "/photos/hackathon-certificate.webp", alt: "Certificate from the EMPOWER Tech for Good hackathon at IIM Ahmedabad", width: 165, height: 205 },
+    { src: "/photos/river-rocks.webp", alt: "Sitting on the boulders of a river bed in a green valley", width: 215, height: 285 },
+    { src: "/photos/hilltop-view.webp", alt: "The view from a hilltop under an open sky", width: 300, height: 195 },
+    { src: "/photos/iima-gate.webp", alt: "At the gates of IIM Ahmedabad", width: 205, height: 290 },
+    { src: "/photos/azure-badge.webp", alt: "An Azure Developer Community badge in hand", width: 160, height: 200 },
+    { src: "/photos/snow-peaks.webp", alt: "Snow-covered peaks under a heavy sky", width: 210, height: 285 },
+    { src: "/photos/mountain-portrait.webp", alt: "Bundled up against the cold with the mountains behind", width: 280, height: 205 },
+    { src: "/photos/desk-window.webp", alt: "A working setup at a window looking over the city", width: 205, height: 290 },
+    { src: "/photos/tech-collage.webp", alt: "A machine-and-code installation seen up close", width: 165, height: 200 },
+    { src: "/photos/pine-valley.webp", alt: "Pines opening onto a valley below", width: 215, height: 285 },
+    { src: "/photos/office-tower.webp", alt: "An office tower on a clear morning", width: 160, height: 205 },
+    { src: "/photos/iima-campus.webp", alt: "The brick and concrete architecture of the IIM Ahmedabad campus", width: 205, height: 290 },
+    { src: "/photos/night-drive.webp", alt: "On a drive after dark", width: 165, height: 200 },
+];
 
 export interface TimelineItem {
     /** Small label above the card — "Early Years", "The Shift", "What I do now". */
