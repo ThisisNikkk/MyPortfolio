@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft, MoveRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { timelineData, values } from "./data";
+import TimelineArt, { type TimelineArtName } from "./TimelineArt";
 import PhotoMarquee from "./PhotoMarquee";
 import StackMarquee from "./StackMarquee";
 import FaqAccordion from "./FaqAccordion";
@@ -20,8 +21,8 @@ import { ACCENT, EASE, Highlight, SectionHeading } from "@/components/ui/editori
  * case study pages share them.
  * ------------------------------------------------------------------ */
 
-// Left-column visual for a story row. Falls back to a labelled placeholder
-// frame until a real image is supplied via the item's `visual` field.
+// Left-column visual for a story row. A photo wins if `visual` is set; else the
+// item's `art` key draws a one-line illustration; else a labelled placeholder.
 //
 // Stacked (below md) the frame holds a 4:5 portrait. Side by side it drops the
 // ratio and fills the row instead, so the visual ends up exactly as tall as the
@@ -29,7 +30,13 @@ import { ACCENT, EASE, Highlight, SectionHeading } from "@/components/ui/editori
 // whatever crop that implies.
 const VISUAL_FRAME = "w-full aspect-[4/5] md:aspect-auto md:h-full rounded-[30px]";
 
-function StoryVisual({ visual }: { visual?: { src: string; alt: string } }) {
+function StoryVisual({
+    visual,
+    art,
+}: {
+    visual?: { src: string; alt: string };
+    art?: TimelineArtName;
+}) {
     if (visual?.src) {
         return (
             <div
@@ -39,6 +46,18 @@ function StoryVisual({ visual }: { visual?: { src: string; alt: string } }) {
                 )}
             >
                 <Image src={visual.src} alt={visual.alt} fill className="object-cover" />
+            </div>
+        );
+    }
+    if (art) {
+        return (
+            <div
+                className={cn(
+                    VISUAL_FRAME,
+                    "border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-900/30 flex items-center justify-center p-6 sm:p-8"
+                )}
+            >
+                <TimelineArt name={art} className="max-w-[340px] text-zinc-400 dark:text-zinc-600" />
             </div>
         );
     }
@@ -59,6 +78,7 @@ function StoryVisual({ visual }: { visual?: { src: string; alt: string } }) {
 interface StoryRowProps {
     kicker: string;
     visual?: { src: string; alt: string };
+    art?: TimelineArtName;
     children: React.ReactNode;
     index: number;
 }
@@ -71,7 +91,7 @@ interface StoryRowProps {
 // Reveal is scroll-scrubbed rather than a one-shot: opacity and slide are
 // driven by the row's own scroll position, so each side eases in from its edge
 // as the row travels up the viewport.
-function StoryRow({ kicker, visual, children, index }: StoryRowProps) {
+function StoryRow({ kicker, visual, art, children, index }: StoryRowProps) {
     // Even rows: visual left / card right. Odd rows: the reverse.
     const visualOnRight = index % 2 === 1;
 
@@ -118,7 +138,7 @@ function StoryRow({ kicker, visual, children, index }: StoryRowProps) {
                     visualOnRight ? "md:col-start-2 md:ml-12" : "md:col-start-1 md:mr-12"
                 )}
             >
-                <StoryVisual visual={visual} />
+                <StoryVisual visual={visual} art={art} />
             </motion.div>
 
             {/* Card */}
@@ -224,6 +244,7 @@ export default function AboutTimelineSpine() {
                                     key={i}
                                     kicker={item.kicker}
                                     visual={item.visual}
+                                    art={item.art}
                                     index={i}
                                 >
                                     {/* period + title sit as one tight group */}

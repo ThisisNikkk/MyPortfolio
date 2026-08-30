@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Bot, Smartphone, Layers, Monitor, Target, Gauge, Rocket, Code2, Flag } from "lucide-react";
+import type { TimelineArtName } from "./TimelineArt";
 
 /* ------------------------------------------------------------------ *
  * Shared content for the About page variants.
@@ -75,8 +76,11 @@ export interface TimelineItem {
     description: string;
     /** Optional callout pinned to the bottom of the card. */
     highlight?: string;
-    /** Left-column visual. Omit to render the "Add photo" placeholder frame. */
+    /** Left-column visual. A photo takes precedence; otherwise `art` draws a
+     *  one-line illustration, and failing both the "Add photo" frame shows. */
     visual?: { src: string; alt: string };
+    /** One-line-art illustration for the left column (see TimelineArt). */
+    art?: TimelineArtName;
 }
 
 export const timelineData: TimelineItem[] = [
@@ -84,6 +88,7 @@ export const timelineData: TimelineItem[] = [
         kicker: "Early Years",
         period: "Class 3 onward",
         title: "A PC, and a question I couldn't drop",
+        art: "pc",
         description:
             "My dad brought home our first computer when I was in class 3, and I've been taking it apart in my head ever since — how does this actually work, how is the software even made? That question never left. Topping every computer class only turned the volume up, and somewhere in there the goal quietly set itself: I was going to be an engineer.",
         highlight:
@@ -93,6 +98,7 @@ export const timelineData: TimelineItem[] = [
         kicker: "The Shift",
         period: "B.Tech CSE",
         title: "College, and the AI reckoning",
+        art: "grad",
         description:
             "College made the goal official — B.Tech in Computer Science, and a clear target: become the kind of engineer who can actually solve real-world problems. Then the AI wave hit and reset the bar overnight. Skilled but with zero AI to your name? You're cooked. So I dove in headfirst, and the deeper I went, the less it felt like a survival move.",
         highlight:
@@ -105,6 +111,7 @@ export const timelineData: TimelineItem[] = [
         company: "Bluestock Fintech",
         role: "SDE Intern",
         logo: <BluestockLogo />,
+        art: "team",
         description:
             "My first time owning real product surface — and a team. Remote from Pune, I led a five-person Agile squad to turn Figma designs into a fully responsive IPO platform, then engineered a Node.js REST API to serve live IPO data and RHP/DRHP downloads. Real users, real financial data, real deadlines.",
         highlight:
@@ -114,6 +121,7 @@ export const timelineData: TimelineItem[] = [
         kicker: "What I Built",
         period: "2024 – 2025",
         title: "Turning AI into real products",
+        art: "voice",
         description:
             "The AI obsession needed an outlet. PrepAI — an AI mock-interview platform (Next.js, Vapi voice AI, Firebase) that runs real-time voice interviews and hands back instant, personalized feedback. CareConnect — a patient-management system with real-time scheduling and Twilio SMS, built on Appwrite. Two products, both aimed at a real problem people actually have.",
         highlight:
@@ -126,6 +134,7 @@ export const timelineData: TimelineItem[] = [
         company: "SolarioTech",
         role: "React Native Developer",
         logo: <SolarioTechLogo />,
+        art: "mobile",
         description:
             "This is where the AI obsession met production. I ship real cross-platform apps and websites — Langofunk, MyCareerAssessment, Heal — and build the automation behind them: agentic n8n workflows and a RAG chatbot for SolidAppMaker that together act less like tools and more like an extra team member who never sleeps.",
         highlight:
