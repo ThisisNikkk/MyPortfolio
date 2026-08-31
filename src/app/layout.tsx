@@ -112,7 +112,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col">
         <StructuredData />
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
           <SmoothScrolling>
             <Navbar />
             {children}
