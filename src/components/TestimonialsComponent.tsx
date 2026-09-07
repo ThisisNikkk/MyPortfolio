@@ -66,7 +66,7 @@ export default function TestimonialsComponent() {
     };
 
     return (
-        <section id="review" className="w-full py-24 md:py-20 relative z-10 overflow-hidden">
+        <section id="review" className="w-full py-24 md:py-20 relative z-20 overflow-hidden">
             {/* Background elements */}
             <div className="absolute inset-0 bg-zinc-50 dark:bg-[#09090b] -z-10" />
             <div className="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.1)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none -z-10" />
@@ -167,7 +167,7 @@ export default function TestimonialsComponent() {
                         {/* Decorative background blobs */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-[#c6f023]/20 to-transparent blur-3xl rounded-full pointer-events-none -z-10 opacity-50 dark:opacity-20" />
 
-                        <div className="relative w-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-zinc-200 dark:border-zinc-800 rounded-[32px] p-8 sm:p-10 md:p-12 shadow-xl shadow-zinc-200/50 dark:shadow-none min-h-[400px] flex flex-col justify-between">
+                        <div className="relative w-full bg-white/80 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-[32px] p-8 sm:p-10 md:p-12 shadow-xl shadow-zinc-200/50 dark:shadow-none min-h-[400px] flex flex-col justify-between">
                             <Quote className="absolute top-8 right-8 w-20 h-20 text-zinc-100 dark:text-zinc-800/40 -z-0" />
 
                             <div className="relative z-10 flex-1 flex items-center mb-8">

@@ -55,7 +55,7 @@ const Card2Visualizer = () => {
                 <motion.div
                     key={idx}
                     whileHover={{ scale: 1.05, y: -2 }}
-                    className="px-3 py-1.5 rounded-full border border-zinc-200 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-900/50 backdrop-blur-sm shadow-sm flex items-center gap-1.5 cursor-default hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200"
+                    className="px-3 py-1.5 rounded-full border border-zinc-200 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-900/50 shadow-sm flex items-center gap-1.5 cursor-default hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200"
                 >
                     <span className="w-1.5 h-1.5 rounded-full bg-[#c6f023]" />
                     <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200 leading-none">{item.name}</span>
@@ -296,7 +296,7 @@ export default function ProcessComponent() {
                                 viewport={{ once: true, amount: 0.1 }}
                                 transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
                                 className={cn(
-                                    "relative overflow-hidden rounded-[28px] border border-zinc-200 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/30 backdrop-blur-md p-6 sm:p-8 flex flex-col justify-between group hover:border-zinc-300 dark:hover:border-zinc-700/80 hover:shadow-md dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] transition-all duration-300",
+                                    "relative overflow-hidden rounded-[28px] border border-zinc-200 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-900/30 p-6 sm:p-8 flex flex-col justify-between group hover:border-zinc-300 dark:hover:border-zinc-700/80 hover:shadow-md dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] transition-all duration-300",
                                     step.span
                                 )}
                             >
