@@ -119,13 +119,25 @@ const iconCycleVariants = {
 
 export default function HeroComponent() {
   const [index, setIndex] = useState(0);
+  // The hero is `lg:sticky lg:top-0` inside <body>, so it never unpins — it
+  // stays behind every section for the whole page. Without this it kept
+  // cycling, running springs on a fully covered layer, all the way down.
+  const [covered, setCovered] = useState(false);
 
   useEffect(() => {
+    const update = () => setCovered(window.scrollY > window.innerHeight * 0.9);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
+  useEffect(() => {
+    if (covered) return;
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % offerings.length);
     }, 2800);
     return () => clearInterval(timer);
-  }, []);
+  }, [covered]);
 
   return (
     <div className="relative min-h-screen w-full antialiased overflow-hidden flex items-center justify-center pt-32 pb-16 md:pt-36 md:pb-24 lg:pt-10 lg:pb-0 lg:sticky lg:top-0 z-10">

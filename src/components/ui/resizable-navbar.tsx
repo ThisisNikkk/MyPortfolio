@@ -8,7 +8,15 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+
+// How far the page must travel before the bar reacts to a direction change.
+// Lenis eases the scroll position, so one wheel flick arrives as a long run of
+// shrinking deltas that flip sign by a pixel or two as it settles; without a
+// deadzone every one of those reversals re-showed the bar mid-scroll.
+const DIRECTION_DEADZONE = 12;
+// Don't hide until the page is clear of the bar's own resting position.
+const HIDE_AFTER = 120;
 
 interface NavbarProps {
   children: React.ReactNode;
@@ -34,15 +42,15 @@ interface MobileNavProps {
 export const Navbar = ({ children, className }: NavbarProps) => {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
+  // Last position that actually moved the bar. Held in a ref so sub-threshold
+  // deltas accumulate rather than being measured against the previous frame.
+  const anchorY = useRef(0);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    // Hide navbar if scrolling down and scrolled more than 150px
-    if (latest > previous && latest > 40) {
-      setHidden(true);
-    } else {
-      setHidden(false);
-    }
+    const delta = latest - anchorY.current;
+    if (Math.abs(delta) < DIRECTION_DEADZONE) return;
+    anchorY.current = latest;
+    setHidden(delta > 0 && latest > HIDE_AFTER);
   });
 
   return (
