@@ -58,7 +58,7 @@ export default function FaqAccordion() {
                                 className={cn(
                                     "text-xs font-black tabular-nums tracking-wider transition-colors duration-300",
                                     isOpen
-                                        ? "text-[#c6f023]"
+                                        ? "text-zinc-950 dark:text-[#c6f023]"
                                         : "text-zinc-400 dark:text-zinc-600"
                                 )}
                             >
@@ -74,7 +74,7 @@ export default function FaqAccordion() {
                             <span
                                 aria-hidden
                                 className={cn(
-                                    "shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full border transition-all duration-300",
+                                    "shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full border transition-all duration-300 group-active:scale-90 group-active:duration-100",
                                     isOpen
                                         ? "bg-[#c6f023] border-[#c6f023] text-zinc-950 rotate-45"
                                         : "border-zinc-300 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 group-hover:border-zinc-900 dark:group-hover:border-white group-hover:text-zinc-900 dark:group-hover:text-white"

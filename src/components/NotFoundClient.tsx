@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, ArrowLeft, Compass, Mail } from "lucide-react";
 import { pages } from "@/lib/site-meta";
 
@@ -107,6 +107,8 @@ const ctaVariants = {
 };
 
 export default function NotFoundClient() {
+  const reduceMotion = useReducedMotion();
+
   return (
     // overflow-x-clip, not -hidden: `hidden` would make this a nested scroll
     // container competing with Lenis.
@@ -142,7 +144,8 @@ export default function NotFoundClient() {
             className="inline-flex items-center justify-center rounded-full bg-[#c6f023] shadow-sm shrink-0 w-[70px] h-[70px] sm:w-[106px] sm:h-[106px] lg:w-[136px] lg:h-[136px]"
           >
             <motion.span
-              animate={{ rotate: 360 }}
+              // A forever-spinning element is the opposite of reduced motion.
+              animate={reduceMotion ? undefined : { rotate: 360 }}
               transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
               className="inline-flex"
             >

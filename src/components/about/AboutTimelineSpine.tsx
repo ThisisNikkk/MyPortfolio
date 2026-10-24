@@ -3,7 +3,7 @@
 import React, { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft, MoveRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { timelineData, values } from "./data";
@@ -115,6 +115,9 @@ function StoryRow({ kicker, visual, art, children, index }: StoryRowProps) {
         [visualOnRight ? -64 : 64, 0]
     );
     const dotScale = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
+    // Scroll-linked values bypass MotionConfig, so reduced motion is handled
+    // here: rows keep the scrubbed fade but drop the 64px slides.
+    const reduceMotion = useReducedMotion();
 
     return (
         <div
@@ -132,7 +135,7 @@ function StoryRow({ kicker, visual, art, children, index }: StoryRowProps) {
 
             {/* Visual */}
             <motion.div
-                style={{ opacity, x: visualX, y }}
+                style={reduceMotion ? { opacity } : { opacity, x: visualX, y }}
                 className={cn(
                     "mb-6 md:mb-0",
                     visualOnRight ? "md:col-start-2 md:ml-12" : "md:col-start-1 md:mr-12"
@@ -143,7 +146,7 @@ function StoryRow({ kicker, visual, art, children, index }: StoryRowProps) {
 
             {/* Card */}
             <motion.div
-                style={{ opacity, x: cardX, y }}
+                style={reduceMotion ? { opacity } : { opacity, x: cardX, y }}
                 className={cn(
                     "md:row-start-1 flex flex-col gap-[26px] bg-white dark:bg-zinc-900/50 rounded-[30px] p-8 sm:p-12 shadow-[0_10px_20px_rgba(0,0,0,0.10)] dark:shadow-[0_10px_20px_rgba(0,0,0,0.35)] hover:shadow-[0_16px_30px_rgba(0,0,0,0.13)] transition-shadow duration-300",
                     visualOnRight ? "md:col-start-1 md:mr-12" : "md:col-start-2 md:ml-12"

@@ -111,8 +111,8 @@ const Card4Visualizer = () => {
     return (
         <div className="w-full flex items-center justify-between gap-4 mt-2 p-4 bg-white/40 dark:bg-zinc-950/40 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50">
             {/* Left side: Lighthouse score circle */}
-            <div className="relative w-12 h-12 flex items-center justify-center flex-shrink-0">
-                <svg className="w-full h-full transform -rotate-90">
+            <div className="relative w-16 h-16 flex items-center justify-center flex-shrink-0">
+                <svg viewBox="0 0 48 48" className="w-full h-full transform -rotate-90">
                     <circle
                         cx="24"
                         cy="24"
@@ -137,8 +137,8 @@ const Card4Visualizer = () => {
                     />
                 </svg>
                 <div className="absolute flex flex-col items-center">
-                    <span className="text-[10px] font-black text-zinc-950 dark:text-white leading-none">100</span>
-                    <span className="text-[5px] text-zinc-400 font-bold uppercase tracking-wider mt-0.5">Perf</span>
+                    <span className="text-sm font-black text-zinc-950 dark:text-white leading-none">100</span>
+                    <span className="text-[9px] leading-none text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider mt-0.5">Perf</span>
                 </div>
             </div>
 
@@ -150,7 +150,7 @@ const Card4Visualizer = () => {
                 ].map((stat, idx) => (
                     <div key={idx} className="flex justify-between items-center text-xs font-semibold">
                         <span className="text-zinc-400 dark:text-zinc-500">{stat.name}</span>
-                        <span className={cn(stat.highlight ? "text-[#c6f023]" : "text-zinc-800 dark:text-zinc-200")}>
+                        <span className={cn(stat.highlight ? "text-zinc-950 font-black dark:text-[#c6f023]" :"text-zinc-800 dark:text-zinc-200")}>
                             {stat.val}
                         </span>
                     </div>
@@ -162,12 +162,12 @@ const Card4Visualizer = () => {
 
 const Card5Visualizer = () => {
     return (
-        <div className="w-full bg-zinc-950 rounded-2xl border border-zinc-800 p-4 mt-2 font-mono text-[9px] text-zinc-400 shadow-lg relative overflow-hidden text-left">
+        <div className="w-full bg-zinc-950 rounded-2xl border border-zinc-800 p-4 mt-2 font-mono text-[11px] text-zinc-400 shadow-lg relative overflow-hidden text-left">
             <div className="flex items-center gap-1.5 pb-1.5 border-b border-zinc-900 mb-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-red-500/80" />
                 <div className="w-1.5 h-1.5 rounded-full bg-amber-500/80" />
                 <div className="w-1.5 h-1.5 rounded-full bg-green-500/80" />
-                <span className="text-zinc-600 font-bold ml-1 text-[8px]">deploy.sh</span>
+                <span className="text-zinc-500 font-bold ml-1 text-[10px]">deploy.sh</span>
             </div>
             <div className="space-y-0.5">
                 <p className="text-zinc-500">$ npm run deploy</p>

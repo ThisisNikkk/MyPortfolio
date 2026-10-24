@@ -38,7 +38,7 @@ export default function ContactPage() {
                     >
                         <div className="inline-flex items-center gap-2 mb-4">
                             <span className="w-2.5 h-2.5 rounded-full bg-[#c6f023] ring-4 ring-[#c6f023]/20" aria-hidden="true" />
-                            <span className="text-xs font-black tracking-[0.2em] uppercase text-zinc-400">
+                            <span className="text-xs font-black tracking-[0.2em] uppercase text-zinc-500 dark:text-zinc-400">
                                 Get In Touch
                             </span>
                         </div>

@@ -5,6 +5,7 @@
 // shorter than the page, which stalls scrolling on long pages.
 import "lenis/dist/lenis.css";
 import { ReactLenis, useLenis } from "lenis/react";
+import { MotionConfig, useReducedMotion } from "framer-motion";
 import { ReactNode, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
@@ -12,7 +13,7 @@ interface SmoothScrollingProps {
   children: ReactNode;
 }
 
-function ScrollToTop() {
+function ScrollToTop({ reduceMotion }: { reduceMotion: boolean }) {
   const pathname = usePathname();
   const lenis = useLenis();
 
@@ -25,9 +26,9 @@ function ScrollToTop() {
           // Wait slightly for DOM/layout to settle, then scroll to the element
           setTimeout(() => {
             if (lenis) {
-              lenis.scrollTo(target);
+              lenis.scrollTo(target, { immediate: reduceMotion });
             } else {
-              target.scrollIntoView({ behavior: "smooth" });
+              target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
             }
           }, 100);
           return;
@@ -48,16 +49,25 @@ function ScrollToTop() {
     return () => {
       window.removeEventListener("hashchange", handleScroll);
     };
-  }, [pathname, lenis]);
+  }, [pathname, lenis, reduceMotion]);
 
   return null;
 }
 
 export default function SmoothScrolling({ children }: SmoothScrollingProps) {
+  // Reduced motion gets native wheel scrolling: the eased scroll tail is
+  // exactly the kind of extra, unrequested movement that setting asks to drop.
+  const reduceMotion = useReducedMotion() ?? false;
+
   return (
-    <ReactLenis root options={{ lerp: 0.08, smoothWheel: true, autoRaf: true }}>
-      <ScrollToTop />
-      {children}
+    <ReactLenis root options={{ lerp: 0.08, smoothWheel: !reduceMotion, autoRaf: true }}>
+      {/* "user" turns transform/layout animations instant under
+          prefers-reduced-motion while keeping opacity fades, so every
+          entrance degrades to a cross-fade without per-component checks. */}
+      <MotionConfig reducedMotion="user">
+        <ScrollToTop reduceMotion={reduceMotion} />
+        {children}
+      </MotionConfig>
     </ReactLenis>
   );
 }
