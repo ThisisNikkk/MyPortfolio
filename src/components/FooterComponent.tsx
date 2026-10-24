@@ -198,6 +198,20 @@ export default function FooterComponent() {
                 .dark .breathe-cell {
                     animation: breathe-dark 4s ease-in-out infinite;
                 }
+                /* A slow, large brightness oscillation is exactly what
+                   reduced motion asks to avoid: hold the lit state instead. */
+                @media (prefers-reduced-motion: reduce) {
+                    .breathe-cell,
+                    .dark .breathe-cell {
+                        animation: none;
+                    }
+                    .breathe-cell {
+                        fill: #18181b;
+                    }
+                    .dark .breathe-cell {
+                        fill: #c6f023;
+                    }
+                }
             `}</style>
 
             <div className="max-w-6xl w-full mx-auto px-6 flex flex-col gap-16">
@@ -216,7 +230,7 @@ export default function FooterComponent() {
                             </span>
                             <a
                                 href="mailto:developer.nikk@gmail.com"
-                                className="group text-base sm:text-lg md:text-xl font-bold tracking-tight text-zinc-800 hover:text-zinc-950 dark:text-zinc-200 dark:hover:text-white flex items-center gap-1.5 w-fit transition-colors duration-200"
+                                className="group text-base sm:text-lg md:text-xl font-bold tracking-tight text-zinc-800 hover:text-zinc-950 dark:text-zinc-200 dark:hover:text-white flex items-center gap-1.5 w-fit transition-[color,opacity] duration-200 active:opacity-60 active:duration-75"
                             >
                                 <span>developer.nikk@gmail.com</span>
                                 <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-400 group-hover:text-zinc-950 dark:group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
@@ -232,7 +246,7 @@ export default function FooterComponent() {
                                 href={link.href}
                                 target={link.target}
                                 rel="noopener noreferrer"
-                                className="flex justify-between items-center gap-12 group border-b border-zinc-100 hover:border-zinc-200 dark:border-zinc-900 dark:hover:border-zinc-800 pb-2.5 py-1.5 transition-all duration-200 cursor-pointer"
+                                className="flex justify-between items-center gap-12 group border-b border-zinc-100 hover:border-zinc-200 dark:border-zinc-900 dark:hover:border-zinc-800 pb-2.5 py-1.5 transition-all duration-200 active:opacity-60 active:duration-75 cursor-pointer"
                             >
                                 <span className="text-sm sm:text-base font-bold text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-950 dark:group-hover:text-white transition-colors duration-200">
                                     {link.name}

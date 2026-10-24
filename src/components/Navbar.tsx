@@ -70,7 +70,7 @@ export default function Navbar() {
                                 scroll={false}
                                 onClick={() => setHash(hashOf(link.link))}
                                 className={cn(
-                                    "px-5 py-1.5 text-md font-bold uppercase tracking-widest rounded-md transition-all duration-200",
+                                    "px-5 py-1.5 text-sm font-bold uppercase tracking-widest rounded-md transition-[color,background-color,transform] duration-200 active:scale-95 active:duration-100",
                                     isActive
                                         ? "bg-zinc-950 text-white shadow-sm dark:bg-white dark:text-black"
                                         : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/50 dark:text-zinc-400 dark:hover:text-zinc-50 dark:hover:bg-zinc-800/50"
@@ -102,7 +102,7 @@ export default function Navbar() {
                             scroll={false}
                             onClick={() => setHash(hashOf(link.link))}
                             className={cn(
-                                "w-full px-5 py-2.5 text-xs font-bold uppercase tracking-widest rounded-md transition-all duration-200 text-center",
+                                "w-full px-5 py-2.5 text-xs font-bold uppercase tracking-widest rounded-md transition-[color,background-color,transform] duration-200 active:scale-[0.97] active:duration-100 text-center",
                                 isActive
                                     ? "bg-zinc-950 text-white shadow-sm dark:bg-white dark:text-black"
                                     : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/50 dark:text-zinc-400 dark:hover:text-zinc-50 dark:hover:bg-zinc-800/50"

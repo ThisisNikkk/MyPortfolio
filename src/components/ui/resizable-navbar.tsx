@@ -8,7 +8,7 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 
 // How far the page must travel before the bar reacts to a direction change.
 // Lenis eases the scroll position, so one wheel flick arrives as a long run of
@@ -77,7 +77,7 @@ export const NavBody = ({ children, className, visible = true }: NavBodyProps) =
   return (
     <div
       className={cn(
-        "hidden sm:flex w-full bg-white dark:bg-zinc-950 border border-neutral-200/80 dark:border-neutral-800 rounded-lg flex-row items-center justify-between px-4 py-1.5",
+        "nav-material hidden sm:flex w-full border border-neutral-200/80 dark:border-neutral-800 rounded-lg flex-row items-center justify-between px-4 py-1.5",
         className
       )}
     >
@@ -101,8 +101,29 @@ export const NavItems = ({ children, className }: NavItemsProps) => {
 
 export const MobileNav = ({ children, className }: MobileNavProps) => {
   const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const menuId = useId();
+
+  // An open menu should always have a way out: Escape, or a tap anywhere
+  // outside the bar — not only the toggle button.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    const onPointerDown = (e: PointerEvent) => {
+      if (!containerRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [open]);
+
   return (
-    <div className={cn("sm:hidden flex flex-col w-full bg-white dark:bg-zinc-950 border border-neutral-200/80 dark:border-neutral-800 rounded-lg px-4 py-3", className)}>
+    <div ref={containerRef} className={cn("nav-material sm:hidden flex flex-col w-full border border-neutral-200/80 dark:border-neutral-800 rounded-lg px-4 py-2", className)}>
       <div className="flex flex-row justify-between items-center w-full">
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child) && child.type === Logo) {
@@ -110,7 +131,15 @@ export const MobileNav = ({ children, className }: MobileNavProps) => {
           }
           return null;
         })}
-        <button onClick={() => setOpen(!open)} className="p-2">
+        {/* 44px target; -mr-2 keeps the icon optically where p-2 had it. */}
+        <button
+          type="button"
+          onClick={() => setOpen(!open)}
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          aria-controls={menuId}
+          className="-mr-2 w-11 h-11 flex items-center justify-center rounded-md transition-transform duration-200 active:scale-90 active:duration-100"
+        >
           {open ? <X className="w-5 h-5 text-neutral-800 dark:text-neutral-200" /> : <Menu className="w-5 h-5 text-neutral-800 dark:text-neutral-200" />}
         </button>
       </div>
@@ -118,10 +147,12 @@ export const MobileNav = ({ children, className }: MobileNavProps) => {
       <AnimatePresence>
         {open && (
           <motion.div
+            id={menuId}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="flex flex-col gap-4 mt-4"
+            transition={{ type: "spring", bounce: 0, duration: 0.35 }}
+            className="flex flex-col gap-4 mt-4 overflow-hidden"
           >
             {React.Children.map(children, (child) => {
               if (React.isValidElement(child) && child.type !== Logo) {

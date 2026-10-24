@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef, useSyncExternalStore } from "react";
+import { motion, AnimatePresence, useInView, useReducedMotion, type PanInfo } from "framer-motion";
 import { Quote, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -40,33 +40,93 @@ const testimonials = [
     },
 ];
 
-export default function TestimonialsComponent() {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+// Content travels the way the user asked it to: "next" slides in from the
+// right and leaves to the left, "previous" the reverse. Transform + opacity
+// only, so the swap stays on the compositor.
+const slide = {
+    enter: (dir: number) => ({ opacity: 0, x: dir * 24 }),
+    center: { opacity: 1, x: 0 },
+    exit: (dir: number) => ({ opacity: 0, x: dir * -24 }),
+};
 
-    // Auto-play functionality
+const slideTransition = { type: "spring" as const, bounce: 0, duration: 0.4 };
+
+// Where a flick would come to rest if it kept decelerating like a native
+// scroll view (Apple's projection from "Designing Fluid Interfaces"). Lets a
+// short, fast swipe count as decisively as a long, slow one.
+const project = (velocity: number, decelerationRate = 0.998) =>
+    ((velocity / 1000) * decelerationRate) / (1 - decelerationRate);
+
+const SWIPE_THRESHOLD = 80;
+
+const subscribeCoarse = (onChange: () => void) => {
+    const mq = window.matchMedia("(pointer: coarse)");
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+};
+// Swipe is a touch affordance; on a mouse it would only fight text selection.
+function useCoarsePointer() {
+    return useSyncExternalStore(
+        subscribeCoarse,
+        () => window.matchMedia("(pointer: coarse)").matches,
+        () => false
+    );
+}
+
+export default function TestimonialsComponent() {
+    const [[currentIndex, direction], setPage] = useState<[number, number]>([0, 1]);
+    const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+    const [isPaused, setIsPaused] = useState(false);
+
+    const sectionRef = useRef<HTMLElement>(null);
+    const inView = useInView(sectionRef, { margin: "-20% 0px" });
+    const reduceMotion = useReducedMotion();
+    const isCoarse = useCoarsePointer();
+
+    // Auto-advance only while it can be read: on screen, not hovered or
+    // focused, and never for people who've asked for less motion.
+    const autoAdvance = isAutoPlaying && !isPaused && inView && !reduceMotion;
+
     useEffect(() => {
-        if (!isAutoPlaying) return;
+        if (!autoAdvance) return;
 
         const interval = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+            setPage(([i]) => [(i + 1) % testimonials.length, 1]);
         }, 5000);
 
         return () => clearInterval(interval);
-    }, [isAutoPlaying]);
+    }, [autoAdvance]);
 
-    const handleNext = () => {
+    const paginate = (dir: number) => {
         setIsAutoPlaying(false);
-        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+        setPage(([i]) => [(i + dir + testimonials.length) % testimonials.length, dir]);
     };
 
-    const handlePrev = () => {
+    const goTo = (idx: number) => {
         setIsAutoPlaying(false);
-        setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+        setPage(([i]) => [idx, idx >= i ? 1 : -1]);
     };
+
+    const handleDragEnd = (_: unknown, info: PanInfo) => {
+        const projected = info.offset.x + project(info.velocity.x);
+        if (projected < -SWIPE_THRESHOLD) paginate(1);
+        else if (projected > SWIPE_THRESHOLD) paginate(-1);
+    };
+
+    const current = testimonials[currentIndex];
 
     return (
-        <section id="review" className="w-full py-24 md:py-20 relative z-20 overflow-hidden">
+        <section
+            ref={sectionRef}
+            id="review"
+            className="w-full py-24 md:py-20 relative z-20 overflow-hidden"
+            onPointerEnter={(e) => e.pointerType === "mouse" && setIsPaused(true)}
+            onPointerLeave={(e) => e.pointerType === "mouse" && setIsPaused(false)}
+            onFocus={() => setIsPaused(true)}
+            onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setIsPaused(false);
+            }}
+        >
             {/* Background elements */}
             <div className="absolute inset-0 bg-zinc-50 dark:bg-[#09090b] -z-10" />
             <div className="absolute inset-0 bg-[radial-gradient(rgba(0,0,0,0.1)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none -z-10" />
@@ -126,37 +186,40 @@ export default function TestimonialsComponent() {
                             className="flex items-center gap-4"
                         >
                             <button
-                                onClick={handlePrev}
-                                className="w-12 h-12 rounded-full border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-[#c6f023] hover:text-zinc-950 hover:border-[#c6f023] transition-all bg-white dark:bg-zinc-900 shadow-sm"
+                                onClick={() => paginate(-1)}
+                                className="w-12 h-12 rounded-full border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-[#c6f023] hover:text-zinc-950 hover:border-[#c6f023] transition-all active:scale-90 active:duration-100 bg-white dark:bg-zinc-900 shadow-sm"
                                 aria-label="Previous Review"
                             >
                                 <ArrowLeft className="w-5 h-5" />
                             </button>
                             <button
-                                onClick={handleNext}
-                                className="w-12 h-12 rounded-full border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-[#c6f023] hover:text-zinc-950 hover:border-[#c6f023] transition-all bg-white dark:bg-zinc-900 shadow-sm"
+                                onClick={() => paginate(1)}
+                                className="w-12 h-12 rounded-full border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:bg-[#c6f023] hover:text-zinc-950 hover:border-[#c6f023] transition-all active:scale-90 active:duration-100 bg-white dark:bg-zinc-900 shadow-sm"
                                 aria-label="Next Review"
                             >
                                 <ArrowRight className="w-5 h-5" />
                             </button>
 
-                            {/* Pagination Indicators */}
-                            <div className="flex gap-2 ml-4">
+                            {/* Pagination Indicators. The visible bar stays slim; the
+                                button around it is a full 24px tall to be tappable. */}
+                            <div className="flex ml-3">
                                 {testimonials.map((_, idx) => (
                                     <button
                                         key={idx}
-                                        onClick={() => {
-                                            setIsAutoPlaying(false);
-                                            setCurrentIndex(idx);
-                                        }}
-                                        className={cn(
-                                            "h-1.5 rounded-full transition-all duration-300",
-                                            idx === currentIndex
-                                                ? "w-8 bg-[#c6f023]"
-                                                : "w-2 bg-zinc-300 dark:bg-zinc-700 hover:bg-zinc-400 dark:hover:bg-zinc-600"
-                                        )}
+                                        onClick={() => goTo(idx)}
+                                        className="group h-6 px-1 flex items-center"
                                         aria-label={`Go to review ${idx + 1}`}
-                                    />
+                                        aria-current={idx === currentIndex ? "true" : undefined}
+                                    >
+                                        <span
+                                            className={cn(
+                                                "block h-1.5 rounded-full transition-all duration-300",
+                                                idx === currentIndex
+                                                    ? "w-8 bg-[#c6f023]"
+                                                    : "w-2 bg-zinc-300 dark:bg-zinc-700 group-hover:bg-zinc-400 dark:group-hover:bg-zinc-600"
+                                            )}
+                                        />
+                                    </button>
                                 ))}
                             </div>
                         </motion.div>
@@ -167,54 +230,77 @@ export default function TestimonialsComponent() {
                         {/* Decorative background blobs */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-[#c6f023]/20 to-transparent blur-3xl rounded-full pointer-events-none -z-10 opacity-50 dark:opacity-20" />
 
-                        <div className="relative w-full bg-white/80 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-[32px] p-8 sm:p-10 md:p-12 shadow-xl shadow-zinc-200/50 dark:shadow-none min-h-[400px] flex flex-col justify-between">
+                        {/* On touch the card follows the finger with a rubber-banded
+                            pull, and the release is judged by where the flick would
+                            land, not where the finger lifted. */}
+                        <motion.div
+                            drag={isCoarse ? "x" : false}
+                            dragConstraints={{ left: 0, right: 0 }}
+                            dragElastic={0.2}
+                            dragDirectionLock
+                            onDragEnd={handleDragEnd}
+                            role="region"
+                            aria-roledescription="carousel"
+                            aria-label="Client reviews"
+                            className="relative w-full bg-white/80 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-[32px] p-8 sm:p-10 md:p-12 shadow-xl shadow-zinc-200/50 dark:shadow-none min-h-[400px] flex flex-col justify-between"
+                        >
                             <Quote className="absolute top-8 right-8 w-20 h-20 text-zinc-100 dark:text-zinc-800/40 -z-0" />
 
-                            <div className="relative z-10 flex-1 flex items-center mb-8">
-                                <AnimatePresence mode="wait">
+                            {/* Outgoing and incoming quotes share one grid cell, so they
+                                cross-fade in place and a new press never waits for the
+                                previous exit to finish. */}
+                            <div
+                                className="relative z-10 flex-1 grid items-center mb-8"
+                                aria-live={autoAdvance ? "off" : "polite"}
+                            >
+                                <AnimatePresence initial={false} custom={direction}>
                                     <motion.p
                                         key={currentIndex}
-                                        initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
-                                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                                        exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
-                                        transition={{ duration: 0.4, ease: "easeOut" }}
-                                        className="text-xl sm:text-2xl lg:text-3xl font-medium text-zinc-800 dark:text-zinc-200 leading-relaxed"
+                                        custom={direction}
+                                        variants={slide}
+                                        initial="enter"
+                                        animate="center"
+                                        exit="exit"
+                                        transition={slideTransition}
+                                        className="col-start-1 row-start-1 text-xl sm:text-2xl lg:text-3xl font-medium text-zinc-800 dark:text-zinc-200 leading-relaxed"
                                     >
-                                        &quot;{testimonials[currentIndex].text}&quot;
+                                        &quot;{current.text}&quot;
                                     </motion.p>
                                 </AnimatePresence>
                             </div>
 
-                            <div className="relative z-10 pt-8 border-t border-zinc-200 dark:border-zinc-800">
-                                <AnimatePresence mode="wait">
+                            <div className="relative z-10 pt-8 border-t border-zinc-200 dark:border-zinc-800 grid">
+                                <AnimatePresence initial={false} custom={direction}>
                                     <motion.div
                                         key={currentIndex}
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: 10 }}
-                                        transition={{ duration: 0.3 }}
-                                        className="flex items-center gap-4"
+                                        custom={direction}
+                                        variants={slide}
+                                        initial="enter"
+                                        animate="center"
+                                        exit="exit"
+                                        transition={slideTransition}
+                                        className="col-start-1 row-start-1 flex items-center gap-4"
                                     >
                                         <div
                                             className={cn(
                                                 "flex h-14 w-14 shrink-0 rounded-full items-center justify-center font-bold text-lg shadow-inner",
-                                                testimonials[currentIndex].color
+                                                current.color
                                             )}
                                         >
-                                            {testimonials[currentIndex].initials}
+                                            {current.initials}
                                         </div>
                                         <div className="flex flex-col">
                                             <span className="font-bold text-zinc-950 dark:text-white text-lg">
-                                                {testimonials[currentIndex].author}
+                                                {current.author}
                                             </span>
                                             <span className="text-zinc-500 dark:text-zinc-400 text-sm font-medium">
-                                                {testimonials[currentIndex].role}
+                                                {current.role}
                                             </span>
                                         </div>
                                     </motion.div>
                                 </AnimatePresence>
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
 
                 </div>

@@ -13,7 +13,9 @@ import { motion } from "framer-motion";
 
 export const EASE = [0.16, 1, 0.3, 1] as const;
 
-export const ACCENT = "text-[#c6f023]";
+// Lime as *text* only in dark mode: on white it's ~1.3:1 and unreadable, so
+// light mode carries the emphasis in near-black instead.
+export const ACCENT = "text-zinc-950 dark:text-[#c6f023]";
 
 /**
  * Lime highlight box for one phrase inside a heading — the same treatment the

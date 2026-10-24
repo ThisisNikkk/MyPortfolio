@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, MoveRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -64,7 +64,7 @@ function CaseChapter({ section, index }: { section: CaseStudySection; index: num
             transition={{ duration: 0.5, ease: EASE, delay: Math.min(i, 3) * 0.05 }}
             className="group flex gap-5 sm:gap-6 border-b border-dashed border-zinc-300 dark:border-zinc-800 py-7"
           >
-            <span className="shrink-0 pt-1 text-xs font-black tabular-nums text-zinc-400 dark:text-zinc-600 group-hover:text-[#c6f023] transition-colors duration-200">
+            <span className="shrink-0 pt-1 text-xs font-black tabular-nums text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-950 dark:group-hover:text-[#c6f023] transition-colors duration-200">
               {pad(i + 1)}
             </span>
             <div>
@@ -95,6 +95,8 @@ export default function ProjectCaseStudyClient({ project, children }: ClientProp
     offset: ["start end", "center center"],
   });
   const visualScale = useTransform(scrollYProgress, [0, 0.8], [0.94, 1]);
+  // Scroll-linked values bypass MotionConfig's reduced-motion handling.
+  const reduceMotion = useReducedMotion();
 
   return (
     // A div, not <main>: the route's page.tsx already provides the landmark.
@@ -168,7 +170,7 @@ export default function ProjectCaseStudyClient({ project, children }: ClientProp
         {/* ---------------- HERO VISUAL ---------------- */}
         <motion.div
           ref={visualRef}
-          style={{ scale: visualScale }}
+          style={reduceMotion ? undefined : { scale: visualScale }}
           className="mt-14"
         >
           {children}
@@ -237,7 +239,7 @@ export default function ProjectCaseStudyClient({ project, children }: ClientProp
           >
             <Link
               href={`/projects/${nextProject.id}`}
-              className="group mt-6 block rounded-[30px] bg-white dark:bg-zinc-900/50 p-8 sm:p-12 shadow-[0_10px_20px_rgba(0,0,0,0.10)] dark:shadow-[0_10px_20px_rgba(0,0,0,0.35)] hover:shadow-[0_16px_30px_rgba(0,0,0,0.13)] hover:-translate-y-0.5 transition-all duration-300"
+              className="group mt-6 block rounded-[30px] bg-white dark:bg-zinc-900/50 p-8 sm:p-12 shadow-[0_10px_20px_rgba(0,0,0,0.10)] dark:shadow-[0_10px_20px_rgba(0,0,0,0.35)] hover:shadow-[0_16px_30px_rgba(0,0,0,0.13)] hover:-translate-y-0.5 active:scale-[0.99] active:translate-y-0 active:duration-100 transition-all duration-300"
             >
               <div className="flex items-center justify-between gap-6 sm:gap-10">
                 <div>

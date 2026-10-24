@@ -61,3 +61,48 @@ body,
     animation: none;
   }
 }
+
+/* Floating nav: a translucent layer that page content scrolls beneath,
+   rather than an opaque strip. The bright top edge reads as light catching
+   the material. */
+.nav-material {
+  background-color: rgb(255 255 255 / 0.72);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+}
+
+.dark .nav-material {
+  background-color: rgb(9 9 11 / 0.72);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .nav-material {
+    background-color: #ffffff;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .dark .nav-material {
+    background-color: #09090b;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .nav-material {
+    background-color: #ffffff;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-color: #18181b;
+  }
+  .dark .nav-material {
+    background-color: #09090b;
+    border-color: #fafafa;
+  }
+}
+
+/* Theme switch: one root cross-fade (driven from ThemeToggle via the View
+   Transitions API) instead of an instant light/dark brightness jump. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 280ms;
+  animation-timing-function: ease;
+}

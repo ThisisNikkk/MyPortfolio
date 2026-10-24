@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -25,11 +25,13 @@ const ParallaxPlaceholder = ({ project }: { project: Project }) => {
         offset: ["start end", "end start"]
     });
     const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+    // Scroll-linked motion values bypass MotionConfig, so opt out here.
+    const reduceMotion = useReducedMotion();
 
     return (
         <motion.div
             ref={layerRef}
-            style={{ y }}
+            style={reduceMotion ? undefined : { y }}
             className={cn("absolute -inset-[15%] bg-gradient-to-br w-[130%] h-[130%]", project.color)}
         >
             <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:24px_24px]" />
@@ -55,7 +57,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
                 </p>
             </div>
 
-            <Link href={`/projects/${project.id}`} className="block relative w-full aspect-[4/3] sm:aspect-[16/10] rounded-[32px] overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 cursor-pointer shadow-sm group-hover:shadow-md transition-shadow duration-300">
+            <Link href={`/projects/${project.id}`} className="block relative w-full aspect-[4/3] sm:aspect-[16/10] rounded-[32px] overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 cursor-pointer shadow-sm group-hover:shadow-md transition-[box-shadow,transform] duration-300 active:scale-[0.99] active:duration-100">
                 {project.mockupImage ? (
                     <img
                         src={project.mockupImage}
@@ -82,6 +84,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
 export default function WorkComponent() {
     const [activeCategory, setActiveCategory] = useState(categories[0]);
     const lenis = useLenis();
+    const reduceMotion = useReducedMotion();
 
     const filteredProjects = projects.filter(p => p.category === activeCategory);
 
@@ -93,7 +96,7 @@ export default function WorkComponent() {
         setActiveCategory(cat);
         const section = document.getElementById("work");
         if (section) {
-            lenis?.scrollTo(section, { offset: -32, duration: 1 });
+            lenis?.scrollTo(section, { offset: -32, duration: 1, immediate: !!reduceMotion });
         }
     };
 
@@ -113,7 +116,9 @@ export default function WorkComponent() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
                     {/* Left Sticky Sidebar */}
                     <div className="lg:col-span-4 relative">
-                        <div className="lg:sticky lg:top-32 flex flex-col gap-10 z-20 bg-zinc-50/80 dark:bg-zinc-950/80 backdrop-blur-sm py-4 lg:py-0 lg:bg-transparent lg:dark:bg-transparent lg:backdrop-blur-none -mx-6 px-6 lg:mx-0 lg:px-0">
+                        {/* No material here: below lg this column isn't sticky, so it
+                            never floats over content and a blur would have nothing to blur. */}
+                        <div className="lg:sticky lg:top-32 flex flex-col gap-10 z-20 py-4 lg:py-0">
                             <motion.h2
                                 initial={{ opacity: 0, y: 40 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -149,7 +154,7 @@ export default function WorkComponent() {
                                             key={cat}
                                             onClick={() => handleCategoryClick(cat)}
                                             className={cn(
-                                                "px-5 py-2.5 rounded-full text-sm sm:text-base font-bold transition-colors duration-300 relative whitespace-nowrap",
+                                                "px-5 py-2.5 rounded-full text-sm sm:text-base font-bold transition-[color,transform] duration-300 active:scale-95 active:duration-100 relative whitespace-nowrap",
                                                 isActive
                                                     ? "text-zinc-950"
                                                     : "text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
@@ -171,14 +176,17 @@ export default function WorkComponent() {
                     </div>
 
                     {/* Right Scrollable Content */}
-                    <div className="lg:col-span-8 lg:pl-10 xl:pl-16 mt-8 lg:mt-0 min-h-[50vh]">
-                        <AnimatePresence mode="wait">
+                    <div className="relative lg:col-span-8 lg:pl-10 xl:pl-16 mt-8 lg:mt-0 min-h-[50vh]">
+                        {/* popLayout, not wait: the new list starts the instant a pill is
+                            tapped while the old one fades out on top, so quick taps
+                            redirect immediately instead of queueing behind an exit. */}
+                        <AnimatePresence mode="popLayout" initial={false}>
                             <motion.div
                                 key={activeCategory}
                                 initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -20 }}
-                                transition={{ duration: 0.4, ease: "easeOut" }}
+                                animate={{ opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } }}
+                                exit={{ opacity: 0, transition: { duration: 0.15, ease: "easeOut" } }}
+                                className="w-full"
                             >
                                 {filteredProjects.length > 0 ? (
                                     filteredProjects.map((project) => (

@@ -1,14 +1,34 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { Zap, Globe, Mail, Bot, Smartphone, Monitor } from "lucide-react";
+import { Zap, Globe, Mail, Bot, Smartphone, ArrowUpRight } from "lucide-react";
+
+const MotionLink = motion.create(Link);
 
 const offerings = [
   { text: "AI agents.", icon: Bot },
   { text: "mobile apps.", icon: Smartphone },
   { text: "websites.", icon: Globe },
 ];
+
+// Entrance springs are critically damped (no bounce): nothing was thrown, so
+// nothing should overshoot. The lime badges get a touch of bounce as the one
+// deliberately playful beat — kept low enough that they settle, not wobble.
+const settle = (delay: number, duration = 0.6) => ({
+  type: "spring" as const,
+  bounce: 0,
+  duration,
+  delay,
+});
+
+const pop = (delay: number) => ({
+  type: "spring" as const,
+  bounce: 0.15,
+  duration: 0.5,
+  delay,
+});
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -20,89 +40,47 @@ const containerVariants = {
 
 const subtitleVariants = {
   hidden: { y: 25, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { type: "spring" as const, stiffness: 120, damping: 20 },
-  },
+  visible: { y: 0, opacity: 1, transition: settle(0) },
 };
 
 const nameBadgeVariants = {
   hidden: { scale: 0, rotate: -10, opacity: 0 },
-  visible: {
-    scale: 1,
-    rotate: 1,
-    opacity: 1,
-    transition: { type: "spring" as const, stiffness: 220, damping: 12, delay: 0.15 },
-  },
+  visible: { scale: 1, rotate: 1, opacity: 1, transition: pop(0.15) },
 };
 
 const headlineVariants = {
   hidden: { y: 40, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { type: "spring" as const, stiffness: 100, damping: 22, delay: 0.25 },
-  },
+  visible: { y: 0, opacity: 1, transition: settle(0.25, 0.7) },
 };
 
 const zapCircleVariants = {
   hidden: { scale: 0, rotate: -45, opacity: 0 },
-  visible: {
-    scale: 1,
-    rotate: 0,
-    opacity: 1,
-    transition: { type: "spring" as const, stiffness: 240, damping: 14, delay: 0.4 },
-  },
+  visible: { scale: 1, rotate: 0, opacity: 1, transition: pop(0.4) },
 };
 
 const powerfulBadgeVariants = {
   hidden: { scale: 0, rotate: -10, opacity: 0 },
-  visible: {
-    scale: 1,
-    rotate: 1,
-    opacity: 1,
-    transition: { type: "spring" as const, stiffness: 220, damping: 12, delay: 0.5 },
-  },
+  visible: { scale: 1, rotate: 1, opacity: 1, transition: pop(0.5) },
 };
 
 const cycleContainerVariants = {
   hidden: { y: 30, opacity: 0, scale: 0.95 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    scale: 1,
-    transition: { type: "spring" as const, stiffness: 140, damping: 20, delay: 0.6 },
-  },
+  visible: { y: 0, opacity: 1, scale: 1, transition: settle(0.6) },
 };
 
 const descriptionVariants = {
   hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { type: "spring" as const, stiffness: 100, damping: 20, delay: 0.75 },
-  },
+  visible: { y: 0, opacity: 1, transition: settle(0.75) },
 };
 
 const cta1Variants = {
   hidden: { y: 15, opacity: 0, scale: 0.95 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    scale: 1,
-    transition: { type: "spring" as const, stiffness: 140, damping: 18, delay: 0.9 },
-  },
+  visible: { y: 0, opacity: 1, scale: 1, transition: settle(0.9, 0.5) },
 };
 
 const cta2Variants = {
   hidden: { y: 15, opacity: 0, scale: 0.95 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    scale: 1,
-    transition: { type: "spring" as const, stiffness: 140, damping: 18, delay: 1.0 },
-  },
+  visible: { y: 0, opacity: 1, scale: 1, transition: settle(1.0, 0.5) },
 };
 
 // GPU-composited text cycling
@@ -116,6 +94,9 @@ const iconCycleVariants = {
   initial: { scale: 0.6, rotate: -20 },
   animate: { scale: 1, rotate: 0 },
 };
+
+// Press feedback lands on pointer-down and is quick; release eases back.
+const press = { scale: 0.97, transition: { type: "spring" as const, bounce: 0, duration: 0.15 } };
 
 export default function HeroComponent() {
   const [index, setIndex] = useState(0);
@@ -156,7 +137,7 @@ export default function HeroComponent() {
           <motion.div variants={subtitleVariants} className="text-lg sm:text-xl lg:text-2xl font-medium tracking-tight text-zinc-900 dark:text-white">
             Hello, my name&apos;s{" "}
             <motion.span
-              whileHover={{ scale: 1.08, rotate: -2, y: -2 }}
+              whileHover={{ scale: 1.06, rotate: -2, y: -2 }}
               whileTap={{ scale: 0.95 }}
               variants={nameBadgeVariants}
               className="relative inline-block cursor-pointer px-3 py-1 bg-[#c6f023] text-zinc-950 rounded-[4px] md:rounded-[6px] transform rotate-1 shadow-sm leading-none align-middle font-black mx-1"
@@ -165,31 +146,37 @@ export default function HeroComponent() {
             </motion.span>
           </motion.div>
 
-          {/* Heading */}
+          {/* Heading. Sizes are rem so the headline follows the reader's
+              font-size setting; tracking tightens as the type grows. */}
           <motion.h1
             variants={headlineVariants}
-            className="text-[48px] sm:text-[76px] md:text-[84px] lg:text-[90px] xl:text-[112px] font-black tracking-tight leading-[1.05] text-zinc-950 w-full dark:text-white"
+            className="text-[3rem] sm:text-[4.75rem] md:text-[5.25rem] lg:text-[5.625rem] xl:text-[7rem] font-black tracking-[-0.03em] xl:tracking-[-0.04em] leading-[1.05] text-zinc-950 w-full dark:text-white"
           >
             I build{" "}
             <motion.span
-              whileHover={{ scale: 1.15, rotate: 12 }}
-              whileTap={{ scale: 0.9 }}
+              aria-hidden="true"
+              whileHover={{ scale: 1.08, rotate: 8 }}
+              whileTap={{ scale: 0.92 }}
               variants={zapCircleVariants}
               className="inline-flex items-center justify-center align-middle w-10 h-10 sm:w-16 sm:h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 rounded-full bg-[#c6f023] mx-1 md:mx-2 shadow-sm cursor-pointer"
             >
               <Zap className="w-5 h-5 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 text-zinc-950 fill-zinc-950" />
             </motion.span>{" "}
             <motion.span
-              whileHover={{ scale: 1.08, rotate: -2, y: -2 }}
+              whileHover={{ scale: 1.06, rotate: -2, y: -2 }}
               whileTap={{ scale: 0.95 }}
               variants={powerfulBadgeVariants}
               className="relative inline-block cursor-pointer px-4 py-1 bg-[#c6f023] text-zinc-950 rounded-[4px] md:rounded-[8px] transform rotate-1 shadow-sm leading-none align-middle font-black"
             >
               powerful
             </motion.span>
+            {/* The cycling phrase below changes every few seconds; screen
+                readers get this stable version of the heading instead. */}
+            <span className="sr-only"> AI agents, mobile apps, and websites.</span>
             <br />
             {/* will-change:transform pre-promotes this to a GPU compositing layer */}
             <motion.span
+              aria-hidden="true"
               variants={cycleContainerVariants}
               className="relative inline-flex px-4 py-2 md:py-3 bg-zinc-100 border border-zinc-200/50 text-zinc-950 rounded-[6px] md:rounded-[12px] transform -rotate-1 shadow-sm leading-none align-middle font-black mt-4 lg:mt-6 w-fit mx-auto overflow-hidden"
               style={{ willChange: "transform" }}
@@ -208,7 +195,7 @@ export default function HeroComponent() {
                     variants={iconCycleVariants}
                     initial="initial"
                     animate="animate"
-                    transition={{ type: "spring", stiffness: 260, damping: 15, delay: 0.05 }}
+                    transition={{ type: "spring", bounce: 0.1, duration: 0.45, delay: 0.05 }}
                     className="inline-flex items-center justify-center align-middle w-10 h-10 sm:w-16 sm:h-16 md:w-18 md:h-18 lg:w-20 lg:h-20 rounded-full bg-white mx-1 md:mx-2 shadow-sm border border-zinc-200 shrink-0"
                   >
                     {index === 0 && <Bot className="w-5 h-5 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 text-zinc-800" />}
@@ -242,41 +229,41 @@ export default function HeroComponent() {
 
           {/* CTA Buttons */}
           <div className="flex gap-3 sm:gap-4 lg:gap-6 justify-center w-full">
-            {/* Button 1: Get in Touch */}
-            <motion.a
-              href="mailto:developer.nikk@gmail.com"
+            {/* Button 1: Get in Touch — same destination as the nav's Contact */}
+            <MotionLink
+              href="/contact"
               whileHover="hover"
-              whileTap={{ scale: 0.98 }}
+              whileTap={press}
               variants={cta1Variants}
-              className="flex-1 sm:flex-none justify-center bg-zinc-900 text-white font-bold text-sm sm:text-md lg:text-lg px-4 py-3.5 sm:px-6 sm:py-4 lg:px-8 lg:py-5 rounded-xl inline-flex items-center gap-2 sm:gap-3 lg:gap-4 shadow-md transition-shadow duration-200 group"
+              className="flex-1 sm:flex-none justify-center bg-zinc-900 text-white font-bold text-sm sm:text-base lg:text-lg px-4 py-3.5 sm:px-6 sm:py-4 lg:px-8 lg:py-5 rounded-xl inline-flex items-center gap-2 sm:gap-3 lg:gap-4 shadow-md transition-shadow duration-200 group"
             >
               <motion.div
-                variants={{ hover: { rotate: [-10, 10, -10, 10, 0] } }}
-                transition={{ duration: 0.5 }}
+                variants={{ hover: { rotate: -8 } }}
+                transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                 className="flex items-center"
               >
-                <Mail className="w-5 h-5 lg:w-6 lg:h-6 text-white transition-transform duration-200 group-hover:scale-110" />
+                <Mail className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
               </motion.div>
               Get in Touch
-            </motion.a>
+            </MotionLink>
 
-            {/* Button 2: View Portfolio */}
+            {/* Button 2: GitHub (external, so the label and arrow say so) */}
             <motion.a
               href="https://github.com/ThisisNikkk"
               target="_blank"
               rel="noopener noreferrer"
               whileHover="hover"
-              whileTap={{ scale: 0.98 }}
+              whileTap={press}
               variants={cta2Variants}
-              className="flex-1 sm:flex-none justify-center bg-white text-zinc-900 border border-zinc-200/80 font-bold text-sm sm:text-md lg:text-lg px-4 py-3.5 sm:px-6 sm:py-4 lg:px-6 lg:py-4 rounded-xl inline-flex items-center gap-2 sm:gap-3 lg:gap-4 shadow-sm transition-shadow duration-200 group"
+              className="flex-1 sm:flex-none justify-center bg-white text-zinc-900 border border-zinc-200/80 font-bold text-sm sm:text-base lg:text-lg px-4 py-3.5 sm:px-6 sm:py-4 lg:px-6 lg:py-4 rounded-xl inline-flex items-center gap-2 sm:gap-3 lg:gap-4 shadow-sm transition-shadow duration-200 group"
             >
+              View GitHub
               <motion.div
-                variants={{ hover: { rotate: 360, scale: 1.15 } }}
-                transition={{ duration: 0.6, ease: "easeInOut" }}
+                variants={{ hover: { x: 2, y: -2 } }}
+                transition={{ type: "spring", bounce: 0, duration: 0.3 }}
               >
-                <Monitor className="w-5 h-5 lg:w-6 lg:h-6 text-black transition-transform duration-200 group-hover:scale-110" />
+                <ArrowUpRight className="w-5 h-5 lg:w-6 lg:h-6 text-black" />
               </motion.div>
-              See My Portfolio
             </motion.a>
           </div>
         </motion.section>
