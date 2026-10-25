@@ -10,6 +10,8 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useLenis } from "lenis/react";
+import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -42,6 +44,32 @@ export default function Navbar() {
         };
     }, [pathname]);
 
+    const lenis = useLenis();
+    const reduceMotion = useReducedMotion();
+
+    // Next's <Link> updates the URL with pushState, which fires no
+    // `hashchange`, and a same-page link leaves the pathname unchanged — so
+    // SmoothScrolling's scroll effect never runs. Clicking "Work" (or Home /
+    // the logo) while already on "/" changed the URL and nothing else. When
+    // the link targets the current page, scroll there ourselves.
+    const navigate = (href: string) => {
+        const fragment = hashOf(href);
+        setHash(fragment);
+
+        const path = href.split("#")[0] || "/";
+        if (path !== pathname) return; // a real route change; SmoothScrolling handles it
+
+        const target = fragment ? document.getElementById(fragment.slice(1)) : 0;
+        if (target === null) return;
+        if (lenis) {
+            lenis.scrollTo(target, { immediate: !!reduceMotion });
+        } else if (target === 0) {
+            window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+        } else {
+            target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+        }
+    };
+
     const activeLink = (() => {
         if (pathname.startsWith("/about")) return "About";
         if (pathname.startsWith("/contact")) return "Contact";
@@ -54,7 +82,7 @@ export default function Navbar() {
         <ResizableNavbar>
             <NavBody>
                 <Logo>
-                    <Link href="/" scroll={false} onClick={() => setHash("")} className="cursor-pointer flex items-center">
+                    <Link href="/" scroll={false} onClick={() => navigate("/")} className="cursor-pointer flex items-center">
                         <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={36} height={36} sizes="36px" className="dark:hidden object-contain" style={{ height: "auto" }} />
                         <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={36} height={36} sizes="36px" className="hidden dark:block object-contain" style={{ height: "auto" }} />
                     </Link>
@@ -68,7 +96,7 @@ export default function Navbar() {
                                 key={idx}
                                 href={link.link}
                                 scroll={false}
-                                onClick={() => setHash(hashOf(link.link))}
+                                onClick={() => navigate(link.link)}
                                 className={cn(
                                     "px-5 py-1.5 text-sm font-bold uppercase tracking-widest rounded-md transition-[color,background-color,transform] duration-200 active:scale-95 active:duration-100",
                                     isActive
@@ -88,7 +116,7 @@ export default function Navbar() {
 
             <MobileNav>
                 <Logo>
-                    <Link href="/" scroll={false} onClick={() => setHash("")} className="cursor-pointer flex items-center">
+                    <Link href="/" scroll={false} onClick={() => navigate("/")} className="cursor-pointer flex items-center">
                         <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="dark:hidden object-contain" style={{ height: "auto" }} />
                         <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="hidden dark:block object-contain" style={{ height: "auto" }} />
                     </Link>
@@ -100,7 +128,7 @@ export default function Navbar() {
                             key={idx}
                             href={link.link}
                             scroll={false}
-                            onClick={() => setHash(hashOf(link.link))}
+                            onClick={() => navigate(link.link)}
                             className={cn(
                                 "w-full px-5 py-2.5 text-xs font-bold uppercase tracking-widest rounded-md transition-[color,background-color,transform] duration-200 active:scale-[0.97] active:duration-100 text-center",
                                 isActive
