@@ -174,7 +174,7 @@ export const projects: Project[] = [
   {
     id: 5,
     title: "LittleBirdi",
-    description: "A map-first local discovery app that scores cafes, bars, restaurants, and boutiques, and layers in a social feed of what friends have actually been to.",
+    description: "A map-first local discovery app that scores cafes, bars, restaurants, and boutiques, rewards locals with status and real access, and gives venues tools to grow and host events.",
     category: "Mobile Applications",
     color: "from-zinc-800 to-zinc-900",
     mockupImage: "/projects/project-5-hand.webp",
@@ -185,11 +185,11 @@ export const projects: Project[] = [
     ],
     mockupImagesFramed: true,
     caseStudy: {
-      overview: "LittleBirdi is a local discovery app built around a map: search a city, filter by category (cafe, bar, restaurant, boutique), and browse curated spots ranked by a proprietary Little Birdi Score. A social layer — followers, following, and a 'Social Buzz' photo feed — pulls in what people you follow have actually been eating and drinking.",
+      overview: "LittleBirdi is a local discovery app built around a map: search a city, filter by category (cafe, bar, restaurant, boutique), and browse curated spots ranked by a proprietary Little Birdi Score. A social layer — followers, following, and a 'Social Buzz' photo feed — pulls in what people you follow have actually been eating and drinking. On top sits Flock Rewards, a two-game system that turns a good eye for local spots into status and real access, and a venue side where businesses connect to the platform, sponsor challenges, and host events for the community.",
       sections: [
         {
           title: "Problem",
-          description: "Most discovery apps force a choice: a map for finding what's nearby, or a feed for trusting what's actually good — rarely both in the same flow.",
+          description: "Most discovery apps force a choice: a map for finding what's nearby, or a feed for trusting what's actually good — rarely both in the same flow. And the people who know the good spots, and the spots themselves, get nothing back for it.",
           points: [
             {
               title: "Star Ratings Don't Differentiate",
@@ -198,12 +198,20 @@ export const projects: Project[] = [
             {
               title: "No Social Trust Signal",
               text: "Map-first apps show pins, not people — there's no way to see what places your own network is actually visiting."
+            },
+            {
+              title: "Contributors Go Unrewarded",
+              text: "The locals who post, check in, and find new places before anyone else are doing the work that makes a discovery app useful — with no status, access, or payoff in return."
+            },
+            {
+              title: "Venues Can't Reach the Crowd",
+              text: "Businesses are listed but passive: no direct way to bring people in on a slow night, build buzz before an opening, or fill an event from the app where people are already deciding where to go."
             }
           ]
         },
         {
           title: "Solution",
-          description: "I designed the app around a single map-based discovery flow, layering a proprietary score and a friends' activity feed on top instead of bolting on a separate social tab.",
+          description: "I designed the app around a single map-based discovery flow, layering a proprietary score and a friends' activity feed on top, then built two loops around it: Flock Rewards for the people who find the good spots, and venue tools for the businesses themselves.",
           points: [
             {
               title: "Category-Filtered Map Search",
@@ -216,6 +224,26 @@ export const projects: Project[] = [
             {
               title: "Social Buzz Feed",
               text: "A profile-level feed of followers, following, and friends' own photos ties recommendations back to people the user actually trusts."
+            },
+            {
+              title: "Flock Rewards: Two Separate Games",
+              text: "Everyday engagement earns Feathers — a status currency that's never spent — to climb five tiers from Hatchling to Birdi Elite, unlocking soft-opening invites, gala entry, and VIP access. Only growth and hero content (nominating venues, referrals, trend-starting posts) earns Birdi Bucks, which redeem for gift cards. The wallets never convert, so status stays generous while the cash side stays controlled."
+            },
+            {
+              title: "The Silent Game",
+              text: "No point values on buttons: most earning just happens, with a small reward after the action and a quiet tier progress bar. Growth actions are nudged in context ('Nominate this spot'), and tiers, badges, and leaderboard moves are celebrated the moment they land — while redemption is always clear."
+            },
+            {
+              title: "Solving the Cold Start",
+              text: "New users import their food posts from Instagram in one tap, so the map isn't empty on day one, and every signup gets a Scout Pass — a guaranteed early-access claim to a soft opening — as a real reward in the first 90 seconds."
+            },
+            {
+              title: "Venues Connect & Grow",
+              text: "Businesses connect themselves to the platform and fund their own Birdi Bucks campaigns — content challenges, slow-hour traffic drivers, opening buzz — giving them a self-serve way to reach the most engaged locals."
+            },
+            {
+              title: "Hosted Events",
+              text: "Venues host events — soft openings, wine nights, galas — that appear in an Events feed with upcoming and past views, one-tap 'Add to my calendar', and directions, so finding a night out and committing to it happen in the same place."
             }
           ]
         }

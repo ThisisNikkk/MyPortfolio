@@ -164,9 +164,9 @@ export default function FooterComponent() {
     }, [cellSize, startCol, startRow]);
 
     const links = [
-        { name: "Resume", href: "/nikhil-siwan-resume.pdf", target: "_blank" },
-        { name: "Linkedin", href: "https://linkedin.com/in/nikhilsiwan", target: "_blank" },
-        { name: "Behance", href: "https://behance.net/nikhilsiwan", target: "_blank" },
+        { name: "Resume", href: "/Resume.pdf", target: "_blank" },
+        { name: "LinkedIn", href: "https://linkedin.com/in/nikhilsiwan", target: "_blank" },
+        { name: "GitHub", href: "https://github.com/ThisisNikkk", target: "_blank" },
     ];
 
     return (
