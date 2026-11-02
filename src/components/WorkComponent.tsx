@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useReducedMotion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useLenis } from "lenis/react";
 import { projects, Project } from "@/data/projects";
+import FadeImage from "@/components/ui/FadeImage";
+import { heroImagesOf, preloadImages, whenIdle } from "@/lib/preload-images";
 
 const categories = [
     "Web Design",
@@ -57,11 +59,25 @@ const ProjectCard = ({ project }: { project: Project }) => {
                 </p>
             </div>
 
-            <Link href={`/projects/${project.id}`} className="block relative w-full aspect-[4/3] sm:aspect-[16/10] rounded-[32px] overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 cursor-pointer shadow-sm group-hover:shadow-md transition-[box-shadow,transform] duration-300 active:scale-[0.99] active:duration-100">
+            <Link
+                href={`/projects/${project.id}`}
+                // Intent to open: warm the case-study hero so it's decoded and
+                // in cache before the route even renders.
+                onPointerEnter={() => preloadImages(heroImagesOf(project))}
+                onFocus={() => preloadImages(heroImagesOf(project))}
+                onTouchStart={() => preloadImages(heroImagesOf(project))}
+                className="block relative w-full aspect-[4/3] sm:aspect-[16/10] rounded-[32px] overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 cursor-pointer shadow-sm group-hover:shadow-md transition-[box-shadow,transform] duration-300 active:scale-[0.99] active:duration-100"
+            >
                 {project.mockupImage ? (
-                    <img
+                    // The aspect box above reserves the space, so the thumbnail
+                    // can only fade in over the card's own background — never
+                    // shift the layout or paint in strips.
+                    <FadeImage
                         src={project.mockupImage}
                         alt={`${project.title} preview`}
+                        width={1200}
+                        height={655}
+                        loading="lazy"
                         className="absolute inset-0 w-full h-full object-cover z-[5]"
                     />
                 ) : (
@@ -87,6 +103,11 @@ export default function WorkComponent() {
     const reduceMotion = useReducedMotion();
 
     const filteredProjects = projects.filter(p => p.category === activeCategory);
+
+    // Every thumbnail, across all categories, fetched and decoded once the
+    // page goes idle (~200KB total). A category switch then paints its cards
+    // from cache in the same frame instead of loading each one in view.
+    useEffect(() => whenIdle(() => preloadImages(projects.map((p) => p.mockupImage))), []);
 
     // Switching category swaps in a shorter/taller list than whatever the
     // user had scrolled through, so snap back to the top of the section —
