@@ -60,7 +60,10 @@ export default function SmoothScrolling({ children }: SmoothScrollingProps) {
   const reduceMotion = useReducedMotion() ?? false;
 
   return (
-    <ReactLenis root options={{ lerp: 0.08, smoothWheel: !reduceMotion, autoRaf: true }}>
+    // lerp 0.1 (was 0.08): smoothing sits between the wheel and the page, so
+    // a lower value adds latency to every scroll. Trackpads already bring
+    // their own inertia; this keeps the glide without the page feeling behind.
+    <ReactLenis root options={{ lerp: 0.1, smoothWheel: !reduceMotion, autoRaf: true }}>
       {/* "user" turns transform/layout animations instant under
           prefers-reduced-motion while keeping opacity fades, so every
           entrance degrades to a cross-fade without per-component checks. */}

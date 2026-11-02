@@ -129,7 +129,7 @@ export default function ProjectCaseStudyClient({ project, children }: ClientProp
           className="mb-14"
         >
           <Link
-            href="/#work"
+            href="/work"
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white transition-colors duration-200 group"
           >
             <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1" />
@@ -180,6 +180,16 @@ export default function ProjectCaseStudyClient({ project, children }: ClientProp
               Project <span className={ACCENT}>{pad(index + 1)}</span> / {pad(projects.length)}
             </span>
           </div>
+
+          {/* Quick facts: renders only when the data has them. */}
+          {project.year && (
+            <dl className="mt-6 flex flex-wrap gap-x-10 gap-y-4">
+              <div>
+                <dt className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Year</dt>
+                <dd className="mt-1 text-sm font-bold leading-snug tabular-nums text-zinc-900 dark:text-white">{project.year}</dd>
+              </div>
+            </dl>
+          )}
         </motion.div>
 
         {/* ---------------- HERO VISUAL ---------------- */}

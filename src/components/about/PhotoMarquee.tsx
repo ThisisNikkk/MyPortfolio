@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { photos, type PhotoItem } from "./data";
+import DragMarquee from "@/components/ui/DragMarquee";
 
 /**
  * Stand-in tiles so the strip is visible while `photos` is still empty.
@@ -19,9 +20,8 @@ const placeholders: PhotoItem[] = [
  *
  * The list is rendered twice back to back and the track is shifted by exactly
  * -50%, so the second copy lands where the first began and the seam never
- * shows. The scroll is a CSS animation rather than framer-motion: a percentage
- * `x` cannot resolve against a max-content track, and framer resolves it to
- * `transform: none`. Keyframes live in globals.css.
+ * shows. DragMarquee drives it in pixels (measured from the track), so it
+ * can drift on its own and also be grabbed and flung.
  */
 export default function PhotoMarquee() {
     const isPlaceholder = photos.length === 0;
@@ -63,7 +63,7 @@ export default function PhotoMarquee() {
               gap short of the seam and the loop visibly jumps. A margin on
               every tile gives 2n gaps, making half the track exactly one copy.
             */}
-            <div className="about-marquee-track flex items-end w-max">
+            <DragMarquee className="flex items-end w-max">
                 {strip.map((photo, i) => {
                     // The second half is a visual duplicate, so keep it out of
                     // the accessibility tree.
@@ -105,7 +105,7 @@ export default function PhotoMarquee() {
                         </div>
                     );
                 })}
-            </div>
+            </DragMarquee>
         </div>
     );
 }

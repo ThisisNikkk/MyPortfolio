@@ -39,7 +39,7 @@ export const person = {
     country: "IN",
   },
   description:
-    "Software developer specialising in AI agents, high-performance mobile apps, and enterprise SaaS design systems.",
+    "Software developer in Chandigarh who designs and builds React Native apps, Next.js websites and AI agents.",
   sameAs: [
     "https://linkedin.com/in/nikhilsiwan",
     "https://behance.net/nikhilsiwan",
@@ -60,6 +60,7 @@ export const person = {
 /** Human-facing pages, used by the sitemap, llms.txt, and the 404 recovery list. */
 export const pages = [
   { path: "/", title: "Home", summary: "Portfolio overview, selected projects, and process." },
+  { path: "/work", title: "Work", summary: "Every project by category, each with a case study." },
   { path: "/about", title: "About", summary: "Background, timeline, capabilities, and FAQ." },
   { path: "/contact", title: "Contact", summary: "Email, location, and a bookable 30-minute call." },
 ] as const;

@@ -3,7 +3,10 @@
 import * as React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+
+const ICON_TURN = { type: "spring" as const, bounce: 0, duration: 0.4 };
 
 export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
@@ -50,7 +53,28 @@ export function ThemeToggle({ className }: { className?: string }) {
       )}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
     >
-      {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+      {/* Both glyphs stay mounted and cross-rotate, the same way the mobile
+          menu's icon morphs, so the switch reads as one icon turning over. */}
+      <span className="relative w-5 h-5">
+        <motion.span
+          aria-hidden
+          className="absolute inset-0"
+          initial={false}
+          animate={isDark ? { opacity: 1, rotate: 0, scale: 1 } : { opacity: 0, rotate: -90, scale: 0.6 }}
+          transition={ICON_TURN}
+        >
+          <Sun className="w-5 h-5" />
+        </motion.span>
+        <motion.span
+          aria-hidden
+          className="absolute inset-0"
+          initial={false}
+          animate={isDark ? { opacity: 0, rotate: 90, scale: 0.6 } : { opacity: 1, rotate: 0, scale: 1 }}
+          transition={ICON_TURN}
+        >
+          <Moon className="w-5 h-5" />
+        </motion.span>
+      </span>
     </button>
   );
 }

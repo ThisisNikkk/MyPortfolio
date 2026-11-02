@@ -16,6 +16,11 @@ export interface Project {
   mockupImage?: string;
   mockupImages?: string[];
   mockupImagesFramed?: boolean;
+  /**
+   * Quick facts shown under the case-study title. All optional: set only
+   * what's actually known, and the row hides whatever is missing.
+   */
+  year?: string;
   caseStudy?: {
     overview: string;
     sections: CaseStudySection[];
@@ -27,63 +32,63 @@ export const projects: Project[] = [
   {
     id: 13,
     title: "Court Doc Pro Website",
-    description: "The marketing site for Court Doc Pro, an AI-enhanced behavioral documentation app for co-parents — built to explain a complex, sensitive product clearly and turn a stressed visitor into a free-trial signup.",
+    description: "The marketing site for Court Doc Pro, an app that helps co-parents document incidents and see the patterns in them. Its job is to explain a heavy, unfamiliar product to stressed parents and get them to start a free trial.",
     category: "Web Design",
     color: "from-zinc-800 to-zinc-900",
     mockupImage: "/projects/project-13-hand.webp",
     mockupImages: ["/projects/project-13-inside.webp"],
     caseStudy: {
-      overview: "Court Doc Pro helps parents dealing with a high-conflict co-parent turn individual incidents into a structured record of recurring behaviors and their impact. The website is where that idea has to land: a single long-form page that walks a visitor from 'no one understands what keeps happening' to the product's DATA method, a look inside the app, a sample report, and a 7-day free trial — while staying clear that it's a documentation tool, not legal or mental health advice.",
+      overview: "Court Doc Pro helps parents dealing with a high-conflict co-parent keep a record of what keeps happening and how it affects their kids. The website has one job: take someone who feels like nobody believes them and walk them, on a single long page, to the 7-day free trial. On the way it explains the DATA method, shows the app and a sample report, and is upfront that the product is a documentation tool, not legal or mental health advice.",
       sections: [
         {
           title: "Problem",
-          description: "The product is abstract and the audience is under real stress. 'Behavioral documentation framework' means nothing to someone who has spent years collecting screenshots — the site had to make the value obvious, earn trust fast, and never overpromise.",
+          description: "The idea behind the product is abstract, and the people reading about it are tired and stressed. Nobody who has spent years screenshotting texts knows what a \"behavioral documentation framework\" is. The page had to make the value obvious fast, earn some trust, and never promise more than the product does.",
           points: [
             {
-              title: "A Complex Idea to Explain",
-              text: "The core value — that a pattern only emerges when incidents are connected — is hard to show in a headline, and harder to show without an example."
+              title: "Hard to explain in a headline",
+              text: "The whole point is that a pattern only shows up once incidents are connected. That's hard to say in one line, and harder still without an example to point at."
             },
             {
-              title: "A Sensitive, Skeptical Audience",
-              text: "Visitors are exhausted parents who have often felt dismissed by family, professionals, or courts. Generic SaaS copy or hype would read as one more thing that doesn't understand them."
+              title: "A wary audience",
+              text: "A lot of visitors have already felt brushed off by family, lawyers or the court. Polished startup copy would read as one more thing that doesn't get it."
             },
             {
-              title: "Trust Before Signup",
-              text: "People are being asked to put private, emotionally heavy records into an app, so privacy, credibility, and what the product does not do all needed answers before the trial CTA."
+              title: "Trust has to come before the signup",
+              text: "The site asks people to put private, painful records into an app. Privacy, who built it, and what it won't do all needed answers before the page asked for anything."
             },
             {
-              title: "Value Against a Real Alternative",
-              text: "The honest comparison isn't another app — it's 20–60 hours of specialized professional work costing $8,000–$25,000, and that had to come across without sounding like a sales pitch."
+              title: "The real alternative is expensive",
+              text: "Parents aren't comparing this to another app. They're comparing it to paying a professional $8,000 to $25,000 for 20 to 60 hours of work, and I wanted that to land without sounding like a sales pitch."
             }
           ]
         },
         {
           title: "Solution",
-          description: "I built the site as one guided story that mirrors the visitor's own experience — recognition first, then the method, then proof — with the trial offer repeated at each natural decision point.",
+          description: "I laid the page out as one story that follows what the visitor has been living through. First they recognize their situation, then they see the method, then the proof. The free trial comes back at each point where someone might be ready for it.",
           points: [
             {
-              title: "A Hero That Shows the Payoff",
-              text: "'Document the Incidents. Reveal the Pattern.' sits beside a live-looking app screen and a floating 'Pattern summary' card, so the outcome is visible before a single paragraph is read."
+              title: "A hero that shows the result",
+              text: "\"Document the Incidents. Reveal the Pattern.\" sits next to an app screen and a small pattern summary card. You see what you'd get before reading a single paragraph."
             },
             {
-              title: "Recognition Before Features",
-              text: "An empathy section lists the moments visitors already know — the missed parenting time, the unanswered requests, the unilateral decisions — before the product is ever pitched."
+              title: "Their situation before our features",
+              text: "Before any feature appears, there's a section listing things these parents know too well: the missed parenting time, the unanswered requests, the decisions made without them."
             },
             {
-              title: "The DATA Method, Spelled Out",
-              text: "Document, Analyze, Track, Articulate turns an abstract framework into four memorable letters, each with one plain-language explanation."
+              title: "The DATA method in four letters",
+              text: "Document, Analyze, Track, Articulate. Each letter gets one plain sentence, which makes the framework easy to remember."
             },
             {
-              title: "Inside the App and What It Tracks",
-              text: "A four-step walkthrough with real app screens shows exactly how an incident is logged, and the nine tracked categories give visitors a place to recognize their own situation."
+              title: "A look inside the app",
+              text: "A four-step walkthrough uses real app screens to show how an incident gets logged. Right after it come the nine tracked categories, and most parents will spot their own situation somewhere in that list."
             },
             {
-              title: "A Sample Report as Proof",
-              text: "A report preview — chronological incidents, behaviors grouped by category, a recurring-pattern summary, and documented impact — shows the deliverable instead of describing it."
+              title: "A sample report",
+              text: "The page shows a report instead of describing one: incidents in order, behaviors grouped by category, a short pattern summary and the impact on parenting time."
             },
             {
-              title: "Trust, Then the Ask",
-              text: "A cost comparison, testimonials, the founders' 20 years of behavioral psychology experience, and an FAQ on privacy, exports, cancellation, and the no-legal-advice boundary all come before a repeated, low-pressure 7-day free trial."
+              title: "Trust first, then the ask",
+              text: "The cost comparison, testimonials, the founders' 20 years in behavioral psychology and an FAQ on privacy, exports, cancelling and the no-legal-advice line all come before the last push to start the trial."
             }
           ]
         }
@@ -93,47 +98,47 @@ export const projects: Project[] = [
   {
     id: 1,
     title: "Heal",
-    description: "A mental wellness platform guiding users through a five-step healing journey — Discover, Reflect, Act, Track, Grow — with daily check-ins, an AI companion, and a calm, low-noise interface.",
+    description: "A mental wellness platform built around a five-step journey (Discover, Reflect, Act, Track, Grow), with daily check-ins, an AI companion and a calm interface that stays out of the way.",
     category: "Web Design",
     color: "from-zinc-800 to-zinc-900",
     mockupImage: "/projects/project-1-hand.webp",
     mockupImages: ["/projects/project-1-inside.webp"],
     caseStudy: {
-      overview: "Heal is a mental wellness platform built around a five-step healing journey. Guided daily check-ins, a private journal with mood tagging, an AI companion, curated quotes, and challenge-based modules give users a structured, low-friction way to build emotional awareness over time — tracked through a calendar-based progress path.",
+      overview: "Heal gives people a structured way to check in with themselves. There are guided daily check-ins, a private journal with mood tags, an AI companion, quotes, challenge-based modules, and a calendar that shows progress over the weeks.",
       sections: [
         {
           title: "Problem",
-          description: "Most wellness apps present users with an open-ended blank slate — a journal with no prompts, a mood tracker with no context — which asks for more emotional labor than someone in a low moment can give.",
+          description: "Most wellness apps open to a blank journal or a mood tracker with no context. That's a lot to ask of someone who's having a bad day.",
           points: [
             {
-              title: "No Clear Starting Point",
-              text: "Generic journaling and mood-tracking tools drop users into an empty screen with no guidance on where to begin."
+              title: "Nowhere to start",
+              text: "You open the app and get an empty screen, with no hint of what to write or where to begin."
             },
             {
-              title: "Cluttered, Clinical Interfaces",
-              text: "Existing apps lean heavily on charts and dense navigation, which reads as clinical rather than calming for someone seeking emotional support."
+              title: "Interfaces that feel clinical",
+              text: "Charts and dense menus make sense in a fitness app. For someone looking for emotional support, they feel cold."
             }
           ]
         },
         {
           title: "Solution",
-          description: "I designed the product around a five-step journey — Discover, Reflect, Act, Track, Grow — so every screen has a clear next action instead of an open-ended blank state.",
+          description: "I designed Heal around five steps, Discover, Reflect, Act, Track and Grow, so every screen has an obvious next thing to do.",
           points: [
             {
-              title: "Guided Onboarding",
-              text: "A short, conversational intake (What brings you here? How have you been feeling? What would you like to feel more of?) personalizes the experience before the user ever sees an empty journal."
+              title: "Onboarding that asks first",
+              text: "A short intake asks what brought you here, how you've been feeling and what you'd like to feel more of. By the time you see the journal, the app already knows a bit about you."
             },
             {
-              title: "Structured Daily Check-Ins",
-              text: "Simple, prompted questions replace the blank page, helping users name what they feel and why, one day at a time."
+              title: "Daily check-ins with prompts",
+              text: "Simple questions replace the blank page and help people name what they feel and why, one day at a time."
             },
             {
-              title: "AI Companion & Modules",
-              text: "A conversational AI companion (\"Talk\") and topic-based challenge modules give users something to act on between reflection sessions."
+              title: "An AI companion and modules",
+              text: "\"Talk\" is an AI companion you can chat with, and the topic-based challenge modules give people something to do between reflections."
             },
             {
-              title: "Quiet Mode",
-              text: "A softer interface variant strips back visual noise for nightly reflection, keeping the calm-first design promise even in low-energy moments."
+              title: "Quiet mode",
+              text: "A softer version of the interface for reflecting at night, with most of the visual noise taken out."
             }
           ]
         }
@@ -143,47 +148,47 @@ export const projects: Project[] = [
   {
     id: 2,
     title: "LangoFunk",
-    description: "A language-learning app that turns streamed songs into interactive lessons — tap a lyric for an instant translation and build vocabulary one track at a time.",
+    description: "A language-learning app built on music. Tap a word in the lyrics while the song plays, get the translation, and pick up vocabulary one track at a time.",
     category: "Web Design",
     color: "from-zinc-900 to-zinc-800",
     mockupImage: "/projects/project-2-hand.webp",
     mockupImages: ["/projects/project-2-inside.webp"],
     caseStudy: {
-      overview: "LangoFunk teaches vocabulary through music people already listen to. Songs pull in from Spotify or a global catalog with synced lyrics; tapping any word gives an instant, in-context translation, and an AI coach (\"Papa Funk\") adds practice and slang lessons on top.",
+      overview: "LangoFunk teaches vocabulary through songs people already listen to. Tracks come from Spotify or a global catalog with synced lyrics. Tap any word for a translation in context, and an AI coach called Papa Funk adds practice and slang on top.",
       sections: [
         {
           title: "Problem",
-          description: "Traditional language apps ask users to sit down and drill flashcards in a dedicated study session — a habit that's easy to start and hard to keep up.",
+          description: "Most language apps want you to sit down for a study session and drill flashcards. It's easy to start and hard to keep doing.",
           points: [
             {
-              title: "Study Feels Like a Chore",
-              text: "Flashcard and drill-based apps compete for a separate block of a user's time instead of living inside something they already do daily."
+              title: "Studying feels like homework",
+              text: "Flashcard apps need their own slot in your day. They don't fit into anything you already do."
             },
             {
-              title: "Vocabulary Without Context",
-              text: "Word lists learned in isolation rarely stick, since there's no emotional or situational hook tying the word to a memory."
+              title: "Words with no context",
+              text: "Word lists learned on their own rarely stick, because nothing ties them to a moment or a feeling."
             }
           ]
         },
         {
           title: "Solution",
-          description: "I designed the experience around tapping into an existing habit — listening to music — so learning happens passively, one lyric at a time.",
+          description: "I designed LangoFunk around something people already do every day, listening to music, so the learning happens while the song plays.",
           points: [
             {
-              title: "Tap-to-Translate Lyrics",
-              text: "Synced lyrics let users tap any unfamiliar word mid-song for an instant, in-context translation rather than an isolated flashcard."
+              title: "Tap a lyric to translate it",
+              text: "Lyrics stay in sync with the song. Tap a word you don't know and you get the meaning right there, in the line it came from."
             },
             {
-              title: "Spotify-Connected Catalog",
-              text: "Pulling in a user's own playlists (or a global chart) means the learning material is music they already chose to listen to."
+              title: "Your own Spotify music",
+              text: "It pulls in your playlists or a global chart. You're learning from songs you picked yourself."
             },
             {
-              title: "New → Known Word Tracking",
-              text: "Words visually progress from 'New' to 'Known' as users re-encounter them, giving a lightweight sense of mastery without a formal quiz."
+              title: "From new to known",
+              text: "Words move from \"New\" to \"Known\" as you keep running into them, so you can see progress without sitting a quiz."
             },
             {
-              title: "Papa Funk AI Coach",
-              text: "An AI language coach layers in slang, practice prompts, and personalized recommendations on top of the songs a user streams."
+              title: "Papa Funk, the AI coach",
+              text: "An AI coach adds slang, practice prompts and recommendations based on what you've been listening to."
             }
           ]
         }
@@ -193,43 +198,43 @@ export const projects: Project[] = [
   {
     id: 3,
     title: "MyCareerAssessment",
-    description: "A 25-question career readiness quiz that scores users across five dimensions and hands back a personalized action plan instead of a generic report.",
+    description: "A 25-question career readiness quiz that scores you on five dimensions, then tells you what to work on next.",
     category: "Web Design",
     color: "from-zinc-800 to-zinc-950",
     mockupImage: "/projects/project-3-hand.webp",
     mockupImages: ["/projects/project-3-inside.webp"],
     caseStudy: {
-      overview: "MyCareerAssessment is a quiz-driven career readiness tool. Users answer 25 questions, get scored across five dimensions — Clarity, Ownership, Curiosity, Confidence, and Network & Visibility — and land on a personalized action plan instead of a generic \"here's your result\" page.",
+      overview: "MyCareerAssessment is a career readiness quiz. You answer 25 questions, get a score for each of five dimensions (Clarity, Ownership, Curiosity, Confidence, and Network & Visibility), and end up with a plan for what to work on next.",
       sections: [
         {
           title: "Problem",
-          description: "Most online career quizzes end at a single score or label, leaving the user with a data point but no idea what to actually do next.",
+          description: "Most career quizzes end with one score or a label. You learn something about yourself and have no idea what to do with it.",
           points: [
             {
-              title: "Score Without a Next Step",
-              text: "Generic assessments hand back a number or label and stop there, offering no concrete plan for what to do with the result."
+              title: "A score with nothing after it",
+              text: "You get a number or a type, and that's where it ends."
             },
             {
-              title: "One-Dimensional Scoring",
-              text: "Career readiness collapses into a single axis in most tools, hiding whether the real gap is confidence, direction, or visibility."
+              title: "Everything squashed into one number",
+              text: "Readiness usually comes out as a single score, which hides whether the actual gap is confidence, direction or how visible you are."
             }
           ]
         },
         {
           title: "Solution",
-          description: "I designed the flow around five distinct dimensions and a results page built to feel like a personalized action plan rather than a static report.",
+          description: "I designed the quiz around five separate dimensions and made the results page read like a plan someone wrote for you.",
           points: [
             {
-              title: "Five-Dimension Framework",
-              text: "Clarity, Ownership, Curiosity, Confidence, and Network & Visibility are scored separately, so the result points to a specific gap rather than a single vague number."
+              title: "Five dimensions, scored separately",
+              text: "Clarity, Ownership, Curiosity, Confidence, and Network & Visibility each get their own score. That way the result points at a specific gap."
             },
             {
-              title: "25-Question Flow",
-              text: "A short, focused question set keeps completion friction low while still covering all five dimensions in enough depth to score meaningfully."
+              title: "25 questions",
+              text: "Short enough that people finish it, and long enough to score all five dimensions properly."
             },
             {
-              title: "Personalized Action Plan",
-              text: "The results page translates each dimension score into a concrete next step, so the takeaway is a plan rather than just a label."
+              title: "An action plan at the end",
+              text: "Each dimension score turns into a concrete next step. You leave with something to actually do."
             }
           ]
         }
@@ -240,7 +245,7 @@ export const projects: Project[] = [
   {
     id: 14,
     title: "Court Doc Pro App",
-    description: "An AI-enhanced behavioral documentation app for co-parents that turns individual incidents into a structured record of recurring patterns and their impact over time.",
+    description: "An app for co-parents that turns one-off incidents into a running record, then uses AI to show which behaviors keep repeating and how often.",
     category: "Mobile Applications",
     color: "from-zinc-800 to-zinc-900",
     mockupImage: "/projects/project-14-hand.webp",
@@ -251,57 +256,57 @@ export const projects: Project[] = [
     ],
     mockupImagesFramed: true,
     caseStudy: {
-      overview: "Court Doc Pro is an AI-enhanced behavioral documentation app for parents dealing with a high-conflict co-parent. Built on a behavioral documentation framework from two behavioral experts with 20 years of experience, it turns individual incidents into a structured, cumulative record — which behaviors recur, how often, and what impact they've had — that can be exported as a clear report for professionals or family court. It organizes and summarizes what the user records; it doesn't give legal or mental health advice, verify events, or determine intent.",
+      overview: "Court Doc Pro is for parents dealing with a high-conflict co-parent, and it's built on a documentation framework from two behavioral experts with 20 years of experience. You log incidents as they happen and the app connects the related ones. Over time you get a record of which behaviors keep coming back, how often, and what they've cost, which exports as a report you can hand to a professional or a family court. It organizes what you record. It doesn't give legal or mental health advice, check whether events happened, or guess at anyone's intent.",
       sections: [
         {
           title: "Problem",
-          description: "In high-conflict co-parenting the issue is rarely one incident — it's the pattern. But a pattern only shows up when events are connected, and most parents are left with hundreds of messages and scattered screenshots that don't explain it.",
+          description: "With a high-conflict co-parent it's rarely one incident that matters. It's the pattern. But a pattern only shows up once events are connected, and most parents are left with hundreds of messages and screenshots that don't explain much on their own.",
           points: [
             {
-              title: "Isolated Incidents Get Dismissed",
-              text: "One missed exchange or one unanswered message is easy to write off as a misunderstanding. What gets overlooked is the recurring behavior and its cumulative impact on the children and the co-parenting relationship."
+              title: "One incident is easy to dismiss",
+              text: "A missed exchange or an ignored message can be written off as a misunderstanding. What gets lost is how often it happens and what it does to the kids over time."
             },
             {
-              title: "History Scattered Across a Phone",
-              text: "Months or years of incidents live in texts, screenshots, and memory, so every time the story needs telling — to family, an attorney, or a court — the parent starts from scratch."
+              title: "The history lives in a phone",
+              text: "Years of incidents sit in texts, screenshots and memory. Every time the story has to be told again, to family, a lawyer or a judge, the parent starts from zero."
             },
             {
-              title: "Professional Documentation Is Out of Reach",
-              text: "Doing this properly means identifying observable behaviors, connecting related events, tracking recurrence, and documenting impact — 20–60 hours of specialized professional work that can cost $8,000–$25,000."
+              title: "Doing it properly costs a lot",
+              text: "Spotting behaviors, connecting events, tracking how often they recur and writing up the impact is 20 to 60 hours of specialist work, and it can cost $8,000 to $25,000."
             },
             {
-              title: "Conflict Doesn't End at One Hearing",
-              text: "An agreement or a new parenting plan doesn't always stop recurring issues, and when something happens again six months later, the history that came before it still matters."
+              title: "It doesn't end after one hearing",
+              text: "A new agreement or parenting plan doesn't always stop the problems. When something happens again six months later, everything before it still matters."
             }
           ]
         },
         {
           title: "Solution",
-          description: "I built the app around the DATA method — Document, Analyze, Track, Articulate — so every entry feeds a growing record instead of becoming a one-off note, and the pattern emerges as the parent keeps documenting.",
+          description: "I built the app around the DATA method (Document, Analyze, Track, Articulate), so each entry adds to a record that keeps growing. The more a parent documents, the clearer the pattern gets.",
           points: [
             {
-              title: "One Clear Home Screen",
-              text: "A single 'Document an Incident' action leads the dashboard, with running counts of incidents, categories, evidence, and reports, and a recent-activity list tagged by category — so the record's growth is visible at a glance."
+              title: "A home screen with one main action",
+              text: "\"Document an Incident\" is the big button. Under it are counts for incidents, categories, evidence and reports, plus recent activity tagged by category, so you can watch the record build up."
             },
             {
-              title: "Four-Step Incident Entry",
-              text: "What happened, which category it falls under, attached evidence, then a behavioral analysis — a guided flow with a progress indicator that captures facts and observable behavior instead of an open-ended text box."
+              title: "Logging an incident in four steps",
+              text: "What happened, which category it fits, any evidence, then a behavioral analysis. A progress bar keeps you oriented, and the prompts ask for facts and observable behavior rather than a wall of text."
             },
             {
-              title: "Nine Behavior Categories",
-              text: "Parenting time, decision-making, communication, parenting and financial responsibilities, basic needs, exchanges, the parent-child relationship, and pressure and intimidation give every incident a place in a larger pattern."
+              title: "Nine behavior categories",
+              text: "Parenting time, decision-making, communication, parenting responsibilities, financial responsibilities, basic needs, exchanges, the parent-child relationship, and pressure and intimidation. Every incident lands in one of them."
             },
             {
-              title: "AI-Enhanced Pattern Analysis",
-              text: "The framework connects related incidents, identifies recurring behaviors, and tracks their frequency, so a finding like 'exchanges didn't take place 3 times across 7 weeks' surfaces on its own rather than being pieced together by hand."
+              title: "AI that finds the pattern",
+              text: "The framework links related incidents and counts how often each behavior shows up. A line like \"exchanges didn't take place 3 times across 7 weeks\" comes out of the data, and nobody has to add it up by hand."
             },
             {
-              title: "Behavioral Summary Reports",
-              text: "One export brings together chronological incident records, behaviors grouped by category, recurring-pattern summaries, cumulative data and graphs, and documented impacts — written in clear, objective language for professionals or family court."
+              title: "Reports for professionals and court",
+              text: "One export pulls together the incidents in order, behaviors by category, the recurring patterns, charts and the documented impact, all written in plain, neutral language."
             },
             {
-              title: "Built for the Long Run, Private by Default",
-              text: "Photos, PDFs, and screenshots attach to each incident, and every new entry strengthens an existing category instead of starting a new file. Entries are visible only to the user until they choose to export or share a report."
+              title: "Private, and built to keep going",
+              text: "Photos, PDFs and screenshots attach to each incident, and new entries add to the categories you already have rather than starting a new file. Nobody else sees any of it unless you export or share a report."
             }
           ]
         }
@@ -311,7 +316,7 @@ export const projects: Project[] = [
   {
     id: 5,
     title: "LittleBirdi",
-    description: "A map-first local discovery app that scores cafes, bars, restaurants, and boutiques, rewards locals with status and real access, and gives venues tools to grow and host events.",
+    description: "A map-first app for finding local cafes, bars, restaurants and boutiques. Locals earn status and perks for finding good spots, and venues get tools to bring people in and host events.",
     category: "Mobile Applications",
     color: "from-zinc-800 to-zinc-900",
     mockupImage: "/projects/project-5-hand.webp",
@@ -322,65 +327,65 @@ export const projects: Project[] = [
     ],
     mockupImagesFramed: true,
     caseStudy: {
-      overview: "LittleBirdi is a local discovery app built around a map: search a city, filter by category (cafe, bar, restaurant, boutique), and browse curated spots ranked by a proprietary Little Birdi Score. A social layer — followers, following, and a 'Social Buzz' photo feed — pulls in what people you follow have actually been eating and drinking. On top sits Flock Rewards, a two-game system that turns a good eye for local spots into status and real access, and a venue side where businesses connect to the platform, sponsor challenges, and host events for the community.",
+      overview: "LittleBirdi is a local discovery app built around a map. Search a city, filter by cafe, bar, restaurant or boutique, and browse spots ranked by the Little Birdi Score. The social side, with followers, following and a Social Buzz photo feed, shows where people you follow have actually been. On top of that sit Flock Rewards, which gives people status and perks for finding good places, and a set of tools that let venues sponsor challenges and host events.",
       sections: [
         {
           title: "Problem",
-          description: "Most discovery apps force a choice: a map for finding what's nearby, or a feed for trusting what's actually good — rarely both in the same flow. And the people who know the good spots, and the spots themselves, get nothing back for it.",
+          description: "Most discovery apps make you pick between a map that shows what's nearby and a feed that tells you what's good. Hardly any do both. And neither the people who find great spots nor the spots themselves get anything back.",
           points: [
             {
-              title: "Star Ratings Don't Differentiate",
-              text: "A generic 4.2-star average doesn't tell you whether a spot is trending right now or just accumulating old reviews."
+              title: "Star ratings all look the same",
+              text: "A 4.2 average doesn't tell you whether a place is popular right now or just sitting on old reviews."
             },
             {
-              title: "No Social Trust Signal",
-              text: "Map-first apps show pins, not people — there's no way to see what places your own network is actually visiting."
+              title: "Pins, but no people",
+              text: "Map apps show you locations. They don't show you where your friends actually go."
             },
             {
-              title: "Contributors Go Unrewarded",
-              text: "The locals who post, check in, and find new places before anyone else are doing the work that makes a discovery app useful — with no status, access, or payoff in return."
+              title: "Nothing for the people doing the work",
+              text: "Locals who post, check in and find places early are the reason a discovery app is any good, and they get no status, perks or payoff for it."
             },
             {
-              title: "Venues Can't Reach the Crowd",
-              text: "Businesses are listed but passive: no direct way to bring people in on a slow night, build buzz before an opening, or fill an event from the app where people are already deciding where to go."
+              title: "Venues can't reach anyone",
+              text: "Businesses get listed and that's it. They can't bring people in on a quiet night, build hype before opening, or fill an event from inside the app people use to decide where to go."
             }
           ]
         },
         {
           title: "Solution",
-          description: "I designed the app around a single map-based discovery flow, layering a proprietary score and a friends' activity feed on top, then built two loops around it: Flock Rewards for the people who find the good spots, and venue tools for the businesses themselves.",
+          description: "I designed the app around one map-based discovery flow, with the score and a friends' feed layered on top. Then I built two loops around it: Flock Rewards for the people who find good places, and tools for the venues themselves.",
           points: [
             {
-              title: "Category-Filtered Map Search",
-              text: "Location search with one-tap category filters (Cafe, Bar, Restaurant, Boutique) keeps discovery anchored to where the user actually is."
+              title: "Map search with category filters",
+              text: "Search a location and filter with one tap: Cafe, Bar, Restaurant or Boutique. Discovery stays tied to where you are."
             },
             {
-              title: "Little Birdi Score & Trending",
-              text: "Each curated spot carries a proprietary score plus a live 'trending now' count, giving a faster trust signal than a plain star rating."
+              title: "Little Birdi Score and trending",
+              text: "Every curated spot has its own score and a live \"trending now\" count. It's a quicker read than a star rating."
             },
             {
-              title: "Social Buzz Feed",
-              text: "A profile-level feed of followers, following, and friends' own photos ties recommendations back to people the user actually trusts."
+              title: "Social Buzz feed",
+              text: "Followers, following and your friends' photos in one feed. Recommendations come from people you know."
             },
             {
-              title: "Flock Rewards: Two Separate Games",
-              text: "Everyday engagement earns Feathers — a status currency that's never spent — to climb five tiers from Hatchling to Birdi Elite, unlocking soft-opening invites, gala entry, and VIP access. Only growth and hero content (nominating venues, referrals, trend-starting posts) earns Birdi Bucks, which redeem for gift cards. The wallets never convert, so status stays generous while the cash side stays controlled."
+              title: "Flock Rewards, two separate games",
+              text: "Everyday activity earns Feathers. You never spend them; they move you through five tiers from Hatchling to Birdi Elite and unlock soft-opening invites, gala entry and VIP access. Only growth actions and top content (nominating venues, referrals, posts that start a trend) earn Birdi Bucks, which turn into gift cards. The two never convert into each other, so status can be generous while the cash side stays under control."
             },
             {
-              title: "The Silent Game",
-              text: "No point values on buttons: most earning just happens, with a small reward after the action and a quiet tier progress bar. Growth actions are nudged in context ('Nominate this spot'), and tiers, badges, and leaderboard moves are celebrated the moment they land — while redemption is always clear."
+              title: "Rewards that stay quiet",
+              text: "Buttons don't show point values. Most rewards just happen after you do something, with a small pop and a tier progress bar. Growth actions get suggested where they make sense (\"Nominate this spot\"), and new tiers, badges and leaderboard jumps get celebrated when they happen. The one thing that's never hidden is how to cash out."
             },
             {
-              title: "Solving the Cold Start",
-              text: "New users import their food posts from Instagram in one tap, so the map isn't empty on day one, and every signup gets a Scout Pass — a guaranteed early-access claim to a soft opening — as a real reward in the first 90 seconds."
+              title: "Fixing the empty map",
+              text: "New users can import their food posts from Instagram in one tap, which fills the map from day one. Everyone who signs up also gets a Scout Pass, a guaranteed early spot at a soft opening, within their first 90 seconds."
             },
             {
-              title: "Venues Connect & Grow",
-              text: "Businesses connect themselves to the platform and fund their own Birdi Bucks campaigns — content challenges, slow-hour traffic drivers, opening buzz — giving them a self-serve way to reach the most engaged locals."
+              title: "Venues sign up and grow",
+              text: "Businesses join the platform themselves and fund their own Birdi Bucks campaigns, like content challenges, slow-hour offers or buzz before an opening. It's a self-serve way to reach the most active locals."
             },
             {
-              title: "Hosted Events",
-              text: "Venues host events — soft openings, wine nights, galas — that appear in an Events feed with upcoming and past views, one-tap 'Add to my calendar', and directions, so finding a night out and committing to it happen in the same place."
+              title: "Hosted events",
+              text: "Venues post events such as soft openings, wine nights and galas. They show up in an Events feed with upcoming and past tabs, one-tap \"Add to my calendar\" and directions, so you can find a night out and commit to it in the same place."
             }
           ]
         }
@@ -390,7 +395,7 @@ export const projects: Project[] = [
   {
     id: 6,
     title: "WatchDock",
-    description: "A streaming aggregator that pulls movies and TV series into one hub, with a group quiz mode built for the age-old 'what should we watch' standoff.",
+    description: "A streaming aggregator that puts movies and series from different platforms in one place, plus a group quiz for the nightly \"what should we watch\" argument.",
     category: "Mobile Applications",
     color: "from-zinc-900 to-zinc-800",
     mockupImage: "/projects/project-6-hand.webp",
@@ -401,37 +406,37 @@ export const projects: Project[] = [
     ],
     mockupImagesFramed: true,
     caseStudy: {
-      overview: "WatchDock centralizes movies and TV series across streaming platforms and rentals into one searchable hub, organized into Trending, Watchlist, Hub, Theater, and For You tabs. A quiz-driven 'decide together' flow sits on top, turning group indecision into a quick pick.",
+      overview: "WatchDock pulls movies and TV series from streaming platforms and rentals into one searchable app, split into Trending, Watchlist, Hub, Theater and For You. There's also a quiz you do together that gets a group from \"I don't mind, you pick\" to an actual choice.",
       sections: [
         {
           title: "Problem",
-          description: "Content is scattered across separate apps per platform, and picking something to watch as a couple or group usually means scrolling every app back and forth until someone gives up.",
+          description: "Everything is spread across a different app for each platform. Picking something as a couple or a group means flicking through all of them until someone gives up.",
           points: [
             {
-              title: "Content Scattered Across Apps",
-              text: "Movies and shows live in separate platform apps, so there's no single place to search or browse everything available to a user."
+              title: "Too many apps",
+              text: "Movies and shows are split across platform apps, and there's no one place to search all of it."
             },
             {
-              title: "Group Decisions Stall Out",
-              text: "Deciding what to watch together usually means passing a phone back and forth with no structured way to land on a pick."
+              title: "Groups can't decide",
+              text: "Choosing together usually means passing a phone around with no real way to settle on something."
             }
           ]
         },
         {
           title: "Solution",
-          description: "I designed a single hub for browsing across platforms, plus a lightweight quiz flow that turns picking a movie together into an actual feature instead of an afterthought.",
+          description: "I designed one hub for browsing across platforms, and a quick quiz that makes choosing together part of the app.",
           points: [
             {
-              title: "Unified Movie & Series Hub",
-              text: "All Movies and All TV Series rails aggregate content in one searchable feed, with an 'all content' toggle to include rentals and other platforms."
+              title: "One hub for movies and series",
+              text: "All Movies and All TV Series rails sit in one searchable feed, with an \"all content\" toggle that adds rentals and other platforms."
             },
             {
-              title: "Decide-Together Quiz",
-              text: "An onboarding-level quiz flow lets a couple or group answer a few prompts and land on a genre or pick instead of scrolling indefinitely."
+              title: "A quiz for deciding together",
+              text: "A couple or a group answers a few prompts and lands on a genre or a title, which beats scrolling forever."
             },
             {
-              title: "Theater Release Calendar",
-              text: "A dated timeline of upcoming premieres keeps users ahead of what's landing next, not just what's already out."
+              title: "Theater release calendar",
+              text: "A dated list of upcoming premieres, for keeping track of what's coming next."
             }
           ]
         }
@@ -443,61 +448,61 @@ export const projects: Project[] = [
   {
     id: 7,
     title: "Daisy SuperHuman Chat Bot",
-    description: "A human-like AI sales representative for SolidAppMaker — a persona engineered to chat naturally, understand a visitor's idea, and only move toward booking a call once they're genuinely ready.",
+    description: "An AI sales rep for SolidAppMaker that chats like a person, gets to know a visitor's idea, and only suggests booking a call once they're ready.",
     category: "AI Projects",
     color: "from-zinc-800 to-zinc-950",
     mockupImage: "/projects/project-7-hand.webp",
     mockupImages: ["/projects/project-7-inside.webp"],
     caseStudy: {
-      overview: "Daisy is an AI-driven \"SuperHuman\" representative built for SolidAppMaker's website — a persona-driven chat agent designed to feel like a real team member rather than a bot. She opens every conversation naturally, takes a genuine interest in the visitor's idea, and only moves toward scheduling once they're confident SolidAppMaker can help — then hands off to Calendly and logs the finished conversation as a lead in SolidAppMaker's CRM.",
+      overview: "Daisy is the AI rep on SolidAppMaker's website, built to come across as part of the team rather than a bot. She starts the conversation normally, asks about the visitor's idea, and only moves toward a call once they're confident SolidAppMaker can help. Then she hands over a Calendly link and logs the conversation as a lead in SolidAppMaker's CRM.",
       sections: [
         {
           title: "Problem",
-          description: "Off-the-shelf AI chat widgets read as scripted, and every change to Daisy's persona or boundaries meant pulling in a developer instead of the team that actually talks to customers.",
+          description: "Off-the-shelf AI chat widgets sound scripted. And every time SolidAppMaker wanted to change Daisy's personality or limits, they had to pull in a developer, even though the people who talk to customers know best how she should sound.",
           points: [
             {
-              title: "Bot Language Kills Trust",
-              text: "Default AI widgets lean on phrases like \"as an AI\" or \"virtual assistant,\" which immediately signals to a prospect that they're talking to a script instead of a person."
+              title: "Bot language kills trust",
+              text: "Default widgets say things like \"as an AI\" or \"virtual assistant\", and the moment a prospect reads that, they know they're talking to a script."
             },
             {
-              title: "Interrogation-Style Intake Forms",
-              text: "Most chat widgets open by demanding a name and email before they'll say anything useful, which reads as a form wearing a chat bubble rather than a conversation."
+              title: "Forms pretending to be chats",
+              text: "Most widgets want your name and email before they'll tell you anything useful. That's a form with a chat bubble on it."
             }
           ]
         },
         {
           title: "Research",
-          description: "The conversation design started from a working reference tool and the client's own internal voice guidelines, rather than a blank slate.",
+          description: "I didn't start from a blank page. The conversation design came out of a working reference tool and the client's own guidelines for how they talk to people.",
           points: [
             {
-              title: "HubSpot Chatflows as the Starting Reference",
-              text: "Early conversation logic was sketched out inside a HubSpot chatflow as a working reference point, before the persona moved to a more natural, context-driven conversation instead of a rigid step-by-step script."
+              title: "Starting from HubSpot chatflows",
+              text: "I sketched the first conversation logic in a HubSpot chatflow so there was something working to react to. After that, the persona moved away from a fixed step-by-step script toward a looser conversation that follows context."
             },
             {
-              title: "Codifying the Client's Own Voice",
-              text: "SolidAppMaker's engagement rules, business ethics, and an MBTI/Enneagram personality profile for Daisy were folded directly into the system prompt, so the persona reflects how the company actually wants to sound."
+              title: "Writing down the client's voice",
+              text: "SolidAppMaker's engagement rules, business ethics, and an MBTI and Enneagram profile for Daisy all went into the system prompt, so she sounds the way the company wants to sound."
             }
           ]
         },
         {
           title: "Solution",
-          description: "I engineered a persona that leads with genuine conversation, and only asks for contact details once the visitor is actually ready to move forward.",
+          description: "I built Daisy to have a proper conversation first, and to ask for contact details only once the visitor wants to move forward.",
           points: [
             {
-              title: "Strict Engagement Rules",
-              text: "A locked-down language layer bans phrases like \"as an AI\" and \"virtual assistant\" and defines exactly how Daisy redirects off-topic or personal requests, keeping the human illusion consistent."
+              title: "Strict language rules",
+              text: "A set of rules bans phrases like \"as an AI\" and \"virtual assistant\" and spells out how Daisy steers away from off-topic or personal questions. She stays in character the whole time."
             },
             {
-              title: "Conversation Before Qualification",
-              text: "Daisy opens by taking real interest in the visitor's idea and explaining how SolidAppMaker can help, rather than leading with a name-and-email intake form."
+              title: "Talk first, qualify later",
+              text: "Daisy starts by asking about the visitor's idea and explaining how SolidAppMaker could help. The name-and-email part comes much later."
             },
             {
-              title: "Calendly Handoff, Once They're Ready",
-              text: "Only after the visitor is engaged does Daisy ask for a name and email, then hands over a Calendly link so they can pick a slot on their own time instead of negotiating one in the chat."
+              title: "Calendly when they're ready",
+              text: "Once the visitor is interested, Daisy asks for a name and email and sends a Calendly link, so they pick a time themselves instead of going back and forth in the chat."
             },
             {
-              title: "Automatic CRM Lead Capture",
-              text: "The finished conversation is logged straight into SolidAppMaker's CRM as a new lead, with no manual re-entry."
+              title: "Leads go straight into the CRM",
+              text: "When the conversation ends, it's saved in SolidAppMaker's CRM as a new lead. Nobody has to copy anything across."
             }
           ]
         }
@@ -507,47 +512,48 @@ export const projects: Project[] = [
   {
     id: 12,
     title: "PrepAI",
-    description: "An AI-powered mock interview coach — role- and company-specific practice interviews, scored instantly out of 100 with a written breakdown of what to improve.",
+    description: "An AI mock interview coach. Practice for a specific company and role, then get a score out of 100 and a written breakdown of what to work on.",
     category: "AI Projects",
     color: "from-zinc-900 to-zinc-800",
     mockupImage: "/projects/project-12-hand.webp",
     mockupImages: ["/projects/project-12-inside.webp"],
+    year: "2024–2025",
     caseStudy: {
-      overview: "PrepAI is an AI-powered interview practice platform. Candidates run through mock interviews tied to a specific company and role, then get an instant score out of 100 with a written breakdown of what they handled well and where they fell short — with a running dashboard of past interviews to track improvement over time.",
+      overview: "PrepAI is an interview practice platform. You run a mock interview for a specific company and role, and at the end you get a score out of 100 with a written breakdown of what went well and what didn't. A dashboard keeps your past interviews so you can see whether you're getting better.",
       sections: [
         {
           title: "Problem",
-          description: "Generic interview prep doesn't adapt to the role a candidate is actually walking into, and practice sessions rarely end with anything more specific than a vague sense of how it went.",
+          description: "Generic interview prep doesn't change with the role you're going for, and practice sessions usually end with a vague feeling about how it went.",
           points: [
             {
-              title: "Generic Practice, Real Stakes",
-              text: "Question banks and mock-interview PDFs don't adapt to the role or company a candidate is actually interviewing for, so practice rarely matches what gets asked."
+              title: "Generic practice for a specific interview",
+              text: "Question banks and interview PDFs are the same for everyone. What you practice rarely matches what you get asked."
             },
             {
-              title: "No Objective Read on Performance",
-              text: "Without a structured score or written breakdown, candidates leave a practice session with a vague sense that \"it went fine\" instead of a specific weak spot to fix."
+              title: "No honest read on how you did",
+              text: "Without a score or a written breakdown, you walk away thinking \"it went fine\" with no idea what to fix."
             }
           ]
         },
         {
           title: "Solution",
-          description: "I built the practice flow around role-specific interviews that close with a concrete, scored breakdown instead of just a transcript.",
+          description: "I built the practice flow around interviews for a specific role, and every one ends with a score and a breakdown rather than a bare transcript.",
           points: [
             {
-              title: "Role- and Company-Tagged Interviews",
-              text: "Each practice session is tied to a specific company and role, and tagged Mixed or Technical, so the questions reflect what that interview actually covers."
+              title: "Interviews tagged by company and role",
+              text: "Each session is tied to a company and role and tagged Mixed or Technical. The questions match what that interview would actually cover."
             },
             {
-              title: "Instant Scored Feedback",
-              text: "Every interview closes with an AI-generated score out of 100 and a written breakdown of what the candidate handled well and where they fell short."
+              title: "A score as soon as you finish",
+              text: "Every interview ends with an AI score out of 100 and notes on what you did well and where you fell short."
             },
             {
-              title: "Tech-Stack-Aware Assessment",
-              text: "Each interview card surfaces the specific stack it covered, so feedback stays grounded in the technologies the role actually requires."
+              title: "Feedback that knows the stack",
+              text: "Each interview card shows the stack it covered, and the feedback sticks to the tools that role uses."
             },
             {
-              title: "A History to Track Improvement",
-              text: "Past interviews live in a running dashboard with their dates, scores, and tags, so a candidate can see whether they're actually improving across repeated attempts."
+              title: "A history of your attempts",
+              text: "Past interviews stay on a dashboard with their dates, scores and tags, so you can tell whether you're improving."
             }
           ]
         }

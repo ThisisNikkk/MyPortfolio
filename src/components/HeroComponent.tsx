@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion } from "framer-motion";
 import { Zap, Globe, Mail, Bot, Smartphone, ArrowUpRight } from "lucide-react";
 
 const MotionLink = motion.create(Link);
@@ -95,6 +95,9 @@ const iconCycleVariants = {
   animate: { scale: 1, rotate: 0 },
 };
 
+// The cycling pill eases to each phrase's width instead of snapping.
+const PILL_RESIZE = { type: "spring" as const, bounce: 0, duration: 0.45 };
+
 // Press feedback lands on pointer-down and is quick; release eases back.
 const press = { scale: 0.97, transition: { type: "spring" as const, bounce: 0, duration: 0.15 } };
 
@@ -104,6 +107,39 @@ export default function HeroComponent() {
   // stays behind every section for the whole page. Without this it kept
   // cycling, running springs on a fully covered layer, all the way down.
   const [covered, setCovered] = useState(false);
+
+  // The pill's width follows its phrase on a spring. It's driven from a
+  // measurement of the phrase rather than framer's layout prop, because a
+  // layout animation resizes with scale and would squash the text mid-way.
+  const pillRef = useRef<HTMLSpanElement>(null);
+  const phraseRef = useRef<HTMLSpanElement>(null);
+  const pillWidth = useMotionValue(0);
+  const [pillMeasured, setPillMeasured] = useState(false);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const pill = pillRef.current;
+    const phrase = phraseRef.current;
+    if (!pill || !phrase) return;
+    let measured = false;
+    const observer = new ResizeObserver(() => {
+      const width = phrase.offsetWidth;
+      // A zero width is the instant between one phrase leaving and the next
+      // arriving; resizing to it would collapse the pill for a frame.
+      if (width === 0) return;
+      const cs = getComputedStyle(pill);
+      const target = width + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
+      if (!measured || reduceMotion) {
+        measured = true;
+        pillWidth.set(target);
+        setPillMeasured(true);
+      } else {
+        animate(pillWidth, target, PILL_RESIZE);
+      }
+    });
+    observer.observe(phrase);
+    return () => observer.disconnect();
+  }, [pillWidth, reduceMotion]);
 
   useEffect(() => {
     const update = () => setCovered(window.scrollY > window.innerHeight * 0.9);
@@ -176,11 +212,13 @@ export default function HeroComponent() {
             <br />
             {/* will-change:transform pre-promotes this to a GPU compositing layer */}
             <motion.span
+              ref={pillRef}
               aria-hidden="true"
               variants={cycleContainerVariants}
-              className="relative inline-flex px-4 py-2 md:py-3 bg-zinc-100 border border-zinc-200/50 text-zinc-950 rounded-[6px] md:rounded-[12px] transform -rotate-1 shadow-sm leading-none align-middle font-black mt-4 lg:mt-6 w-fit mx-auto overflow-hidden"
-              style={{ willChange: "transform" }}
+              className="relative inline-flex justify-center px-4 py-2 md:py-3 bg-zinc-100 border border-zinc-200/50 text-zinc-950 rounded-[6px] md:rounded-[12px] transform -rotate-1 shadow-sm leading-none align-middle font-black mt-4 lg:mt-6 w-fit mx-auto overflow-hidden"
+              style={pillMeasured ? { willChange: "transform", width: pillWidth } : { willChange: "transform" }}
             >
+              <span ref={phraseRef} className="inline-flex w-max shrink-0">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={index}
@@ -205,6 +243,7 @@ export default function HeroComponent() {
                   {offerings[index].text}
                 </motion.span>
               </AnimatePresence>
+              </span>
             </motion.span>
           </motion.h1>
         </motion.section>

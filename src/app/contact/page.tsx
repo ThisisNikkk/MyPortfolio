@@ -4,6 +4,7 @@ import React, { useState, useSyncExternalStore } from "react";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Loader2 } from "lucide-react";
 import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
 const emptySubscribe = () => () => {};
 // Hydration-safe "has this mounted on the client" check, without the
@@ -15,10 +16,29 @@ function useMounted() {
 export default function ContactPage() {
     const { resolvedTheme } = useTheme();
     const mounted = useMounted();
-    const [iframeLoaded, setIframeLoaded] = useState(false);
 
-    const calTheme = resolvedTheme === "dark" ? "dark" : "light";
-    const calLink = `https://cal.com/thisisnikk/30min?embed=true&theme=${calTheme}`;
+    // Cal.com only takes its theme from the URL, so a theme switch means a new
+    // iframe. Rather than blanking the calendar while that loads, the one on
+    // screen stays put until the new one is ready, then the new one fades in
+    // over it and the old one is dropped.
+    type CalTheme = "light" | "dark";
+    const calTheme: CalTheme = resolvedTheme === "dark" ? "dark" : "light";
+    const [shownTheme, setShownTheme] = useState<CalTheme | null>(null);
+    const [retiringTheme, setRetiringTheme] = useState<CalTheme | null>(null);
+    const calLink = (theme: CalTheme) => `https://cal.com/thisisnikk/30min?embed=true&theme=${theme}`;
+
+    const handleCalLoad = (theme: CalTheme) => {
+        if (theme === shownTheme) return;
+        setRetiringTheme(shownTheme);
+        setShownTheme(theme);
+        // Matches the 500ms opacity transition on the incoming frame.
+        window.setTimeout(() => setRetiringTheme(null), 520);
+    };
+
+    // Old frame underneath, current on top, a pending one hidden until loaded.
+    const calFrames = [retiringTheme, shownTheme, calTheme].filter(
+        (t, i, all): t is CalTheme => t !== null && all.indexOf(t) === i
+    );
 
     return (
         // overflow-x-clip, not -hidden: `hidden` would compute overflow-y to
@@ -85,21 +105,31 @@ export default function ContactPage() {
                     <div className="absolute -inset-4 bg-zinc-200/30 dark:bg-zinc-800/20 rounded-[40px] -z-10 blur-xl" />
 
                     <div className="bg-white dark:bg-[#0f0f11] border border-zinc-200 dark:border-zinc-800 rounded-[32px] p-1 sm:p-2 shadow-2xl overflow-hidden h-[700px] relative w-full flex items-center justify-center">
-                        {!iframeLoaded && (
-                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-white dark:bg-[#0f0f11] z-10 rounded-[24px]">
+                        {shownTheme === null && (
+                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-white dark:bg-[#0f0f11] z-20 rounded-[24px]">
                                 <Loader2 className="w-8 h-8 text-zinc-900 dark:text-[#c6f023] animate-spin mb-4" />
                                 <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400 animate-pulse">Loading calendar...</p>
                             </div>
                         )}
-                        {mounted && (
-                            <iframe
-                                src={calLink}
-                                style={{ width: "100%", height: "100%", border: "none" }}
-                                title="Cal.com Booking Calendar"
-                                className={`rounded-[24px] transition-opacity duration-500 w-full h-full ${iframeLoaded ? 'opacity-100' : 'opacity-0'}`}
-                                onLoad={() => setIframeLoaded(true)}
-                            />
-                        )}
+                        {mounted &&
+                            calFrames.map((theme) => {
+                                const isShown = theme === shownTheme;
+                                const isRetiring = theme === retiringTheme;
+                                return (
+                                    <iframe
+                                        key={theme}
+                                        src={calLink(theme)}
+                                        title="Cal.com Booking Calendar"
+                                        aria-hidden={!isShown}
+                                        tabIndex={isShown ? undefined : -1}
+                                        onLoad={() => handleCalLoad(theme)}
+                                        className={cn(
+                                            "absolute inset-1 sm:inset-2 w-[calc(100%-0.5rem)] sm:w-[calc(100%-1rem)] h-[calc(100%-0.5rem)] sm:h-[calc(100%-1rem)] rounded-[24px] border-none transition-opacity duration-500",
+                                            isShown ? "opacity-100 z-10" : isRetiring ? "opacity-100 z-0" : "opacity-0 z-0 pointer-events-none"
+                                        )}
+                                    />
+                                );
+                            })}
                     </div>
                 </motion.div>
 
@@ -160,7 +190,7 @@ export default function ContactPage() {
                                 Bring along
                             </h3>
                             <p className="mt-2 text-sm leading-[1.6] text-zinc-500 dark:text-zinc-400">
-                                Whatever exists already — a rough brief, a
+                                Whatever you already have: a rough brief, a
                                 Figma file, a live product, or just the problem
                                 written down in a paragraph.
                             </p>
