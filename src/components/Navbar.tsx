@@ -114,13 +114,16 @@ export default function Navbar() {
                 </NavItems>
             </NavBody>
 
-            <MobileNav>
-                <Logo>
-                    <Link href="/" scroll={false} onClick={() => navigate("/")} className="cursor-pointer flex items-center">
-                        <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="dark:hidden object-contain" style={{ height: "auto" }} />
-                        <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="hidden dark:block object-contain" style={{ height: "auto" }} />
-                    </Link>
-                </Logo>
+            <MobileNav
+                logo={
+                    <Logo>
+                        <Link href="/" scroll={false} onClick={() => navigate("/")} className="cursor-pointer flex items-center">
+                            <Image src="/logo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="dark:hidden object-contain" style={{ height: "auto" }} />
+                            <Image src="/darkLogo.png" loading="eager" priority alt="Nikhil Siwan" width={42} height={42} sizes="42px" className="hidden dark:block object-contain" style={{ height: "auto" }} />
+                        </Link>
+                    </Logo>
+                }
+            >
                 {links.map((link, idx) => {
                     const isActive = activeLink === link.name;
                     return (

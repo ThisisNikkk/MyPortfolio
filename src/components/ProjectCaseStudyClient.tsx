@@ -15,6 +15,21 @@ interface ClientProps {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
+/**
+ * Offers a line break at each camelCase seam ("MyCareer|Assessment") without
+ * changing how the title reads. Single-word product names are otherwise
+ * unbreakable, so at large display sizes on a phone they overflowed their
+ * column — clipped in the hero, and shoving the next-project arrow off-card.
+ */
+function breakableTitle(title: string) {
+  return title.split(/(?<=[a-z])(?=[A-Z])/).map((part, i) => (
+    <React.Fragment key={i}>
+      {i > 0 && <wbr />}
+      {part}
+    </React.Fragment>
+  ));
+}
+
 /* ------------------------------------------------------------------ *
  * One case-study chapter (Problem / Research / Solution).
  *
@@ -140,7 +155,7 @@ export default function ProjectCaseStudyClient({ project, children }: ClientProp
           transition={{ duration: 0.7, ease: EASE, delay: 0.05 }}
           className="mt-5 text-center text-balance font-black tracking-[-0.045em] leading-[0.9] text-zinc-900 dark:text-white text-[clamp(2.75rem,9vw,6.5rem)]"
         >
-          {project.title}
+          {breakableTitle(project.title)}
         </motion.h1>
 
         <motion.p
@@ -241,19 +256,22 @@ export default function ProjectCaseStudyClient({ project, children }: ClientProp
               href={`/projects/${nextProject.id}`}
               className="group mt-6 block rounded-[30px] bg-white dark:bg-zinc-900/50 p-8 sm:p-12 shadow-[0_10px_20px_rgba(0,0,0,0.10)] dark:shadow-[0_10px_20px_rgba(0,0,0,0.35)] hover:shadow-[0_16px_30px_rgba(0,0,0,0.13)] hover:-translate-y-0.5 active:scale-[0.99] active:translate-y-0 active:duration-100 transition-all duration-300"
             >
-              <div className="flex items-center justify-between gap-6 sm:gap-10">
-                <div>
+              {/* Phones stack the arrow under the copy (bottom-right, where the
+                  thumb already is); from sm up it sits beside it. min-w-0 lets
+                  the copy column shrink instead of pushing the arrow out. */}
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-10">
+                <div className="min-w-0">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                     {nextProject.category}
                   </span>
                   <h3 className="mt-2 text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-[1.05] text-zinc-900 dark:text-white">
-                    {nextProject.title}
+                    {breakableTitle(nextProject.title)}
                   </h3>
                   <p className="mt-4 max-w-md text-base font-normal leading-[1.5] tracking-[-0.16px] text-zinc-500 dark:text-zinc-400">
                     {nextProject.description}
                   </p>
                 </div>
-                <span className="shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-full grid place-items-center bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white group-hover:bg-[#c6f023] group-hover:text-zinc-950 transition-colors duration-300">
+                <span className="self-end sm:self-auto shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-full grid place-items-center bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white group-hover:bg-[#c6f023] group-hover:text-zinc-950 transition-colors duration-300">
                   <MoveRight className="w-6 h-6 transition-transform duration-200 group-hover:translate-x-1" />
                 </span>
               </div>

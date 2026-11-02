@@ -25,6 +25,72 @@ export interface Project {
 export const projects: Project[] = [
   // Web Design
   {
+    id: 13,
+    title: "Court Doc Pro Website",
+    description: "The marketing site for Court Doc Pro, an AI-enhanced behavioral documentation app for co-parents — built to explain a complex, sensitive product clearly and turn a stressed visitor into a free-trial signup.",
+    category: "Web Design",
+    color: "from-zinc-800 to-zinc-900",
+    mockupImage: "/projects/project-13-hand.webp",
+    mockupImages: ["/projects/project-13-inside.webp"],
+    caseStudy: {
+      overview: "Court Doc Pro helps parents dealing with a high-conflict co-parent turn individual incidents into a structured record of recurring behaviors and their impact. The website is where that idea has to land: a single long-form page that walks a visitor from 'no one understands what keeps happening' to the product's DATA method, a look inside the app, a sample report, and a 7-day free trial — while staying clear that it's a documentation tool, not legal or mental health advice.",
+      sections: [
+        {
+          title: "Problem",
+          description: "The product is abstract and the audience is under real stress. 'Behavioral documentation framework' means nothing to someone who has spent years collecting screenshots — the site had to make the value obvious, earn trust fast, and never overpromise.",
+          points: [
+            {
+              title: "A Complex Idea to Explain",
+              text: "The core value — that a pattern only emerges when incidents are connected — is hard to show in a headline, and harder to show without an example."
+            },
+            {
+              title: "A Sensitive, Skeptical Audience",
+              text: "Visitors are exhausted parents who have often felt dismissed by family, professionals, or courts. Generic SaaS copy or hype would read as one more thing that doesn't understand them."
+            },
+            {
+              title: "Trust Before Signup",
+              text: "People are being asked to put private, emotionally heavy records into an app, so privacy, credibility, and what the product does not do all needed answers before the trial CTA."
+            },
+            {
+              title: "Value Against a Real Alternative",
+              text: "The honest comparison isn't another app — it's 20–60 hours of specialized professional work costing $8,000–$25,000, and that had to come across without sounding like a sales pitch."
+            }
+          ]
+        },
+        {
+          title: "Solution",
+          description: "I built the site as one guided story that mirrors the visitor's own experience — recognition first, then the method, then proof — with the trial offer repeated at each natural decision point.",
+          points: [
+            {
+              title: "A Hero That Shows the Payoff",
+              text: "'Document the Incidents. Reveal the Pattern.' sits beside a live-looking app screen and a floating 'Pattern summary' card, so the outcome is visible before a single paragraph is read."
+            },
+            {
+              title: "Recognition Before Features",
+              text: "An empathy section lists the moments visitors already know — the missed parenting time, the unanswered requests, the unilateral decisions — before the product is ever pitched."
+            },
+            {
+              title: "The DATA Method, Spelled Out",
+              text: "Document, Analyze, Track, Articulate turns an abstract framework into four memorable letters, each with one plain-language explanation."
+            },
+            {
+              title: "Inside the App and What It Tracks",
+              text: "A four-step walkthrough with real app screens shows exactly how an incident is logged, and the nine tracked categories give visitors a place to recognize their own situation."
+            },
+            {
+              title: "A Sample Report as Proof",
+              text: "A report preview — chronological incidents, behaviors grouped by category, a recurring-pattern summary, and documented impact — shows the deliverable instead of describing it."
+            },
+            {
+              title: "Trust, Then the Ask",
+              text: "A cost comparison, testimonials, the founders' 20 years of behavioral psychology experience, and an FAQ on privacy, exports, cancellation, and the no-legal-advice boundary all come before a repeated, low-pressure 7-day free trial."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
     id: 1,
     title: "Heal",
     description: "A mental wellness platform guiding users through a five-step healing journey — Discover, Reflect, Act, Track, Grow — with daily check-ins, an AI companion, and a calm, low-noise interface.",
@@ -171,6 +237,77 @@ export const projects: Project[] = [
     }
   },
   // Mobile Applications
+  {
+    id: 14,
+    title: "Court Doc Pro App",
+    description: "An AI-enhanced behavioral documentation app for co-parents that turns individual incidents into a structured record of recurring patterns and their impact over time.",
+    category: "Mobile Applications",
+    color: "from-zinc-800 to-zinc-900",
+    mockupImage: "/projects/project-14-hand.webp",
+    mockupImages: [
+      "/projects/project-14-0.webp",
+      "/projects/project-14-1.webp",
+      "/projects/project-14-2.webp",
+    ],
+    mockupImagesFramed: true,
+    caseStudy: {
+      overview: "Court Doc Pro is an AI-enhanced behavioral documentation app for parents dealing with a high-conflict co-parent. Built on a behavioral documentation framework from two behavioral experts with 20 years of experience, it turns individual incidents into a structured, cumulative record — which behaviors recur, how often, and what impact they've had — that can be exported as a clear report for professionals or family court. It organizes and summarizes what the user records; it doesn't give legal or mental health advice, verify events, or determine intent.",
+      sections: [
+        {
+          title: "Problem",
+          description: "In high-conflict co-parenting the issue is rarely one incident — it's the pattern. But a pattern only shows up when events are connected, and most parents are left with hundreds of messages and scattered screenshots that don't explain it.",
+          points: [
+            {
+              title: "Isolated Incidents Get Dismissed",
+              text: "One missed exchange or one unanswered message is easy to write off as a misunderstanding. What gets overlooked is the recurring behavior and its cumulative impact on the children and the co-parenting relationship."
+            },
+            {
+              title: "History Scattered Across a Phone",
+              text: "Months or years of incidents live in texts, screenshots, and memory, so every time the story needs telling — to family, an attorney, or a court — the parent starts from scratch."
+            },
+            {
+              title: "Professional Documentation Is Out of Reach",
+              text: "Doing this properly means identifying observable behaviors, connecting related events, tracking recurrence, and documenting impact — 20–60 hours of specialized professional work that can cost $8,000–$25,000."
+            },
+            {
+              title: "Conflict Doesn't End at One Hearing",
+              text: "An agreement or a new parenting plan doesn't always stop recurring issues, and when something happens again six months later, the history that came before it still matters."
+            }
+          ]
+        },
+        {
+          title: "Solution",
+          description: "I built the app around the DATA method — Document, Analyze, Track, Articulate — so every entry feeds a growing record instead of becoming a one-off note, and the pattern emerges as the parent keeps documenting.",
+          points: [
+            {
+              title: "One Clear Home Screen",
+              text: "A single 'Document an Incident' action leads the dashboard, with running counts of incidents, categories, evidence, and reports, and a recent-activity list tagged by category — so the record's growth is visible at a glance."
+            },
+            {
+              title: "Four-Step Incident Entry",
+              text: "What happened, which category it falls under, attached evidence, then a behavioral analysis — a guided flow with a progress indicator that captures facts and observable behavior instead of an open-ended text box."
+            },
+            {
+              title: "Nine Behavior Categories",
+              text: "Parenting time, decision-making, communication, parenting and financial responsibilities, basic needs, exchanges, the parent-child relationship, and pressure and intimidation give every incident a place in a larger pattern."
+            },
+            {
+              title: "AI-Enhanced Pattern Analysis",
+              text: "The framework connects related incidents, identifies recurring behaviors, and tracks their frequency, so a finding like 'exchanges didn't take place 3 times across 7 weeks' surfaces on its own rather than being pieced together by hand."
+            },
+            {
+              title: "Behavioral Summary Reports",
+              text: "One export brings together chronological incident records, behaviors grouped by category, recurring-pattern summaries, cumulative data and graphs, and documented impacts — written in clear, objective language for professionals or family court."
+            },
+            {
+              title: "Built for the Long Run, Private by Default",
+              text: "Photos, PDFs, and screenshots attach to each incident, and every new entry strengthens an existing category instead of starting a new file. Entries are visible only to the user until they choose to export or share a report."
+            }
+          ]
+        }
+      ]
+    }
+  },
   {
     id: 5,
     title: "LittleBirdi",
