@@ -92,6 +92,10 @@ export const metadata: Metadata = {
     apple: "/logo.png",
   },
 
+  verification: {
+    google: "cBWpxSER3RPQ_6GRAharH-NkXz26JYkuUkpDTw5SzOA",
+  },
+
   other: {
     "theme-color": "#c6f023",
   },
