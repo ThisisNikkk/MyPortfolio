@@ -94,9 +94,9 @@ function homeMarkdown(): string {
     "",
     "## What I build",
     "",
-    "- **AI agents and assistants** — conversational products, retrieval pipelines, and agent tooling.",
-    "- **High-performance mobile apps** — React Native products built for smooth, native-feeling interaction.",
-    "- **Enterprise SaaS design systems** — component libraries and design languages that scale across teams.",
+    "- Mobile apps in React Native and Expo, like LittleBirdi, WatchDock and the Court Doc Pro app.",
+    "- Websites and web apps in Next.js, like Heal, LangoFunk and the Court Doc Pro website.",
+    "- AI agents and automation: chat agents like Daisy, RAG over a client's own content, and n8n workflows.",
     "",
     "## Selected projects",
     "",
@@ -134,7 +134,7 @@ function contactMarkdown(): string {
   return [
     `# Contact ${person.name}`,
     "",
-    `- **Email:** ${person.email} — best for written briefs, scope, and timelines.`,
+    `- **Email:** ${person.email}. Best if you already have a brief written down.`,
     `- **Location:** ${person.address.locality}, ${person.address.region}, ${person.address.country}.`,
     `- **Book a call:** a 30-minute slot can be booked directly at ${absoluteUrl("/contact")}.`,
     "",
@@ -154,6 +154,7 @@ export function markdownForPath(pathname: string): string | null {
       return aboutMarkdown();
     case "/contact":
       return contactMarkdown();
+    case "/work":
     case "/projects":
       return projectsIndexMarkdown();
     default:

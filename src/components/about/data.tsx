@@ -90,9 +90,9 @@ export const timelineData: TimelineItem[] = [
         title: "A PC, and a question I couldn't drop",
         art: "pc",
         description:
-            "My dad brought home our first computer when I was in class 3, and I've been taking it apart in my head ever since — how does this actually work, how is the software even made? That question never left. Topping every computer class only turned the volume up, and somewhere in there the goal quietly set itself: I was going to be an engineer.",
+            "My dad brought home our first computer when I was in class 3, and I couldn't stop wondering how it worked. How does anyone even make software? That question stuck around. I topped every computer class at school, and somewhere along the way I decided I was going to be an engineer.",
         highlight:
-            "Off-screen I was chasing footballs, new places, and the odd page of writing — proof the curiosity was never only about screens.",
+            "It wasn't all screens, though. I played a lot of football, went wherever I could, and wrote the odd page when something was on my mind.",
     },
     {
         kicker: "The Shift",
@@ -100,9 +100,9 @@ export const timelineData: TimelineItem[] = [
         title: "College, and the AI reckoning",
         art: "grad",
         description:
-            "College made the goal official — B.Tech in Computer Science, and a clear target: become the kind of engineer who can actually solve real-world problems. Then the AI wave hit and reset the bar overnight. Skilled but with zero AI to your name? You're cooked. So I dove in headfirst, and the deeper I went, the less it felt like a survival move.",
+            "College made it official: a B.Tech in Computer Science, and one goal, to become an engineer who can fix actual problems. Then AI showed up and moved the bar overnight. Good skills but no AI on your CV? You're cooked. So I went all in, and pretty quickly it stopped feeling like something I had to do.",
         highlight:
-            "What we can genuinely build with AI is unimaginable — that's the moment engineering went from a plan to an obsession.",
+            "Once I saw what you can build with AI, engineering stopped being the plan and became the thing I can't stop thinking about.",
     },
     {
         kicker: "Leading & Shipping",
@@ -113,9 +113,9 @@ export const timelineData: TimelineItem[] = [
         logo: <BluestockLogo />,
         art: "team",
         description:
-            "My first time owning real product surface — and a team. Remote from Pune, I led a five-person Agile squad to turn Figma designs into a fully responsive IPO platform, then engineered a Node.js REST API to serve live IPO data and RHP/DRHP downloads. Real users, real financial data, real deadlines.",
+            "The first time I owned part of a product, and a team along with it. It was a remote role with Bluestock in Pune. I led five people through Agile sprints to turn Figma designs into a responsive IPO platform, and I wrote the Node.js REST API behind it for live IPO data and the RHP/DRHP downloads. People used it to check live financial data, so it had to be right, and it had to ship on time.",
         highlight:
-            "Led a 5-person team to ship a best-in-class solution — my first proof that I could own the outcome, not just the code.",
+            "Getting five people to ship something good together was the first time I felt responsible for how a whole product turned out.",
     },
     {
         kicker: "What I Built",
@@ -123,9 +123,9 @@ export const timelineData: TimelineItem[] = [
         title: "Turning AI into real products",
         art: "voice",
         description:
-            "The AI obsession needed an outlet. PrepAI — an AI mock-interview platform (Next.js, Vapi voice AI, Firebase) that runs real-time voice interviews and hands back instant, personalized feedback. CareConnect — a patient-management system with real-time scheduling and Twilio SMS, built on Appwrite. Two products, both aimed at a real problem people actually have.",
+            "All that AI obsession needed somewhere to go. PrepAI is a mock-interview platform (Next.js, Vapi voice AI, Firebase) that runs voice interviews live and gives you feedback the moment you finish. CareConnect is a patient-management system with live scheduling and Twilio SMS, built on Appwrite. Both started from a problem people actually deal with.",
         highlight:
-            "Not toy demos — real products solving real problems with AI. Exactly the engineer I set out to become.",
+            "Both made it past the demo stage, and building them is when I started to feel like the engineer I'd meant to become.",
     },
     {
         kicker: "What I Do Now",
@@ -136,9 +136,9 @@ export const timelineData: TimelineItem[] = [
         logo: <SolarioTechLogo />,
         art: "mobile",
         description:
-            "This is where the AI obsession met production. I ship real cross-platform apps and websites — Langofunk, MyCareerAssessment, Heal — and build the automation behind them: agentic n8n workflows and a RAG chatbot for SolidAppMaker that together act less like tools and more like an extra team member who never sleeps.",
+            "This is where the AI side met production. I ship cross-platform apps and websites, including LangoFunk, MyCareerAssessment and Heal, and I build the automation around them: n8n agent workflows, and a RAG chatbot for SolidAppMaker. Most days they feel less like tools and more like a teammate who never logs off.",
         highlight:
-            "The goal now is to build automation that works like a superhuman — agents and RAG systems quietly doing the work of a whole team.",
+            "What I'm working toward now is automation that can carry a whole team's busywork, with agents and RAG systems doing it in the background.",
     },
 ];
 
@@ -217,33 +217,33 @@ export interface ValueItem {
 
 export const values: ValueItem[] = [
     {
-        title: "Craft Over Shortcuts",
-        text: "Every line of code is a design decision. I sweat the details others skip — because that's where quality lives.",
+        title: "Care about the details",
+        text: "Spacing, loading states, what happens when the network drops. Those small things are usually how you can tell someone cared.",
         icon: Target,
     },
     {
-        title: "Turning AI Into Products",
-        text: "Not demos — shipped tools. I take agents, RAG, and automation from a cool idea to something people actually use.",
+        title: "AI people actually use",
+        text: "Agents, RAG and automation are fun to demo. The part I enjoy is getting them to where people rely on them every day.",
         icon: Bot,
     },
     {
-        title: "Performance Is a Feature",
-        text: "Fast, reliable, and clean. Speed isn't an afterthought — it's the baseline every product deserves.",
+        title: "Fast by default",
+        text: "I build for speed from the first commit, because trying to make a slow app fast later is a lot harder.",
         icon: Gauge,
     },
     {
-        title: "User-First Thinking",
-        text: "Great software starts with a deep understanding of the person using it, and ends with pixel-perfect execution.",
+        title: "Start with the user",
+        text: "I want to know who's going to use the thing and what they're trying to get done before I touch the design.",
         icon: Layers,
     },
     {
-        title: "Ownership End-to-End",
-        text: "From idea to shipped, and the outcome after. I take responsibility for the result, not just my slice of it.",
+        title: "Own the outcome",
+        text: "From the idea to launch and what comes after. If it isn't working for the people using it, I don't count it as done.",
         icon: Flag,
     },
     {
-        title: "Ship, Then Refine",
-        text: "A bias toward shipping real, working software over endless planning. Momentum compounds.",
+        title: "Ship, then refine",
+        text: "I'd rather put working software in front of people early than plan for months. Every release makes the next one easier.",
         icon: Rocket,
     },
 ];
@@ -267,32 +267,32 @@ export const faqs: FaqItem[] = [
     {
         question: "What do you actually build?",
         answer:
-            "Cross-platform mobile apps in React Native and Expo, web products in Next.js, and the AI automation that sits behind them — agentic workflows, RAG chatbots, LLM integrations. Most projects end up being some mix of all three.",
+            "Mobile apps in React Native and Expo, websites and web apps in Next.js, and the AI automation behind them, like agent workflows, RAG chatbots and LLM integrations. Most projects end up being a mix.",
     },
     {
         question: "What kind of work are you best suited to?",
         answer:
-            "Products that need to ship, not prototypes that need a demo. I'm strongest when I own a surface end to end — design handoff through release — and when there's a real user on the other side of it.",
+            "Products that are meant to ship. I do my best work when I own a piece from the design handoff all the way to release, and there's an actual person using it at the end.",
     },
     {
         question: "How do you actually use AI in a project?",
         answer:
-            "As infrastructure, not decoration. That means agents that take real work off a team's plate, retrieval over your own data so answers are grounded, and automation wired into the tools you already use. If AI doesn't make the product measurably better, it doesn't go in.",
+            "As part of the plumbing. Usually that's agents that take work off your team, search over your own data so answers are grounded in it, and automation hooked into tools you already use. If AI doesn't clearly make the product better, I leave it out.",
     },
     {
         question: "How long does a typical project take?",
         answer:
-            "A focused MVP is usually four to eight weeks. A full product with a real backend, auth, and polish runs longer. I'd rather scope honestly up front than quote fast and renegotiate later.",
+            "A focused MVP usually takes four to eight weeks. A full product with a proper backend, auth and polish takes longer. I'd rather give you an honest estimate up front than a quick quote I have to walk back later.",
     },
     {
         question: "What does working together look like?",
         answer:
-            "Short cycles and visible progress. We agree on the problem and the shape of the solution, then I ship in slices you can actually click through, so feedback lands while it's still cheap to act on.",
+            "Short cycles where you can see progress. We agree on the problem and roughly what the fix looks like, then I ship in pieces you can click through, so your feedback comes in while it's still cheap to act on.",
     },
     {
         question: "Are you available for new work?",
         answer:
-            "I'm building at SolarioTech full-time and take on select freelance projects alongside it. If the problem is interesting and the timeline is realistic, tell me about it.",
+            "Yes. I'm wrapping up my time at SolarioTech and I'm open to what's next, whether that's a full-time role or a freelance project. If the problem is interesting and the timeline is realistic, tell me about it.",
     },
 ];
 

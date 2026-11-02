@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s | Nikhil Siwan",
   },
   description:
-    "Portfolio of Nikhil Siwan — Software Developer specialising in AI agents, high-performance mobile apps, and enterprise SaaS design systems. Available for freelance and full-time opportunities.",
+    "Nikhil Siwan is a software developer in Chandigarh. He designs and builds React Native apps, Next.js websites and AI agents, and takes on freelance work.",
   keywords: [
     "Nikhil Siwan",
     "Product Designer",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     siteName: "Nikhil Siwan — Portfolio",
     title: "Nikhil Siwan — Product Designer & Frontend Engineer",
     description:
-      "Crafting high-performance digital experiences — AI agents, mobile apps, and enterprise SaaS platforms. Explore my work and let's build something powerful together.",
+      "Mobile apps, websites and AI agents I've designed and built, each with a short case study on the problem and how I solved it.",
     images: [
       {
         url: absoluteUrl("/og-image.png"),
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Nikhil Siwan — Product Designer & Frontend Engineer",
     description:
-      "Crafting high-performance digital experiences — AI agents, mobile apps, and enterprise SaaS platforms.",
+      "Mobile apps, websites and AI agents I've designed and built, with a case study for each.",
     creator: "@ThisisNikkk",
     images: [absoluteUrl("/og-image.png")],
   },

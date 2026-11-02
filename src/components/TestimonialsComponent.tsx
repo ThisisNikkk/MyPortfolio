@@ -7,6 +7,30 @@ import { cn } from "@/lib/utils";
 
 const testimonials = [
     {
+        id: 5,
+        text: "We came to Nikhil with a framework we'd spent years refining and no clear idea how to turn it into software. He built both the website and the app, and he understood early that our users are parents under a lot of stress, so nothing could feel cold or complicated.",
+        author: "Jan Yuhas & Jillian Yuhas",
+        role: "Co-Founders, Court Doc Pro",
+        initials: "JY",
+        color: "bg-[#c6f023] text-zinc-950",
+    },
+    {
+        id: 6,
+        text: "What I didn't expect was how much Nikhil cared about the product, not just the code. He'd look at every feature from the user's side and often come back with a simpler way to do it, and the app is easier to use because of it.",
+        author: "Shane Lange",
+        role: "LittleBirdi",
+        initials: "SL",
+        color: "bg-[#c6f023] text-zinc-950",
+    },
+    {
+        id: 7,
+        text: "Every chat widget we tried before sounded like a bot. Daisy doesn't. Nikhil built her to actually talk with visitors before asking them for anything, and she's brought in more than 220 qualified leads so far.",
+        author: "John Fijen",
+        role: "SolidAppMaker",
+        initials: "JF",
+        color: "bg-[#c6f023] text-zinc-950",
+    },
+    {
         id: 1,
         text: "Collaborating with Nikhil was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Nikhil's enthusiasm for every facet of development truly stands out.",
         author: "Anjali Piuaty",
@@ -174,7 +198,7 @@ export default function TestimonialsComponent() {
                             transition={{ delay: 0.2 }}
                             className="text-zinc-600 dark:text-zinc-400 text-lg mb-10 max-w-md"
                         >
-                            I&apos;ve had the pleasure of working with ambitious founders and companies to bring their visions to life.
+                            A few words from founders and teams I&apos;ve built things with.
                         </motion.p>
 
                         {/* Navigation Arrows */}
@@ -253,6 +277,19 @@ export default function TestimonialsComponent() {
                                 className="relative z-10 flex-1 grid items-center mb-8"
                                 aria-live={autoAdvance ? "off" : "polite"}
                             >
+                                {/* Every quote also sits in this cell, invisible, so the
+                                    cell is always as tall as the longest one at the current
+                                    width. The card holds one size through every swap
+                                    instead of growing and shrinking with each review. */}
+                                {testimonials.map((t) => (
+                                    <p
+                                        key={t.id}
+                                        aria-hidden="true"
+                                        className="col-start-1 row-start-1 invisible text-xl sm:text-2xl lg:text-3xl font-medium leading-relaxed"
+                                    >
+                                        &quot;{t.text}&quot;
+                                    </p>
+                                ))}
                                 <AnimatePresence initial={false} custom={direction}>
                                     <motion.p
                                         key={currentIndex}
@@ -270,6 +307,17 @@ export default function TestimonialsComponent() {
                             </div>
 
                             <div className="relative z-10 pt-8 border-t border-zinc-200 dark:border-zinc-800 grid">
+                                {/* Same trick for the author row: a long role that wraps
+                                    on a narrow screen can't change the row's height. */}
+                                {testimonials.map((t) => (
+                                    <div key={t.id} aria-hidden="true" className="col-start-1 row-start-1 invisible flex items-center gap-4">
+                                        <div className="h-14 w-14 shrink-0" />
+                                        <div className="flex flex-col">
+                                            <span className="font-bold text-lg">{t.author}</span>
+                                            <span className="text-sm font-medium">{t.role}</span>
+                                        </div>
+                                    </div>
+                                ))}
                                 <AnimatePresence initial={false} custom={direction}>
                                     <motion.div
                                         key={currentIndex}

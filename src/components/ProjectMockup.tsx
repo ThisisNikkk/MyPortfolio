@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { projects } from "@/data/projects";
 import PhoneFrame from "@/components/PhoneFrame";
+import ZoomableImage from "@/components/ui/ZoomableImage";
 
 interface ProjectMockupProps {
   projectId: number;
@@ -76,15 +77,15 @@ export default function ProjectMockup({ projectId }: ProjectMockupProps) {
           project.mockupImagesFramed ? (
             // width/height give each screen its aspect before it loads. With
             // h-full/w-auto alone a screen is 0px wide until decoded, so the
-            // row reflowed sideways as each one arrived.
-            <img
+            // row reflowed sideways as each one arrived. Tap to enlarge.
+            <ZoomableImage
               key={src}
               src={src}
               alt={`${project.title} screen ${i + 1}`}
               width={900}
               height={1840}
-              loading="eager"
               fetchPriority={i === 0 ? "high" : "auto"}
+              frameClassName="h-full shrink-0"
               className="h-full w-auto object-contain block"
             />
           ) : (
@@ -100,14 +101,14 @@ export default function ProjectMockup({ projectId }: ProjectMockupProps) {
     // would hold back the page's largest paint. width/height reserve its
     // space up front (the inside shots are 1800x1065; a different source
     // still lands on its own ratio once loaded), so nothing below jumps.
-    <img
-      ref={imgRef}
+    <ZoomableImage
+      imgRef={imgRef}
       src={imageSrc}
       alt={`${project.title} project showcase`}
       width={1800}
       height={1065}
-      loading="eager"
       fetchPriority="high"
+      frameClassName="w-full"
       className="w-full h-auto block rounded-[30px]"
       onError={() => setImageFailed(true)}
     />

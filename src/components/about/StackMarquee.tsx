@@ -1,13 +1,14 @@
 import Image from "next/image";
 import { stack } from "./data";
+import DragMarquee from "@/components/ui/DragMarquee";
 
 /**
  * Full-bleed infinite logo bar for the stack section: brand logos in white
  * cells that scroll forever, like a "trusted by" strip.
  *
  * Same seam-free technique as PhotoMarquee — the list is repeated until one
- * half exceeds any viewport, the track holds two identical halves, and the CSS
- * keyframe (globals.css) shifts it exactly -50% so the loop never gaps. Cells
+ * half exceeds any viewport, the track holds two identical halves, and
+ * DragMarquee wraps it by exactly one half so the loop never gaps. Cells
  * are flush (borders, not gaps), so -50% lands perfectly on the seam.
  */
 const CELL_WIDTH = 200; // px, includes the divider (border-box)
@@ -26,7 +27,7 @@ export default function StackMarquee() {
             className="group relative left-1/2 -translate-x-1/2 w-screen overflow-hidden border-y border-zinc-200 dark:border-zinc-800"
             aria-label="Tools and technologies I work with"
         >
-            <div className="about-marquee-track flex w-max">
+            <DragMarquee className="flex w-max">
                 {strip.map((tool, i) => (
                     <div
                         key={`${tool.name}-${i}`}
@@ -47,7 +48,7 @@ export default function StackMarquee() {
                         />
                     </div>
                 ))}
-            </div>
+            </DragMarquee>
         </div>
     );
 }

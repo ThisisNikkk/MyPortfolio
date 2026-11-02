@@ -107,10 +107,13 @@ const Card3Visualizer = () => {
     );
 };
 
+// Real numbers from shipped work, not illustrative ones: client sites scored
+// 93–100 Lighthouse and 100 SEO, and the LittleBirdi app's cold start and API
+// times were measured in Firebase Performance.
 const Card4Visualizer = () => {
     return (
         <div className="w-full flex items-center justify-between gap-4 mt-2 p-4 bg-white/40 dark:bg-zinc-950/40 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50">
-            {/* Left side: Lighthouse score circle */}
+            {/* Left side: SEO score circle */}
             <div className="relative w-16 h-16 flex items-center justify-center flex-shrink-0">
                 <svg viewBox="0 0 48 48" className="w-full h-full transform -rotate-90">
                     <circle
@@ -138,17 +141,18 @@ const Card4Visualizer = () => {
                 </svg>
                 <div className="absolute flex flex-col items-center">
                     <span className="text-sm font-black text-zinc-950 dark:text-white leading-none">100</span>
-                    <span className="text-[9px] leading-none text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider mt-0.5">Perf</span>
+                    <span className="text-[9px] leading-none text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider mt-0.5">SEO</span>
                 </div>
             </div>
 
             {/* Right side: Speed statistics list */}
             <div className="flex-1 space-y-1">
                 {[
-                    { name: "FPS Rate", val: "120 fps", highlight: true },
-                    { name: "LCP Speed", val: "0.8s", highlight: false },
+                    { name: "Lighthouse", val: "93–100", highlight: false },
+                    { name: "App cold start", val: "236 ms", highlight: true },
+                    { name: "API response", val: "47% faster", highlight: false },
                 ].map((stat, idx) => (
-                    <div key={idx} className="flex justify-between items-center text-xs font-semibold">
+                    <div key={idx} className="flex justify-between items-center gap-3 text-xs font-semibold tabular-nums">
                         <span className="text-zinc-400 dark:text-zinc-500">{stat.name}</span>
                         <span className={cn(stat.highlight ? "text-zinc-950 font-black dark:text-[#c6f023]" :"text-zinc-800 dark:text-zinc-200")}>
                             {stat.val}
@@ -207,39 +211,39 @@ const processSteps = [
     {
         id: 1,
         title: "Understand the problem first",
-        description: "Before writing a single line of code, I dig deep into what you're actually trying to solve — your users, your goals, and where things are breaking down.",
+        description: "Before I write any code, I want to know what you're trying to fix: who your users are, what you're aiming for, and where things keep going wrong.",
         icon: Search,
         span: "lg:col-span-7",
         visual: Card1Visualizer
     },
     {
         id: 2,
-        title: "Define scope & pick stack",
-        description: "I map out what needs to be built and choose the right tools — whether that's React Native for mobile, Next.js for web, or an AI agent system — so we move fast without cutting corners.",
+        title: "Scope it and pick the stack",
+        description: "We work out what actually needs building and choose the tools for it, whether that's React Native for mobile, Next.js for the web or an AI agent setup. That way we can move quickly without cutting corners.",
         icon: Goal,
         span: "lg:col-span-5",
         visual: Card2Visualizer
     },
     {
         id: 3,
-        title: "Build iteratively, ship early",
-        description: "I break the work into focused cycles. You see real, working software quickly — not mockups that never become reality. Each iteration gets tested and refined based on actual feedback.",
+        title: "Build in small steps, ship early",
+        description: "I work in short cycles, so you're clicking through working software early on instead of looking at mockups. Each round gets tested and adjusted based on what you tell me.",
         icon: Blocks,
         span: "lg:col-span-4",
         visual: Card3Visualizer
     },
     {
         id: 4,
-        title: "Engineer for performance",
-        description: "Clean architecture, smooth animations, zero lag. I write code that doesn't just work today — it holds up as your product and user base grows.",
+        title: "Make it fast",
+        description: "Clean architecture and smooth animation, with no lag. I write code that keeps holding up as your product and your user base grow.",
         icon: Code2,
         span: "lg:col-span-4",
         visual: Card4Visualizer
     },
     {
         id: 5,
-        title: "Hand off & stay available",
-        description: "You get clean, well-documented code and a smooth handoff. I don't disappear — if something comes up post-launch, I'm there to fix it fast.",
+        title: "Hand it over, stay around",
+        description: "You get clean, documented code and a proper handover. If something breaks after launch, I'm still around to fix it.",
         icon: LineChart,
         span: "lg:col-span-4",
         visual: Card5Visualizer

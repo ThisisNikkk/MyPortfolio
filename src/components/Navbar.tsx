@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
     Navbar as ResizableNavbar,
     MobileNav,
@@ -11,70 +11,41 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useLenis } from "lenis/react";
-import { useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
     { name: "Home", link: "/" },
     { name: "About", link: "/about" },
-    { name: "Work", link: "/#work" },
+    // Its own route now. It used to be /#work, which meant rebuilding the
+    // whole homepage (sticky hero and all) and then scrolling down to reach it.
+    { name: "Work", link: "/work" },
     { name: "Contact", link: "/contact" },
 ];
 
-const hashOf = (href: string) => {
-    const i = href.indexOf("#");
-    return i === -1 ? "" : href.slice(i);
-};
-
 export default function Navbar() {
     const pathname = usePathname();
-    // usePathname drops the fragment, so "Work" (/#work) needs the hash tracked separately
-    const [hash, setHash] = useState("");
-
-    useEffect(() => {
-        const syncHash = () => setHash(window.location.hash);
-        // covers direct loads and browser back/forward; in-app clicks set it eagerly below
-        syncHash();
-        window.addEventListener("hashchange", syncHash);
-        window.addEventListener("popstate", syncHash);
-        return () => {
-            window.removeEventListener("hashchange", syncHash);
-            window.removeEventListener("popstate", syncHash);
-        };
-    }, [pathname]);
-
     const lenis = useLenis();
     const reduceMotion = useReducedMotion();
 
-    // Next's <Link> updates the URL with pushState, which fires no
-    // `hashchange`, and a same-page link leaves the pathname unchanged — so
-    // SmoothScrolling's scroll effect never runs. Clicking "Work" (or Home /
-    // the logo) while already on "/" changed the URL and nothing else. When
-    // the link targets the current page, scroll there ourselves.
+    // A link to the page you're already on changes nothing in the router
+    // (same pathname), so SmoothScrolling's scroll-to-top never runs and the
+    // tap seemed to do nothing. In that case, scroll to the top ourselves.
     const navigate = (href: string) => {
-        const fragment = hashOf(href);
-        setHash(fragment);
-
-        const path = href.split("#")[0] || "/";
-        if (path !== pathname) return; // a real route change; SmoothScrolling handles it
-
-        const target = fragment ? document.getElementById(fragment.slice(1)) : 0;
-        if (target === null) return;
+        if (href !== pathname) return; // a real route change; SmoothScrolling handles it
         if (lenis) {
-            lenis.scrollTo(target, { immediate: !!reduceMotion });
-        } else if (target === 0) {
-            window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+            lenis.scrollTo(0, { immediate: !!reduceMotion });
         } else {
-            target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+            window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
         }
     };
 
     const activeLink = (() => {
         if (pathname.startsWith("/about")) return "About";
         if (pathname.startsWith("/contact")) return "Contact";
-        if (pathname.startsWith("/projects")) return "Work";
-        if (pathname === "/") return hash === "#work" ? "Work" : "Home";
+        if (pathname.startsWith("/work") || pathname.startsWith("/projects")) return "Work";
+        if (pathname === "/") return "Home";
         return null;
     })();
 
@@ -98,13 +69,26 @@ export default function Navbar() {
                                 scroll={false}
                                 onClick={() => navigate(link.link)}
                                 className={cn(
-                                    "px-5 py-1.5 text-sm font-bold uppercase tracking-widest rounded-md transition-[color,background-color,transform] duration-200 active:scale-95 active:duration-100",
+                                    "relative px-5 py-1.5 text-sm font-bold uppercase tracking-widest rounded-md transition-[color,background-color,transform] duration-200 active:scale-95 active:duration-100",
                                     isActive
-                                        ? "bg-zinc-950 text-white shadow-sm dark:bg-white dark:text-black"
+                                        ? "text-white dark:text-black"
                                         : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/50 dark:text-zinc-400 dark:hover:text-zinc-50 dark:hover:bg-zinc-800/50"
                                 )}
                             >
-                                {link.name}
+                                {/* One shared pill that slides to the active
+                                    item, so moving between pages reads as
+                                    going from one place to another. The navbar
+                                    stays mounted across routes, which is what
+                                    lets it travel. */}
+                                {isActive && (
+                                    <motion.span
+                                        layoutId="nav-active-pill"
+                                        aria-hidden
+                                        transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+                                        className="absolute inset-0 rounded-md bg-zinc-950 shadow-sm dark:bg-white"
+                                    />
+                                )}
+                                <span className="relative">{link.name}</span>
                             </Link>
                         );
                     })}

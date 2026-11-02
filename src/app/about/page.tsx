@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About Me",
-  description: "About Nikhil Siwan — Software Developer specialising in AI agents, high-performance mobile apps, and enterprise SaaS design systems. Explore my professional timeline and journey.",
+  description: "How Nikhil Siwan got into software, where he's worked, and what he builds now: React Native apps, Next.js websites and AI agents.",
 };
 
 export default function AboutPage() {
