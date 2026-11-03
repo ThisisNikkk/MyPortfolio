@@ -3,13 +3,14 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, MoveRight } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { timelineData, values } from "./data";
 import StoryTimeline from "./StoryTimeline";
 import PhotoMarquee from "./PhotoMarquee";
 import StackMarquee from "./StackMarquee";
 import FaqAccordion from "./FaqAccordion";
+import ClosingCTA from "@/components/ClosingCTA";
 import { ACCENT, EASE, Highlight, SectionHeading } from "@/components/ui/editorial";
 
 /* ------------------------------------------------------------------ *
@@ -28,7 +29,7 @@ export default function AboutTimelineSpine() {
         // marquees without creating one.
         <main className="min-h-screen relative overflow-x-clip">
 
-            <div className="max-w-5xl w-full mx-auto px-6 pt-28 pb-24">
+            <div className="max-w-5xl w-full mx-auto px-6 pt-28">
                 {/* Back */}
                 <motion.div
                     initial={{ opacity: 0, x: -10 }}
@@ -138,30 +139,12 @@ export default function AboutTimelineSpine() {
                     />
                     <FaqAccordion />
                 </div>
-
-                {/* ---------------- GET IN TOUCH ---------------- */}
-                <div className="mt-32 text-center">
-                    <SectionHeading
-                        kicker="Crafted with care"
-                        title={<>Get in <Highlight>touch</Highlight></>}
-                        subtitle="If you've got something you want built, I'd like to hear about it."
-                    />
-                    <motion.div
-                        initial={{ opacity: 0, y: 16 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-40px" }}
-                        transition={{ duration: 0.5, ease: EASE }}
-                    >
-                        <Link
-                            href="/contact"
-                            className="inline-flex items-center gap-2 mt-10 px-8 py-4 rounded-xl text-sm font-black uppercase tracking-wider bg-[#c6f023] text-zinc-950 hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(0,0,0,0.12)] transition-all duration-200 group"
-                        >
-                            <span>Get in Touch</span>
-                            <MoveRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-                        </Link>
-                    </motion.div>
-                </div>
             </div>
+
+            {/* Same closer as the homepage, so the page ends on one clear
+                next step instead of a heading and button that both just say
+                "Get in touch" right above the footer saying it again. */}
+            <ClosingCTA />
         </main>
     );
 }
