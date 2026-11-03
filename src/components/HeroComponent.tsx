@@ -38,6 +38,14 @@ const containerVariants = {
   },
 };
 
+// The title block only orchestrates its children's timing. No opacity of its
+// own: anything here is server-rendered as an inline style, and a hidden
+// wrapper would keep the headline (the LCP element) invisible until hydration.
+const titleContainerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+};
+
 const subtitleVariants = {
   hidden: { y: 25, opacity: 0 },
   visible: { y: 0, opacity: 1, transition: settle(0) },
@@ -46,11 +54,6 @@ const subtitleVariants = {
 const nameBadgeVariants = {
   hidden: { scale: 0, rotate: -10, opacity: 0 },
   visible: { scale: 1, rotate: 1, opacity: 1, transition: pop(0.15) },
-};
-
-const headlineVariants = {
-  hidden: { y: 40, opacity: 0 },
-  visible: { y: 0, opacity: 1, transition: settle(0.25, 0.7) },
 };
 
 const zapCircleVariants = {
@@ -164,7 +167,7 @@ export default function HeroComponent() {
 
         {/* HERO TITLE BLOCK */}
         <motion.section
-          variants={containerVariants}
+          variants={titleContainerVariants}
           initial="hidden"
           animate="visible"
           className="flex flex-col items-center gap-6 w-full"
@@ -189,9 +192,8 @@ export default function HeroComponent() {
 
           {/* Heading. Sizes are rem so the headline follows the reader's
               font-size setting; tracking tightens as the type grows. */}
-          <motion.h1
-            variants={headlineVariants}
-            className="text-[3rem] sm:text-[4.75rem] md:text-[5.25rem] lg:text-[5.625rem] xl:text-[7rem] font-black tracking-[-0.03em] xl:tracking-[-0.04em] leading-[1.05] text-zinc-950 w-full dark:text-white"
+          <h1
+            className="hero-rise text-[3rem] sm:text-[4.75rem] md:text-[5.25rem] lg:text-[5.625rem] xl:text-[7rem] font-black tracking-[-0.03em] xl:tracking-[-0.04em] leading-[1.05] text-zinc-950 w-full dark:text-white"
           >
             I build{" "}
             <motion.span
@@ -255,7 +257,7 @@ export default function HeroComponent() {
               </AnimatePresence>
               </span>
             </motion.span>
-          </motion.h1>
+          </h1>
         </motion.section>
 
         {/* HERO DETAILS & CTA BUTTONS */}

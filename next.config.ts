@@ -20,6 +20,14 @@ const nextConfig: NextConfig = {
   // Strict mode helps catch performance issues early
   reactStrictMode: true,
 
+  experimental: {
+    // Ship the (Tailwind, ~13 KiB gzipped) stylesheet inside the HTML instead
+    // of a render-blocking <link>, so first paint doesn't wait on a second
+    // request. Most visitors to a portfolio arrive cold, which is the case
+    // this favours; repeat visits lose the separately cached stylesheet.
+    inlineCss: true,
+  },
+
   async rewrites() {
     /*
      * Markdown content negotiation, using the `has` rewrite pattern Next
