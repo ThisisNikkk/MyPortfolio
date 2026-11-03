@@ -210,12 +210,15 @@ export default function HeroComponent() {
                 readers get this stable version of the heading instead. */}
             <span className="sr-only"> AI agents, mobile apps, and websites.</span>
             <br />
-            {/* will-change:transform pre-promotes this to a GPU compositing layer */}
+            {/* will-change:transform pre-promotes this to a GPU compositing layer.
+                Below sm the phrase scales with the viewport (capped at the
+                heading's size) so "mobile apps." fits inside the side gutters
+                on a 360px phone instead of running off the edge. */}
             <motion.span
               ref={pillRef}
               aria-hidden="true"
               variants={cycleContainerVariants}
-              className="relative inline-flex justify-center px-4 py-2 md:py-3 bg-zinc-100 border border-zinc-200/50 text-zinc-950 rounded-[6px] md:rounded-[12px] transform -rotate-1 shadow-sm leading-none align-middle font-black mt-4 lg:mt-6 w-fit mx-auto overflow-hidden"
+              className="relative inline-flex justify-center max-sm:text-[min(1em,11vw)] px-3 sm:px-4 py-2 md:py-3 bg-zinc-100 border border-zinc-200/50 text-zinc-950 rounded-[6px] md:rounded-[12px] transform -rotate-1 shadow-sm leading-none align-middle font-black mt-4 lg:mt-6 w-fit mx-auto overflow-hidden"
               style={pillMeasured ? { willChange: "transform", width: pillWidth } : { willChange: "transform" }}
             >
               <span ref={phraseRef} className="inline-flex w-max shrink-0">
