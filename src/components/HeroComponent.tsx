@@ -172,7 +172,12 @@ export default function HeroComponent() {
           {/* Subtitle */}
           <motion.div variants={subtitleVariants} className="text-lg sm:text-xl lg:text-2xl font-medium tracking-tight text-zinc-900 dark:text-white">
             Hello, my name&apos;s{" "}
+            {/* tabIndex -1 on the decorative badges: whileTap makes framer
+                add tabindex="0" to any element without one, which turned
+                them into empty Tab stops (and, on the aria-hidden zap, an
+                aria-hidden-focus a11y failure). */}
             <motion.span
+              tabIndex={-1}
               whileHover={{ scale: 1.06, rotate: -2, y: -2 }}
               whileTap={{ scale: 0.95 }}
               variants={nameBadgeVariants}
@@ -191,6 +196,7 @@ export default function HeroComponent() {
             I build{" "}
             <motion.span
               aria-hidden="true"
+              tabIndex={-1}
               whileHover={{ scale: 1.08, rotate: 8 }}
               whileTap={{ scale: 0.92 }}
               variants={zapCircleVariants}
@@ -199,6 +205,7 @@ export default function HeroComponent() {
               <Zap className="w-5 h-5 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 text-zinc-950 fill-zinc-950" />
             </motion.span>{" "}
             <motion.span
+              tabIndex={-1}
               whileHover={{ scale: 1.06, rotate: -2, y: -2 }}
               whileTap={{ scale: 0.95 }}
               variants={powerfulBadgeVariants}
