@@ -62,6 +62,7 @@ export const pages = [
   { path: "/", title: "Home", summary: "Portfolio overview, selected projects, and process." },
   { path: "/work", title: "Work", summary: "Every project by category, each with a case study." },
   { path: "/about", title: "About", summary: "Background, timeline, capabilities, and FAQ." },
+  { path: "/blog", title: "Blog", summary: "Articles and insights on AI agents, React Native, and Next.js." },
   { path: "/contact", title: "Contact", summary: "Email, location, and a bookable 30-minute call." },
 ] as const;
 
