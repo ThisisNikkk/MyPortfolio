@@ -19,15 +19,36 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = blogPosts.find((p) => p.slug === slug);
   if (!post) return {};
 
+  const postUrl = absoluteUrl(`/blog/${post.slug}`);
+  const postImage = post.coverImage ? absoluteUrl(post.coverImage) : absoluteUrl("/og-image.png");
+
   return {
-    title: `${post.title} | Blog`,
+    title: post.title,
     description: post.description,
+    alternates: {
+      canonical: postUrl,
+    },
     openGraph: {
       title: `${post.title} | Nikhil Siwan`,
       description: post.description,
       type: "article",
       publishedTime: post.date,
-      url: absoluteUrl(`/blog/${post.slug}`),
+      url: postUrl,
+      images: [
+        {
+          url: postImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${post.title} | Nikhil Siwan`,
+      description: post.description,
+      creator: "@ThisisNikkk",
+      images: [postImage],
     },
   };
 }

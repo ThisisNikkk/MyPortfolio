@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useLenis } from "lenis/react";
 import {
   ArrowLeft,
+  ArrowUp,
   Calendar,
   Clock,
   Check,
@@ -715,14 +717,34 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
   const nextPost =
     currentIndex < blogPosts.length - 1 ? blogPosts[currentIndex + 1] : null;
 
-  const currentUrl =
+  const lenis = useLenis();
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    if (lenis) {
+      lenis.scrollTo(0, { duration: 0.9 });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const postUrl =
     typeof window !== "undefined"
-      ? window.location.href
+      ? `${window.location.origin}/blog/${post.slug}`
       : `https://nikhilsiwan.vercel.app/blog/${post.slug}`;
 
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(currentUrl);
+      await navigator.clipboard.writeText(postUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -731,15 +753,15 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
   };
 
   const shareTwitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
-    currentUrl
+    postUrl
   )}&text=${encodeURIComponent(post.title)}`;
 
   const shareLinkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-    currentUrl
+    postUrl
   )}`;
 
   const shareWhatsAppUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
-    `${post.title} — ${currentUrl}`
+    `${post.title} — ${postUrl}`
   )}`;
 
   return (
@@ -1033,6 +1055,25 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
           </div>
         </div>
       </div>
+
+      {/* Floating Back to Top Button */}
+      <AnimatePresence>
+        {showBackToTop && (
+          <motion.button
+            type="button"
+            onClick={scrollToTop}
+            initial={{ opacity: 0, scale: 0.8, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 12 }}
+            transition={{ duration: 0.2 }}
+            aria-label="Back to top"
+            title="Back to top"
+            className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-40 w-11 h-11 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:border-[#c6f023] shadow-lg hover:shadow-xl flex items-center justify-center transition-colors group active:scale-95"
+          >
+            <ArrowUp className="w-4 h-4 transition-transform duration-200 group-hover:-translate-y-0.5 text-zinc-900 dark:text-white group-hover:text-[#c6f023]" />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </article>
   );
 }

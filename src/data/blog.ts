@@ -7,6 +7,7 @@ export interface BlogPost {
   category: "AI Agents" | "React Native" | "Next.js" | "Engineering";
   tags: string[];
   featured?: boolean;
+  coverImage?: string;
   badge?: string; // e.g. "Featured", "Hot", "Deep Dive", "Interactive", "Architecture", "Performance"
   takeaways?: string[];
   content?: string;
@@ -50,6 +51,7 @@ export const blogPosts: BlogPost[] = [
     category: "AI Agents",
     badge: "Deep Dive",
     featured: true,
+    coverImage: "/prepai-vector-card.jpg",
     tags: ["Next.js", "Vapi", "Voice AI", "Gemini", "Firebase", "TypeScript"],
     takeaways: [
       "Vapi handles live WebRTC voice transport, so the server only intervenes for generator tool calls and post-call scoring",
