@@ -9,6 +9,7 @@
  */
 
 import { projects, type Project } from "@/data/projects";
+import { blogPosts, type BlogPost } from "@/data/blog";
 import {
   SITE_URL,
   absoluteUrl,
@@ -143,6 +144,43 @@ function contactMarkdown(): string {
   ].join("\n");
 }
 
+function blogIndexMarkdown(): string {
+  const lines: string[] = [
+    `# Blog & Insights — ${person.name}`,
+    "",
+    "Essays, architectural notes, and field stories on shipping React Native apps, Next.js web applications, and autonomous AI agents.",
+    "",
+    "## Articles",
+    "",
+  ];
+  for (const post of blogPosts) {
+    lines.push(
+      `- [${post.title}](${absoluteUrl(`/blog/${post.slug}`)}) — ${post.date} (${post.readTime}). ${tidy(post.description)}`
+    );
+  }
+  lines.push("", "---", "", `Back to portfolio: ${absoluteUrl("/")}`);
+  return lines.join("\n");
+}
+
+function blogPostMarkdown(post: BlogPost): string {
+  return [
+    `# ${post.title}`,
+    "",
+    `**Date:** ${post.date} | **Read Time:** ${post.readTime} | **Category:** ${post.category}`,
+    `**Canonical URL:** ${absoluteUrl(`/blog/${post.slug}`)}`,
+    "",
+    tidy(post.description),
+    "",
+    "---",
+    "",
+    post.content ?? "",
+    "",
+    "---",
+    "",
+    `Part of the ${person.name} portfolio. All articles: ${absoluteUrl("/blog")} — Home: ${absoluteUrl("/")}`,
+  ].join("\n");
+}
+
 /** Markdown for a site path, or null when the path has no markdown projection. */
 export function markdownForPath(pathname: string): string | null {
   const path = pathname.replace(/\/+$/, "") || "/";
@@ -157,6 +195,8 @@ export function markdownForPath(pathname: string): string | null {
     case "/work":
     case "/projects":
       return projectsIndexMarkdown();
+    case "/blog":
+      return blogIndexMarkdown();
     default:
       break;
   }
@@ -165,6 +205,12 @@ export function markdownForPath(pathname: string): string | null {
   if (projectMatch) {
     const project = projects.find((p) => p.id === Number(projectMatch[1]));
     return project ? projectMarkdown(project) : null;
+  }
+
+  const blogMatch = /^\/blog\/([a-zA-Z0-9-]+)$/.exec(path);
+  if (blogMatch) {
+    const post = blogPosts.find((p) => p.slug === blogMatch[1]);
+    return post ? blogPostMarkdown(post) : null;
   }
 
   return null;
@@ -200,6 +246,10 @@ export function llmsTxt(): string {
     "## Projects",
     "",
     ...projects.map(projectLine),
+    "",
+    "## Articles & Writing",
+    "",
+    ...blogPosts.map((p) => `- [${p.title}](${absoluteUrl(`/blog/${p.slug}`)}): ${p.category} (${p.readTime}). ${tidy(p.description)}`),
     "",
     "## Machine-readable endpoints",
     "",

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Navbar as ResizableNavbar,
     MobileNav,
@@ -18,9 +18,8 @@ import { ThemeToggle } from "./ThemeToggle";
 const links = [
     { name: "Home", link: "/" },
     { name: "About", link: "/about" },
-    // Its own route now. It used to be /#work, which meant rebuilding the
-    // whole homepage (sticky hero and all) and then scrolling down to reach it.
     { name: "Work", link: "/work" },
+    { name: "Blog", link: "/blog" },
     { name: "Contact", link: "/contact" },
 ];
 
@@ -29,9 +28,44 @@ export default function Navbar() {
     const lenis = useLenis();
     const reduceMotion = useReducedMotion();
 
-    // A link to the page you're already on changes nothing in the router
-    // (same pathname), so SmoothScrolling's scroll-to-top never runs and the
-    // tap seemed to do nothing. In that case, scroll to the top ourselves.
+    const navRowRef = useRef<HTMLDivElement>(null);
+    const [pillRect, setPillRect] = useState<{ left: number; width: number; height: number; top: number } | null>(null);
+
+    const activeLink = (() => {
+        if (pathname.startsWith("/about")) return "About";
+        if (pathname.startsWith("/contact")) return "Contact";
+        if (pathname.startsWith("/work") || pathname.startsWith("/projects")) return "Work";
+        if (pathname.startsWith("/blog")) return "Blog";
+        if (pathname === "/") return "Home";
+        return null;
+    })();
+
+    const activeIndex = links.findIndex((l) => l.name === activeLink);
+
+    // Measure active tab offset relative to the navbar row (strictly horizontal)
+    useEffect(() => {
+        const updatePill = () => {
+            if (!navRowRef.current || activeIndex === -1) {
+                setPillRect(null);
+                return;
+            }
+            const tabs = navRowRef.current.querySelectorAll<HTMLAnchorElement>("a[data-nav-pill]");
+            const activeTab = tabs[activeIndex];
+            if (activeTab) {
+                setPillRect({
+                    left: activeTab.offsetLeft,
+                    top: activeTab.offsetTop,
+                    width: activeTab.offsetWidth,
+                    height: activeTab.offsetHeight,
+                });
+            }
+        };
+
+        updatePill();
+        window.addEventListener("resize", updatePill);
+        return () => window.removeEventListener("resize", updatePill);
+    }, [activeIndex]);
+
     const navigate = (href: string) => {
         if (href !== pathname) return; // a real route change; SmoothScrolling handles it
         if (lenis) {
@@ -40,14 +74,6 @@ export default function Navbar() {
             window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
         }
     };
-
-    const activeLink = (() => {
-        if (pathname.startsWith("/about")) return "About";
-        if (pathname.startsWith("/contact")) return "Contact";
-        if (pathname.startsWith("/work") || pathname.startsWith("/projects")) return "Work";
-        if (pathname === "/") return "Home";
-        return null;
-    })();
 
     return (
         <ResizableNavbar>
@@ -60,40 +86,53 @@ export default function Navbar() {
                 </Logo>
 
                 <NavItems>
-                    {links.map((link, idx) => {
-                        const isActive = activeLink === link.name;
-                        return (
-                            <Link
-                                key={idx}
-                                href={link.link}
-                                scroll={false}
-                                onClick={() => navigate(link.link)}
-                                className={cn(
-                                    "relative px-5 py-1.5 text-sm font-bold uppercase tracking-widest rounded-md transition-[color,background-color,transform] duration-200 active:scale-95 active:duration-100",
-                                    isActive
-                                        ? "text-white dark:text-black"
-                                        : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/50 dark:text-zinc-400 dark:hover:text-zinc-50 dark:hover:bg-zinc-800/50"
-                                )}
-                            >
-                                {/* One shared pill that slides to the active
-                                    item, so moving between pages reads as
-                                    going from one place to another. The navbar
-                                    stays mounted across routes, which is what
-                                    lets it travel. */}
-                                {isActive && (
-                                    <motion.span
-                                        layoutId="nav-active-pill"
-                                        aria-hidden
-                                        transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-                                        className="absolute inset-0 rounded-md bg-zinc-950 shadow-sm dark:bg-white"
-                                    />
-                                )}
-                                <span className="relative">{link.name}</span>
-                            </Link>
-                        );
-                    })}
-                    <div className="ml-2 pl-2 border-l border-zinc-200 dark:border-zinc-800 flex items-center">
-                        <ThemeToggle />
+                    <div ref={navRowRef} className="relative flex items-center gap-1">
+                        {/* Horizontal-only sliding active pill: strictly locked in Y */}
+                        {pillRect && (
+                            <motion.span
+                                aria-hidden
+                                className="absolute rounded-md bg-zinc-950 shadow-sm dark:bg-white pointer-events-none"
+                                initial={false}
+                                animate={{
+                                    x: pillRect.left,
+                                    width: pillRect.width,
+                                }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 420,
+                                    damping: 34,
+                                    duration: reduceMotion ? 0 : undefined,
+                                }}
+                                style={{
+                                    top: pillRect.top,
+                                    height: pillRect.height,
+                                }}
+                            />
+                        )}
+
+                        {links.map((link, idx) => {
+                            const isActive = activeLink === link.name;
+                            return (
+                                <Link
+                                    key={idx}
+                                    data-nav-pill
+                                    href={link.link}
+                                    scroll={false}
+                                    onClick={() => navigate(link.link)}
+                                    className={cn(
+                                        "relative z-10 px-5 py-1.5 text-sm font-bold uppercase tracking-widest rounded-md transition-colors duration-200 select-none",
+                                        isActive
+                                            ? "text-white dark:text-black"
+                                            : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/40 dark:text-zinc-400 dark:hover:text-zinc-50 dark:hover:bg-zinc-800/40"
+                                    )}
+                                >
+                                    <span className="relative">{link.name}</span>
+                                </Link>
+                            );
+                        })}
+                        <div className="relative z-10 ml-2 pl-2 border-l border-zinc-200 dark:border-zinc-800 flex items-center">
+                            <ThemeToggle />
+                        </div>
                     </div>
                 </NavItems>
             </NavBody>

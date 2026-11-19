@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { projects } from "@/data/projects";
+import { blogPosts } from "@/data/blog";
 import { absoluteUrl } from "@/lib/site-meta";
 
 /**
@@ -15,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absoluteUrl("/"), lastModified, changeFrequency: "monthly", priority: 1 },
     { url: absoluteUrl("/work"), lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: absoluteUrl("/about"), lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: absoluteUrl("/blog"), lastModified, changeFrequency: "weekly", priority: 0.8 },
     { url: absoluteUrl("/contact"), lastModified, changeFrequency: "yearly", priority: 0.7 },
   ];
 
@@ -25,5 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }));
 
-  return [...staticRoutes, ...projectRoutes];
+  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: absoluteUrl(`/blog/${post.slug}`),
+    lastModified,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...projectRoutes, ...blogRoutes];
 }
