@@ -59,7 +59,72 @@ function WhatsAppIcon({ className }: { className?: string }) {
 // ---------------------------------------------------------------------------
 // CATEGORY ARCHITECTURE BLUEPRINTS (Pure Code & SVG Telemetry HUDs)
 // ---------------------------------------------------------------------------
-function HeroArchitectureBlueprint({ post }: { post: BlogPost }) {
+export function HeroArchitectureBlueprint({ post }: { post: BlogPost }) {
+  if (post.slug === "cap-theorem-explained" || post.category === "Engineering") {
+    return (
+      <div className="w-full flex flex-col justify-between h-full min-h-[300px] sm:min-h-[340px] text-zinc-100">
+        {/* Top Status Header */}
+        <div className="flex items-center justify-between gap-3 pb-4 border-b border-zinc-800/80">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 text-[11px] font-mono text-zinc-300">
+            <span className="w-2 h-2 rounded-full bg-[#c6f023] animate-pulse" />
+            CONSENSUS_ENGINE // QUORUM_SPLIT_SIMULATOR
+          </div>
+          <span className="text-[11px] font-mono font-bold text-[#c6f023] px-2.5 py-1 rounded bg-[#c6f023]/10 border border-[#c6f023]/30">
+            NETWORK_SPLIT: ACTIVE
+          </span>
+        </div>
+
+        {/* Center: Interactive Node Split Schematic */}
+        <div className="my-auto py-4 grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-[11px]">
+          {/* Node 1 & 2: Majority Quorum */}
+          <div className="sm:col-span-2 p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex flex-col justify-between gap-3">
+            <div className="flex items-center justify-between text-zinc-400">
+              <span className="flex items-center gap-1.5 text-zinc-200 font-bold">
+                <Cpu className="w-3.5 h-3.5 text-[#c6f023]" /> Majority Quorum (N1, N2)
+              </span>
+              <span className="text-[10px] text-[#c6f023] font-bold">CP Mode: Available</span>
+            </div>
+            <div className="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-[11px]">
+              <span className="text-zinc-400">Write(x = 1)</span>
+              <span className="text-[#c6f023] font-bold">Quorum Achieved (2/3)</span>
+              <span className="text-zinc-500 text-[10px]">ts: 1</span>
+            </div>
+            <div className="pt-2 border-t border-zinc-800/80 text-[10px] text-zinc-500 flex justify-between">
+              <span>Linearizable state: x = 1</span>
+              <span className="text-zinc-300 font-bold">Active Leader</span>
+            </div>
+          </div>
+
+          {/* Node 3: Isolated Minority */}
+          <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex flex-col justify-between gap-3 relative">
+            <div className="flex items-center justify-between text-zinc-400">
+              <span className="flex items-center gap-1.5 text-zinc-300 font-bold">
+                <Activity className="w-3.5 h-3.5 text-[#c6f023]" /> Isolated (N3)
+              </span>
+              <span className="text-[10px] text-zinc-400 font-bold">Split-Brain Safe</span>
+            </div>
+            <div className="p-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-[11px] text-zinc-400 flex flex-col gap-1">
+              <span className="text-zinc-300 font-mono text-[10px]">Read(x) in CP -&gt; REFUSED</span>
+              <span className="text-zinc-500 text-[10px]">No Quorum (1/3)</span>
+            </div>
+            <div className="pt-2 border-t border-zinc-800/80 text-[10px] text-zinc-500 flex justify-between">
+              <span>Stale Read Rejected</span>
+              <span className="text-[#c6f023] font-bold">Linearizable</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-3 border-t border-zinc-800/80 flex items-center justify-between text-[11px] font-mono text-zinc-500">
+          <span className="flex items-center gap-1.5">
+            <Terminal className="w-3.5 h-3.5 text-[#c6f023]" /> W + R &gt; RF (Gilbert &amp; Lynch Linearizability)
+          </span>
+          <span>THEOREM: PARTITION_UNAVOIDABLE</span>
+        </div>
+      </div>
+    );
+  }
+
   if (post.category === "AI Agents") {
     return (
       <div className="w-full flex flex-col justify-between h-full min-h-[300px] sm:min-h-[340px] text-zinc-100">
@@ -784,35 +849,35 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
         </motion.div>
 
         {/* ----------------------------------------------------------------- */}
-        {/* 1. WIDESCREEN BOXY HERO WINDOW (Vector Line Art Blueprint)        */}
+        {/* 1. WIDESCREEN BOXY HERO WINDOW (Cover Image if available)          */}
         {/* ----------------------------------------------------------------- */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: EASE }}
-          className="mb-8"
-        >
-          <div className="relative w-full rounded-3xl bg-zinc-950 border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm aspect-[16/9] sm:aspect-[21/9] min-h-[300px] sm:min-h-[380px]">
-            {post.slug === "building-prepai-voice-ai-interviews-nextjs-vapi" ? (
+        {post.coverImage && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: EASE }}
+            className="mb-8"
+          >
+            <div className="relative w-full rounded-3xl bg-black border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm aspect-[16/9] min-h-[300px] sm:min-h-[400px]">
               <Image
-                src="/prepai-vector-card.jpg"
+                src={post.coverImage}
                 alt={post.title}
                 fill
-                className="object-cover object-center"
+                quality={95}
+                sizes="(max-width: 1280px) 100vw, 1280px"
+                className="object-contain object-center"
                 priority
               />
-            ) : (
-              <div className="p-6 sm:p-8">
-                <HeroArchitectureBlueprint post={post} />
-              </div>
-            )}
-          </div>
+            </div>
 
-          {/* Subtitle Caption Underneath */}
-          <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400 font-mono text-center sm:text-left">
-            Duplex WebRTC voice architecture and interaction pipeline.
-          </p>
-        </motion.div>
+            {/* Subtitle Caption Underneath */}
+            <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400 font-mono text-center sm:text-left">
+              {post.slug === "building-prepai-voice-ai-interviews-nextjs-vapi"
+                ? "Duplex WebRTC voice architecture and interaction pipeline."
+                : `${post.category} architecture and telemetry blueprint.`}
+            </p>
+          </motion.div>
+        )}
 
         {/* ----------------------------------------------------------------- */}
         {/* 2. CATEGORY & METADATA HEADER ROW                                 */}
